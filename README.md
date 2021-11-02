@@ -1,3 +1,1 @@
-# NTR21Z-Moroz-Bartlomiej
-
-Narzędzia Typ RAD - 21Z - Projekt
+Narzędzia Type RAD 21Z - Projekt - Bartłomiej Moroz
