@@ -7,12 +7,16 @@ namespace NTR.Models
 {
     public class UserModel
     {
-        public bool IsValidUsername = true;
+        public string UsernameError = "";
         public string Name = "";
 
-        public UserModel(bool isValidUsername)
+        public UserModel(string name, HashSet<String> nameList)
         {
-            this.IsValidUsername = false;
+            this.UsernameError = CheckName(name, nameList);
+            if (!String.IsNullOrEmpty(UsernameError))
+            {
+                this.Name = name;
+            }
         }
 
         public UserModel(){ }
@@ -26,6 +30,19 @@ namespace NTR.Models
                 selectList.AddRange(userList.Select(s => new SelectListItem(s, s)));
                 return selectList;
             }
+        }
+
+        public static string CheckName(string name, HashSet<String> userList)
+        {
+            if (name.Length >= 48)
+            {
+                return "maxlength";
+            }
+            if (userList.Contains(name))
+            {
+                return "taken";
+            }
+            return "";
         }
     }
 }

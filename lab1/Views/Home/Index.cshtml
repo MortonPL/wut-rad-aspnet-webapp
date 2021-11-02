@@ -8,7 +8,7 @@
         if (Model != null && !String.IsNullOrEmpty(Model.Name)) {
             <p>You are logged as @Model.Name.</p>
         } else {
-            <p>You are not logged.</p>
+            <p>You are not logged. <a href="/Home/UserView">Click here to choose user profile</a>.</p>
         }
     }
 </div>
@@ -16,3 +16,11 @@
 <form method="post">
     <input type="submit" name="logout" value="Log Out">
 </form>
+
+<div class="text-center">
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.Name)) {
+            <h2>Your activities</h2>
+        }
+    }
+</div>
