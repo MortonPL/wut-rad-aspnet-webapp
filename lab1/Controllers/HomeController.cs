@@ -45,13 +45,9 @@ namespace NTR.Controllers
         }
 
         [HttpGet]
-        public IActionResult UserView(bool? isValidUsername)
+        public IActionResult UserView(UserModel model)
         {
-            if (isValidUsername.HasValue) {
-                return View(new UserModel(isValidUsername.Value));
-            } else {
-                return View(new UserModel());
-            }
+            return View(model);
         }
         
         [HttpPost]
@@ -60,9 +56,12 @@ namespace NTR.Controllers
             if (type == "Create user")
             {
                 var userList = Entities.UserListDBEntity.Load();
-                if (!userList.Add(user)) {
-                    return Redirect("UserView?isValidUsername=false");
+                UserModel model = new UserModel(user, userList);
+                if (!String.IsNullOrEmpty(model.UsernameError)) {
+                    return UserView(model);
                 }
+
+                userList.Add(user);
                 Entities.UserListDBEntity.Save(userList);
             }
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
