@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Choose User";
+}
+
+<p>Here you will be able to choose a user profile or create a new one.</p>
+<p></p>
+<p>
+    <form method="post">
+        <select name="user" asp-items="Model.Options"></select>
+        <input type="submit" name="type" value="Select user">
+    </form>
+    <form method="post">
+        <input type="text" name="user" required>
+        <input type="submit" name="type" value="Create user">
+    </form>
+    @{
+        if (!Model.IsValidUsername) {
+            <p>User already exists!!!</p>
+        }
+    }
+</p>
