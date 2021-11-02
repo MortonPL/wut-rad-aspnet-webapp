@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "NTR - Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Welcome to NTR</h1>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.Name)) {
+            <p>You are logged as @Model.Name.</p>
+        } else {
+            <p>You are not logged.</p>
+        }
+    }
 </div>
+
+<form method="post">
+    <input type="submit" name="logout" value="Log Out">
+</form>
