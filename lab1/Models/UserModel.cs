@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NTR.Entities;
 
 namespace NTR.Models
 {
@@ -13,7 +14,7 @@ namespace NTR.Models
         public UserModel(string name, HashSet<String> nameList)
         {
             this.UsernameError = CheckName(name, nameList);
-            if (!String.IsNullOrEmpty(UsernameError))
+            if (String.IsNullOrEmpty(this.UsernameError))
             {
                 this.Name = name;
             }

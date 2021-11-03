@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Your Activities";
+}
+<style>
+    table {
+        width:100%;
+        border: 1px solid black
+    }
+    tr:nth-child(even) {
+        background-color: #d2d2d2;
+    }
+    th {
+        border: 1px solid grey;
+    }
+    td {
+        vertical-align: top;
+        border-left: 1px solid grey;
+    }
+</style>
+
+<p>Here you will be able to see, inspect and edit activities.</p>
+
+<form method="post">
+    <p>Change date below:</p>
+    <input type="date" name="date" required>
+    <input type="submit" name="type" value="Change Date">
+</form>
+
+<br>
+@{
+    if (Model != null && !String.IsNullOrEmpty(Model.Date)) {
+        <h3>Activities for @Model.Date</h3>
+    }
+}
+
+<br>
+<div class="text-center">
+    @{
+        if (Model != null && Model.UserMonth != null)
+        {
+            if (!Model.UserMonth.invalid)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Project</th>
+                            <th>Category</th>
+                            <th>Time</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var activity in Model.UserMonth.entries)
+                        {
+                            <tr>
+                                <td>@activity.date</td>
+                                <td>@activity.code</td>
+                                <td>@activity.subcode</td>
+                                <td>@activity.time</td>
+                                <td>@activity.description</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Couldn't find this month's activities!</p>
+            }
+        }
+        else
+        {
+            <p><i>Only logged users can see activities.</i></p>
+        }
+    }
+</div>
+
+<br>
+<a href="/Home/">Go Back</a>

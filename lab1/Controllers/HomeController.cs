@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using NTR.Models;
+using NTR.Entities;
 
 namespace NTR.Controllers
 {
@@ -70,15 +71,48 @@ namespace NTR.Controllers
             return Redirect("/Home/");
         }
 
-        public IActionResult Activities()
+        public IActionResult UserActivitiesView()
         {
-            return View();
+            return View(new UserActivitiesModel());
+        }
+
+        [HttpGet]
+        public IActionResult UserActivitiesView(UserActivitiesModel model)
+        {
+            var cookie = Request.Cookies["user"];
+            UserMonth userMonth;
+            if(cookie != null)
+            {
+                userMonth = Entities.UserActivitiesDBEntity.Load(cookie, model.GetMonth());
+                model.UserMonth = userMonth;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult UserActivitiesView(String date, String type)
+        {
+            UserActivitiesModel model = new UserActivitiesModel(date);
+            return View(model);
+        }
+
+        public IActionResult ActivitiesView()
+        {
+            return View(new ActivitiesModel());
+        }
+
+        [HttpGet]
+        public IActionResult ActivitiesView(ActivitiesModel model)
+        {
+            var activities = Entities.ActivitiesDBEntity.Load();
+            model.Activities = activities;
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
