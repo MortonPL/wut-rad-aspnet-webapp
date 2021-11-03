@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Entities
+namespace NTR.Entities
 {
     /// <summary>
     /// A class handling IO of user list database.
