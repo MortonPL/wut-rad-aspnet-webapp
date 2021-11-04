@@ -8,44 +8,75 @@ namespace NTR.Models
 {
     public class UserModel
     {
+        /// <summary>User name error. Empty if no error.</summary>
         public string UsernameError = "";
-        public string Name = "";
 
-        public HashSet<String> NameList;
+        /// <summary>Name of the user.</summary>
+        public string User = "";
 
-        public UserModel(string name, HashSet<String> nameList)
+        /// <summary>List of saved users.</summary>
+        public HashSet<String> UserList;
+
+        public UserModel()
         {
-            this.UsernameError = CheckName(name, nameList);
+            this.LoadFromDB();
+        }
+
+        public UserModel(string user)
+        {
+            this.LoadFromDB();
+            this.UsernameError = this.CheckName(user);
             if (String.IsNullOrEmpty(this.UsernameError))
             {
-                this.Name = name;
-                this.NameList = nameList;
+                this.User = user;
             }
         }
 
-        public UserModel(){ }
-
-        public IEnumerable<SelectListItem> GetUserList
+        /// <summary>Generates a select list out of user list.</summary>
+        /// <returns>Enumerable of select list items containing user names.</returns>
+        public IEnumerable<SelectListItem> CreateUserSelectList
         {
             get
             {
                 var selectList = new List<SelectListItem>();
-                selectList.AddRange(this.NameList.Select(s => new SelectListItem(s, s)));
+                selectList.AddRange(this.UserList.Select(s => new SelectListItem(s, s)));
                 return selectList;
             }
         }
 
-        public static string CheckName(string name, HashSet<String> userList)
+        /// <summary>Check if the nate is not empty and has less than 48 characters.</summary>
+        /// <param name="name">Name to be validated.</param>
+        /// <returns>Error code if any.</returns>
+        public string CheckName(string name)
         {
             if (name.Length >= 48)
             {
-                return "maxlength";
+                return "EMAX";
             }
-            if (userList.Contains(name))
+            if (this.UserList.Contains(name))
             {
-                return "taken";
+                return "ETAKEN";
             }
             return "";
+        }
+
+        /// <summary>Add the user to the model's list.</summary>
+        /// <param name="user">User name to be added.</param>
+        public void AddUser(string user)
+        {
+            this.UserList.Add(user);
+        }
+
+        /// <summary>Load list of users from the database.</summary>
+        public void LoadFromDB()
+        {
+            this.UserList = Entities.UserListDBEntity.Load();
+        }
+
+        /// <summary>Save list of users to the database.</summary>
+        public void SaveToDB()
+        {
+            Entities.UserListDBEntity.Save(this.UserList);
         }
     }
 }
