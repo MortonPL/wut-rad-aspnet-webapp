@@ -22,6 +22,7 @@ namespace NTR.Controllers
             _logger = logger;
         }
 
+        // ****************************** INDEX ****************************** //
         public IActionResult Index()
         {
             UserModel model = new UserModel();
@@ -40,6 +41,7 @@ namespace NTR.Controllers
             return View();
         }
 
+        // ****************************** USER ****************************** //
         public IActionResult UserView()
         {
             return View(new UserModel());
@@ -71,6 +73,7 @@ namespace NTR.Controllers
             return Redirect("/Home/");
         }
 
+        // ****************************** USER ACTIVITIES ****************************** //
         public IActionResult UserActivitiesView()
         {
             return View(new UserActivitiesModel());
@@ -92,10 +95,10 @@ namespace NTR.Controllers
         [HttpPost]
         public IActionResult UserActivitiesView(String date, String type)
         {
-            UserActivitiesModel model = new UserActivitiesModel(date);
-            return View(model);
+            return View(new UserActivitiesModel(date));
         }
 
+        // ****************************** ACTIVITIES ****************************** //
         public IActionResult ActivitiesView()
         {
             return View(new ActivitiesModel());
@@ -109,6 +112,7 @@ namespace NTR.Controllers
             return View(model);
         }
 
+        // ****************************** OTHER ****************************** //
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

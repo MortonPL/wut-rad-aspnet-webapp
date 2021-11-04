@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NTR.Entities
 {
+    /// <summary>
+    /// A helper class inbetween DB and proper list of activities.
+    /// </summary>
     public class ActivityList
     {
+        ///<summary>A list of all parsed activities.</summary>
         public HashSet<Activity> activities {get; set; }
 
         public ActivityList(){}
@@ -14,7 +18,7 @@ namespace NTR.Entities
 
 
     /// <summary>
-    /// A class handling IO of all activities database.
+    /// A static class handling IO of all activities database.
     /// </summary>
     public class ActivitiesDBEntity
     {
@@ -43,9 +47,7 @@ namespace NTR.Entities
         /// <summary>
         /// Save all activities to the database.
         /// </summary>
-        /// <param>
-        /// User's month object.
-        /// </param>
+        /// <param name="activities"> List of all activities.</param>
         public static void Save(HashSet<Activity> activities)
         {
             var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };
