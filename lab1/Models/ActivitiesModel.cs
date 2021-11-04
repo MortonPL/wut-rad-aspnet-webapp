@@ -7,15 +7,26 @@ using NTR.Entities;
 
 namespace NTR.Models
 {
+    /// <summary>
+    /// A model for activities view.
+    /// </summary>
     public class ActivitiesModel
     {
+        /// <summary>List of all activities.</summary>
         public HashSet<Activity> Activities;
 
-        public ActivitiesModel(HashSet<Activity> activities)
+        public ActivitiesModel(){}
+
+        /// <summary>Load activities from the database.</summary>
+        public void LoadFromDB()
         {
-            this.Activities = activities;
+            this.Activities = Entities.ActivitiesDBEntity.Load();
         }
 
-        public ActivitiesModel(){}
+        /// <summary>Save activities to the database.</summary>
+        public void SaveToDB()
+        {
+            Entities.ActivitiesDBEntity.Save(this.Activities);
+        }
     }
 }

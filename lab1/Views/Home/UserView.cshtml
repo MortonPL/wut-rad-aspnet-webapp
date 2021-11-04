@@ -5,7 +5,7 @@
 <p>
     Choose your user profile from this list to log in:
     <form method="post">
-        <select name="user" asp-items="Model.GetUserList"></select>
+        <select name="user" asp-items="Model.CreateUserSelectList"></select>
         <input type="submit" name="type" value="Select user">
     </form>
     <br>
@@ -15,10 +15,10 @@
         <input type="submit" name="type" value="Create user">
     </form>
     @{
-        if (Model != null && Model.UsernameError == "taken") {
+        if (Model != null && Model.UsernameError == "ETAKEN") {
             <p><i>User already exists! Choose a different name or log in.</i></p>
         }
-        else if (Model != null && Model.UsernameError == "maxlength") {
+        else if (Model != null && Model.UsernameError == "EMAX") {
             <p><i>Enter a name consisting of less than 48 characters.</i></p>
         }
     }

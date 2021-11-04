@@ -29,7 +29,7 @@ namespace NTR.Controllers
             var cookie = Request.Cookies["user"];
             if(cookie != null)
             {
-                model.Name = cookie;
+                model.User = cookie;
             }
             return View(model);
         }
@@ -44,7 +44,7 @@ namespace NTR.Controllers
         // ****************************** USER ****************************** //
         public IActionResult UserView()
         {
-            return View(new UserModel());
+            return UserView(new UserModel());
         }
 
         [HttpGet]
@@ -57,15 +57,15 @@ namespace NTR.Controllers
         public IActionResult UserView(String user, String type)
         {
             if (type == "Create user")
-            {
-                var userList = Entities.UserListDBEntity.Load();
-                UserModel model = new UserModel(user, userList);
-                if (!String.IsNullOrEmpty(model.UsernameError)) {
+            {   
+                UserModel model = new UserModel(user);
+                if (!String.IsNullOrEmpty(model.UsernameError))
+                {
                     return UserView(model);
                 }
 
-                userList.Add(user);
-                Entities.UserListDBEntity.Save(userList);
+                model.AddUser(user);
+                model.SaveToDB();
             }
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
             Response.Cookies.Append("user", user, cookieOptions);
@@ -83,19 +83,19 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesView(UserActivitiesModel model)
         {
             var cookie = Request.Cookies["user"];
-            UserMonth userMonth;
             if(cookie != null)
             {
-                userMonth = Entities.UserActivitiesDBEntity.Load(cookie, model.GetMonth());
-                model.UserMonth = userMonth;
+                model.User = cookie;
+                model.LoadFromDB();
             }
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult UserActivitiesView(String date, String type)
+        public IActionResult UserActivitiesView(UserActivitiesModel model, String date)
         {
-            return View(new UserActivitiesModel(date));
+            model.Date = date;
+            return View(model);
         }
 
         // ****************************** ACTIVITIES ****************************** //
@@ -107,8 +107,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult ActivitiesView(ActivitiesModel model)
         {
-            var activities = Entities.ActivitiesDBEntity.Load();
-            model.Activities = activities;
+            model.LoadFromDB();
             return View(model);
         }
 
