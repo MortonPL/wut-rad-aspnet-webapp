@@ -13,9 +13,7 @@ namespace NTR.Entities
         /// <summary>
         /// Load the user list from the database.
         /// </summary>
-        /// <returns>
-        /// List of user names.
-        /// </returns>
+        /// <returns>List of user names.</returns>
         public static HashSet<String> Load()
         {
             var json = System.IO.File.ReadAllText("db/users.json");
@@ -32,9 +30,7 @@ namespace NTR.Entities
         /// <summary>
         /// Save the user list to the database.
         /// </summary>
-        /// <param>
-        /// List of user names.
-        /// </param>
+        /// <param name="userList">List of user names.</param>
         public static void Save(HashSet<String> userList)
         {
             var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };

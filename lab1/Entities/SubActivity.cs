@@ -10,6 +10,7 @@ namespace NTR.Entities
     /// </summary>
     public class SubActivity
     {
+        /// <summary>Code ID of the activity.</summary>
         public string code { get; set; }
 
         public SubActivity(){}

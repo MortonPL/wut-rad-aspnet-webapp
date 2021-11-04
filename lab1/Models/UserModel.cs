@@ -11,24 +11,26 @@ namespace NTR.Models
         public string UsernameError = "";
         public string Name = "";
 
+        public HashSet<String> NameList;
+
         public UserModel(string name, HashSet<String> nameList)
         {
             this.UsernameError = CheckName(name, nameList);
             if (String.IsNullOrEmpty(this.UsernameError))
             {
                 this.Name = name;
+                this.NameList = nameList;
             }
         }
 
         public UserModel(){ }
 
-        public IEnumerable<SelectListItem> Options
+        public IEnumerable<SelectListItem> GetUserList
         {
             get
             {
-                var userList = Entities.UserListDBEntity.Load();
                 var selectList = new List<SelectListItem>();
-                selectList.AddRange(userList.Select(s => new SelectListItem(s, s)));
+                selectList.AddRange(this.NameList.Select(s => new SelectListItem(s, s)));
                 return selectList;
             }
         }

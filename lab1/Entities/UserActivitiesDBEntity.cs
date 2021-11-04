@@ -13,9 +13,9 @@ namespace NTR.Entities
         /// <summary>
         /// Load the the user's monthly activities from the database.
         /// </summary>
-        /// <returns>
-        /// User's month object.
-        /// </returns>
+        /// <param name="name">Name of the user.</param>
+        /// <param name="date">Year and month, in yyyy-MM format.</param>
+        /// <returns>User's month object.</returns>
         public static UserMonth Load(string name, string date)
         {
             UserMonth userMonth;
@@ -40,11 +40,11 @@ namespace NTR.Entities
         }
 
         /// <summary>
-        /// Save the user's monthly activities to the database.
+        /// Save a user's monthly activity to the database.
         /// </summary>
-        /// <param>
-        /// User's month object.
-        /// </param>
+        /// <param name="name">Name of the user.</param>
+        /// <param name="date">Year and month, in yyyy-MM format.</param>
+        /// <param name="activities">User's monthly activities object.</param>
         public static void Save(string name, string date, UserMonth activities)
         {
             var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };

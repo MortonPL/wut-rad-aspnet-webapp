@@ -10,10 +10,20 @@ namespace NTR.Entities
     /// </summary>
     public class UserActivity
     {
+
+        ///<summary>Date of the registered user activity.</summary>
         public string date { get; set; }
+
+        /// <summary>Code ID of the activity/project that this user contributed to.</summary>
         public string code { get; set; }
+
+        /// <summary>Code ID of the subactivity that this user contributed to.</summary>
         public string subcode { get; set; }
+
+        /// <summary>Amount of time that this user spent on activity, in minutes.</summary>
         public int time { get; set; }
+
+        /// <summary>Description of what the user did.</summary>
         public string description { get; set; }
 
         public UserActivity(){}

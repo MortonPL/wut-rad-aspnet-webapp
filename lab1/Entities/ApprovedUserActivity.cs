@@ -10,7 +10,10 @@ namespace NTR.Entities
     /// </summary>
     public class ApprovedUserActivity
     {
+        /// <summary>Code ID of the activity.</summary>
         public string code { get; set; }
+
+        /// <summary>Time budget of the activity, approved by the manager.</summary>
         public int time { get; set; }
         
         public ApprovedUserActivity(){}
