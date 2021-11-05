@@ -6,31 +6,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace NTR.Entities
 {
     /// <summary>
-    /// A single activity - project.
+    /// A single project - project.
     /// </summary>
-    public class Activity
+    public class Project
     {
-        /// <summary>Code ID of the activity.</summary>
+        /// <summary>Code ID of the project.</summary>
         public string code { get; set; }
 
-        /// <summary>Name of the manager responsible for this activity.</summary>
+        /// <summary>Name of the manager responsible for this project.</summary>
         public string manager { get; set; }
 
-        /// <summary>Human-readable name of the activity.</summary>
+        /// <summary>Human-readable name of the project.</summary>
         public string name { get; set; }
 
-        /// <summary>Time budget of the activity.</summary>
+        /// <summary>Time budget of the project.</summary>
         public int budget { get; set; }
 
-        /// <summary>Is the activity ongoing?</summary>
+        /// <summary>Is the project ongoing?</summary>
         public bool active { get; set; }
 
-        /// <summary>Array of subactivites (categories of work) for this activity.</summary>
+        /// <summary>Array of subactivites (categories of work) for this project.</summary>
         public List<SubActivity> subactivities { get; set; }
 
-        public Activity(){}
+        public Project(){}
 
-        public Activity(string code, string manager, string name, int budget, string subactivities)
+        public Project(string code, string manager, string name, int budget, string subactivities)
         {
             this.code = code;
             this.manager = manager;

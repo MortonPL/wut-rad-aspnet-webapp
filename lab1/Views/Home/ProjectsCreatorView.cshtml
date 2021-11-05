@@ -1,14 +1,13 @@
 @{
-    ViewData["Title"] = "Activities Creator";
+    ViewData["Title"] = "Project Creator";
 }
 
 <style>
     input {
         display: block;
-        padding-bottom: 4px;
     }
     label {
-        padding: 0px
+        padding: 0px;
         margin: 8px 0px 0px 0px;
     }
     textarea {
@@ -16,18 +15,18 @@
     }
 </style>
 
-<p>Here you will be able to create new activities.</p>
+<p>Here you will be able to create new projects.</p>
 <br>
 
-<div class="text-center">
+<div>
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User))
         {
-            <form method="post" name="project" asp-controller="Home" asp-action="ActivityCreate">
-                <label for="code">Activity Code</label>
+            <form method="post" name="project" asp-controller="Home" asp-action="ProjectCreate">
+                <label for="code">Project Code</label>
                 <input type="text" id="code" name="code" autocomplete="off" required>
 
-                <label for="name">Activity Name</label>
+                <label for="name">Project Name</label>
                 <input type="text" id="name" name="name" autocomplete="off" required>
 
                 <label for="budget">Time Budget [minutes]</label>
@@ -36,12 +35,12 @@
                 <label for="subcategories">Subactivities</label>
                 <textarea id="subcategories" name="project" rows="8" cols="32" placeholder="Enter subcategories separated by new lines."></textarea>
                 
-                <input type="submit" name="ok" value="Create activity">
+                <input type="submit" name="ok" value="Create project">
             </form>
         }
         else
         {
-            <p><i>Only logged users can create new activities!</i></p>
+            <p><i>Only logged users can create new projects!</i></p>
         }
     }
 </div>
