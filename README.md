@@ -19,3 +19,5 @@ Wymagania niezrealizowane:
 - Jako właściciel, przeglądanie raportów uczestników swoich projektów
 - Jako właściciel, potwierdzanie zgłoszonego czasu użytkowników
 - Jako właściciel, przeglądanie obecnego stanu budżetu
+
+Zadanie gotowe do oddania.
