@@ -112,14 +112,14 @@ namespace NTR.Controllers
             return View(model);
         }
 
-        // ****************************** ACTIVITIES ****************************** //
-        public IActionResult ActivitiesView()
+        // ****************************** PROJECTS ****************************** //
+        public IActionResult ProjectsView()
         {
-            return View(new ActivitiesModel());
+            return View(new ProjectsModel());
         }
 
         [HttpGet]
-        public IActionResult ActivitiesView(ActivitiesModel model)
+        public IActionResult ProjectsView(ProjectsModel model)
         {
             var cookie = Request.Cookies["user"];
             if (cookie != null)
@@ -131,10 +131,10 @@ namespace NTR.Controllers
             return View(model);
         }
 
-        // ****************************** ACTIVITIES CREATOR ****************************** //
-        public IActionResult ActivitiesCreatorView()
+        // ****************************** PROJECTS CREATOR ****************************** //
+        public IActionResult ProjectsCreatorView()
         {
-            ActivitiesCreatorModel model = new ActivitiesCreatorModel();
+            ProjectsCreatorModel model = new ProjectsCreatorModel();
             var cookie = Request.Cookies["user"];
             if (cookie != null)
             {
@@ -145,7 +145,7 @@ namespace NTR.Controllers
         }
 
         [HttpGet]
-        public IActionResult ActivitiesCreatorView(ActivitiesCreatorModel model)
+        public IActionResult ProjectsCreatorView(ProjectsCreatorModel model)
         {
             var cookie = Request.Cookies["user"];
             if (cookie != null)
@@ -158,19 +158,19 @@ namespace NTR.Controllers
         }
 
         [HttpPost]
-        public IActionResult ActivityCreate(string code, string name, string budget, string project)
+        public IActionResult ProjectCreate(string code, string name, string budget, string project)
         {
-            ActivitiesCreatorModel model = new ActivitiesCreatorModel();
+            ProjectsCreatorModel model = new ProjectsCreatorModel();
             var cookie = Request.Cookies["user"];
             if (cookie != null)
             {
                 model.User = cookie;
                 model.LoadFromDB();
             }
-            if (model.AddActivity(code, name, Int32.Parse(budget), project))
+            if (model.AddProject(code, name, Int32.Parse(budget), project))
             {
                 model.SaveToDB();
-                return RedirectToAction("ActivitiesView", "Home");
+                return RedirectToAction("ProjectsView", "Home");
             }
 
             return View(model);
@@ -212,7 +212,7 @@ namespace NTR.Controllers
             }
 
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
-            Response.Cookies.Append("tempActivity", project, cookieOptions);
+            Response.Cookies.Append("tempProject", project, cookieOptions);
             Response.Cookies.Append("tempDate", date, cookieOptions);
 
             return RedirectToAction("UserActivitiesCreator2View", "Home");
@@ -222,13 +222,13 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesCreator2View(UserActivitiesCreatorModel model, bool error)
         {
             var cookieUser = Request.Cookies["user"];
-            var cookieProject = Request.Cookies["tempActivity"];
+            var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             if (cookieUser != null && cookieProject != null && cookieDate != null)
             {
                 model.User = cookieUser;
                 model.Date = cookieDate;
-                model.TempActivity = cookieProject;
+                model.TempProject = cookieProject;
                 model.Error = error;
             }
             return View(model);
@@ -239,18 +239,18 @@ namespace NTR.Controllers
         {
             UserActivitiesCreatorModel model;
             var cookieUser = Request.Cookies["user"];
-            var cookieProject = Request.Cookies["tempActivity"];
+            var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             if (cookieUser != null && cookieProject != null && cookieDate != null)
             {
                 model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
-                model.TempActivity = cookieProject;
+                model.TempProject = cookieProject;
                 if (!model.AddUserActivity(cookieDate, cookieProject, sub, Int32.Parse(time), activity))
                 {
                     return RedirectToAction("UserActivitiesCreator2View", "Home", new {error=true});
                 }
                 model.SaveToDB();
-                Response.Cookies.Delete("tempActivity");
+                Response.Cookies.Delete("tempProject");
                 Response.Cookies.Delete("tempDate");
             }
             return RedirectToAction("UserActivitiesView", "Home");

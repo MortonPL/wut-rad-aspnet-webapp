@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Activities";
+    ViewData["Title"] = "Projects";
 }
 
 <style>
@@ -8,7 +8,7 @@
         border: 1px solid black
     }
     tr:nth-child(even) {
-        background-color: #d2d2d2;
+        background-color: #dfdfdf;
     }
     th {
         border: 1px solid grey;
@@ -19,18 +19,18 @@
     }
 </style>
 
-<p>Here you will be able to inspect and edit activities.</p>
+<p>Here you will be able to inspect and edit projects.</p>
 
 <div class="text-center">
     @{
-        if (Model != null && Model.Activities != null)
+        if (Model != null && Model.Projects != null)
         {
-            if (Model.Activities.Count != 0)
+            if (Model.Projects.Count != 0)
             {
                 <table>
                     <thead>
                         <tr>
-                            <th>Activity</th>
+                            <th>Project</th>
                             <th>Manager</th>
                             <th>Name</th>
                             <th>Budget</th>
@@ -40,26 +40,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var activity in Model.Activities)
+                        @foreach (var project in Model.Projects)
                         {
                             <tr>
-                                <td>@activity.code</td>
-                                <td>@activity.manager</td>
-                                <td>@activity.name</td>
-                                <td>@activity.budget</td>
-                                <td>@activity.active</td>
+                                <td>@project.code</td>
+                                <td>@project.manager</td>
+                                <td>@project.name</td>
+                                <td>@project.budget</td>
+                                <td>@project.active</td>
                                 <td>
-                                    @foreach (var subactivity in activity.subactivities)
+                                    @foreach (var subactivity in project.subactivities)
                                     {
                                         @subactivity.code<text><br></text>
                                     }
                                 </td>
                                 <td>
-                                    @{ if (Model.User == activity.manager)
+                                    @{ if (Model.User == project.manager)
                                         {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityInspect">Inspect</a>
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityEdit">Edit</a>
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityDelete">Delete</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspect">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectEdit">Edit</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectDelete">Delete</a>
                                         }
                                     }
                                 </td>
@@ -70,7 +70,7 @@
             }
             else
             {
-                <p>Couldn't find activities!</p>
+                <p>Couldn't find projects!</p>
             }
         }
     }

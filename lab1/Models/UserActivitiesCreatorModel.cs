@@ -20,14 +20,14 @@ namespace NTR.Models
 
         public bool Error;
 
-        /// <summary>Temporary activity.</summary>
-        public string TempActivity;
+        /// <summary>Temporary stored project code.</summary>
+        public string TempProject;
 
         /// <summary>User's monthly report object.</summary>
         public UserMonth UserMonth;
 
-        /// <summary>List of saved activities.</summary>
-        public HashSet<Activity> ActivityList;
+        /// <summary>List of saved projects.</summary>
+        public HashSet<Project> ProjectsList;
 
         public UserActivitiesCreatorModel()
         {
@@ -50,7 +50,7 @@ namespace NTR.Models
 
         /// <summary>Add new user activty to the saved month.</summary>
         /// <param name="date">Date of the activity in yyyy-MM-dd format.</param>
-        /// <param name="code">Code ID of the major activity.</param>
+        /// <param name="code">Code ID of the activity.</param>
         /// <param name="subcode">Subcode of the activity.</param>
         /// <param name="time">Time spent on the activity.</param>
         /// <param name="description">Short description of the activity.</param>
@@ -69,15 +69,15 @@ namespace NTR.Models
             return true;
         }
 
-        /// <summary>Generates a select list out of activity list.</summary>
+        /// <summary>Generates a select list out of projects list.</summary>
         /// <returns>Enumerable of select list items containing user names.</returns>
-        public IEnumerable<SelectListItem> CreateActivitySelectList
+        public IEnumerable<SelectListItem> CreateProjectSelectList
         {
             get
             {
                 var selectList = new List<SelectListItem>();
-                var ac = this.ActivityList.Where(a => a.active);
-                selectList.AddRange(ac.Select(a => new SelectListItem(a.code, a.code)));
+                var pl = this.ProjectsList.Where(a => a.active);
+                selectList.AddRange(pl.Select(a => new SelectListItem(a.code, a.code)));
                 return selectList;
             }
         }
@@ -89,10 +89,10 @@ namespace NTR.Models
             get
             {
                 var selectList = new List<SelectListItem>();
-                var ac = this.ActivityList.Where(a => a.code == this.TempActivity);
-                if (ac.Count() > 0)
+                var pl = this.ProjectsList.Where(p => p.code == this.TempProject);
+                if (pl.Count() > 0)
                 {
-                    selectList.AddRange(ac.First().subactivities.Select(a => new SelectListItem(a.code, a.code)));
+                    selectList.AddRange(pl.First().subactivities.Select(a => new SelectListItem(a.code, a.code)));
                 }
                 else
                 {
@@ -102,10 +102,10 @@ namespace NTR.Models
             }
         }
 
-        /// <summary>Load user activities from the database.</summary>
+        /// <summary>Load projects from the database.</summary>
         public void LoadFromDB()
         {
-            this.ActivityList = Entities.ActivitiesDBEntity.Load();
+            this.ProjectsList = Entities.ProjectsDBEntity.Load();
         }
 
         /// <summary>Load extra data from the database.</summary>
