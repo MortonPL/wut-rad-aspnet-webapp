@@ -26,7 +26,7 @@ namespace NTR.Controllers
         public IActionResult Index()
         {
             UserModel model = new UserModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -36,7 +36,7 @@ namespace NTR.Controllers
 
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("user");
+            Response.Cookies.Delete("CurrentUser");
             return RedirectToAction("Index", "Home");
         }
 
@@ -56,7 +56,7 @@ namespace NTR.Controllers
         public IActionResult UserLogin(String user)
         {
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
-            Response.Cookies.Append("user", user, cookieOptions);
+            Response.Cookies.Append("CurrentUser", user, cookieOptions);
 
             return RedirectToAction("Index", "Home");
         }
@@ -73,7 +73,7 @@ namespace NTR.Controllers
             model.AddUser(user);
             model.SaveToDB();
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
-            Response.Cookies.Append("user", user, cookieOptions);
+            Response.Cookies.Append("CurrentUser", user, cookieOptions);
 
             return RedirectToAction("Index", "Home");
         }
@@ -81,16 +81,33 @@ namespace NTR.Controllers
         // ****************************** USER ACTIVITIES ****************************** //
         public IActionResult UserActivitiesView()
         {
-            return View(new UserActivitiesModel());
+            UserActivitiesModel model = new UserActivitiesModel();
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult UserActivitiesView(UserActivitiesModel model)
+        public IActionResult UserActivitiesView(UserActivitiesModel model, string month)
         {
-            var cookie = Request.Cookies["user"];
-            if (cookie != null)
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieDate = Request.Cookies["ActivitiesViewDate"];
+            if (!String.IsNullOrEmpty(month))
             {
-                model.User = cookie;
+                var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false };
+                Response.Cookies.Append("ActivitiesViewMonthly", month, cookieOptions);
+                model.IsMonthlyView = Convert.ToBoolean(month);
+            }
+            var cookieMonthly = Request.Cookies["ActivitiesViewMonthly"];
+            if (cookieUser != null)
+            {
+                model.User = cookieUser;
+                if (cookieDate != null)
+                {
+                    model.Date = cookieDate;
+                }
+                if ((cookieMonthly != null) && String.IsNullOrEmpty(month))
+                {
+                    model.IsMonthlyView = Convert.ToBoolean(cookieMonthly);
+                }
                 model.LoadFromDB();
             }
 
@@ -101,13 +118,20 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesView(String date)
         {
             UserActivitiesModel model = new UserActivitiesModel();
-            var cookie = Request.Cookies["user"];
-            if (cookie != null)
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieMonthly = Request.Cookies["ActivitiesViewMonthly"];
+            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
+            Response.Cookies.Append("ActivitiesViewDate", date, cookieOptions);
+            if (cookieUser != null)
             {
-                model.User = cookie;
+                model.User = cookieUser;
                 model.LoadFromDB();
             }
             model.Date = date;
+            if (cookieMonthly != null)
+            {
+                model.IsMonthlyView = Convert.ToBoolean(cookieMonthly);
+            }
 
             return View(model);
         }
@@ -115,7 +139,7 @@ namespace NTR.Controllers
         public IActionResult UserActivityDelete(string code, string date, string subcode)
         {
             UserActivitiesModel model = new UserActivitiesModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -132,7 +156,7 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesEditorView(string code, string date, string subcode)
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -152,7 +176,7 @@ namespace NTR.Controllers
         public IActionResult UserActivityEdit(string time, string activity)
         {
             UserActivitiesCreatorModel model;
-            var cookieUser = Request.Cookies["user"];
+            var cookieUser = Request.Cookies["CurrentUser"];
             var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             var cookieSubactivity = Request.Cookies["tempSubactivity"];
@@ -175,7 +199,7 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesCreatorView()
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -187,7 +211,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult UserActivitiesCreatorView(UserActivitiesCreatorModel model, string error)
         {
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -201,7 +225,7 @@ namespace NTR.Controllers
         [HttpPost]
         public IActionResult UserActivitiesCreate(string project, string date)
         {
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookie, date);
@@ -219,7 +243,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult UserActivitiesCreator2View(UserActivitiesCreatorModel model, string error)
         {
-            var cookieUser = Request.Cookies["user"];
+            var cookieUser = Request.Cookies["CurrentUser"];
             var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             if (cookieUser != null && cookieProject != null && cookieDate != null)
@@ -236,7 +260,7 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesCreate2(string sub, string time, string activity)
         {
             UserActivitiesCreatorModel model;
-            var cookieUser = Request.Cookies["user"];
+            var cookieUser = Request.Cookies["CurrentUser"];
             var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             if (cookieUser != null && cookieProject != null && cookieDate != null)
@@ -264,7 +288,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult ProjectsView(ProjectsModel model)
         {
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -277,7 +301,7 @@ namespace NTR.Controllers
         public IActionResult ProjectClose(string code)
         {
             ProjectsModel model = new ProjectsModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -295,7 +319,7 @@ namespace NTR.Controllers
         public IActionResult ProjectsCreatorView()
         {
             ProjectsCreatorModel model = new ProjectsCreatorModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -307,7 +331,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult ProjectsCreatorView(ProjectsCreatorModel model)
         {
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -321,7 +345,7 @@ namespace NTR.Controllers
         public IActionResult ProjectCreate(string code, string name, string budget, string project)
         {
             ProjectsCreatorModel model = new ProjectsCreatorModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -341,7 +365,7 @@ namespace NTR.Controllers
         public IActionResult ProjectsInspectorView()
         {
             ProjectInspectorModel model = new ProjectInspectorModel();
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
@@ -353,7 +377,7 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult ProjectsInspectorView(ProjectInspectorModel model)
         {
-            var cookie = Request.Cookies["user"];
+            var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;

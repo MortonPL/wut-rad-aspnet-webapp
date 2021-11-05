@@ -23,7 +23,7 @@
                 @{
                     if (@Context.Request.Cookies["user"] != null)
                     {
-                        <span>Current user: @Context.Request.Cookies["user"]</span>
+                        <span>Current user: @Context.Request.Cookies["CurrentUser"]</span>
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
                     }
                     else
