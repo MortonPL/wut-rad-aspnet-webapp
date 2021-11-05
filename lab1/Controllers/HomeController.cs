@@ -203,14 +203,55 @@ namespace NTR.Controllers
 
         
         [HttpPost]
-        public IActionResult UserActivitiesCreate(string project, string date, string time, string activity)
+        public IActionResult UserActivitiesCreate(string project, string date)
         {
             var cookie = Request.Cookies["user"];
             if (cookie != null)
             {
                 UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookie, date);
-                model.AddUserActivity(date, project, "", Int32.Parse(time), activity);
+            }
+
+            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
+            Response.Cookies.Append("tempActivity", project, cookieOptions);
+            Response.Cookies.Append("tempDate", date, cookieOptions);
+
+            return RedirectToAction("UserActivitiesCreator2View", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult UserActivitiesCreator2View(UserActivitiesCreatorModel model, bool error)
+        {
+            var cookieUser = Request.Cookies["user"];
+            var cookieProject = Request.Cookies["tempActivity"];
+            var cookieDate = Request.Cookies["tempDate"];
+            if (cookieUser != null && cookieProject != null && cookieDate != null)
+            {
+                model.User = cookieUser;
+                model.Date = cookieDate;
+                model.TempActivity = cookieProject;
+                model.Error = error;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult UserActivitiesCreate2(string sub, string time, string activity)
+        {
+            UserActivitiesCreatorModel model;
+            var cookieUser = Request.Cookies["user"];
+            var cookieProject = Request.Cookies["tempActivity"];
+            var cookieDate = Request.Cookies["tempDate"];
+            if (cookieUser != null && cookieProject != null && cookieDate != null)
+            {
+                model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
+                model.TempActivity = cookieProject;
+                if (!model.AddUserActivity(cookieDate, cookieProject, sub, Int32.Parse(time), activity))
+                {
+                    return RedirectToAction("UserActivitiesCreator2View", "Home", new {error=true});
+                }
                 model.SaveToDB();
+                Response.Cookies.Delete("tempActivity");
+                Response.Cookies.Delete("tempDate");
             }
             return RedirectToAction("UserActivitiesView", "Home");
         }

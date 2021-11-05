@@ -42,6 +42,20 @@
       "subcode": "",
       "time": 12,
       "description": "these nuts"
+    },
+    {
+      "date": "2021-11-05",
+      "code": "kompot-233",
+      "subcode": "Test smaku",
+      "time": 23,
+      "description": "testerino"
+    },
+    {
+      "date": "2021-11-05",
+      "code": "kompot-233",
+      "subcode": "Degustacja",
+      "time": 35,
+      "description": "pyszne"
     }
   ],
   "accepted": [

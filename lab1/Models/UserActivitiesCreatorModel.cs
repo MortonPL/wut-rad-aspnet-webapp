@@ -18,6 +18,11 @@ namespace NTR.Models
         /// <summary>Date entered by the user.</summary>
         public string Date;
 
+        public bool Error;
+
+        /// <summary>Temporary activity.</summary>
+        public string TempActivity;
+
         /// <summary>User's monthly report object.</summary>
         public UserMonth UserMonth;
 
@@ -54,7 +59,7 @@ namespace NTR.Models
         {
             foreach(UserActivity UA in this.UserMonth.entries)
             {
-                if (UA.code == code)
+                if (UA.code == code && UA.date == date && UA.subcode == subcode)
                 {
                     return false;
                 }
@@ -73,7 +78,26 @@ namespace NTR.Models
                 var selectList = new List<SelectListItem>();
                 var ac = this.ActivityList.Where(a => a.active);
                 selectList.AddRange(ac.Select(a => new SelectListItem(a.code, a.code)));
-                //selectList.AddRange(this.ActivityList.Select(a => new SelectListItem(a.code, a.code)));
+                return selectList;
+            }
+        }
+
+        /// <summary>Generates a select list out of activity list.</summary>
+        /// <returns>Enumerable of select list items containing user names.</returns>
+        public IEnumerable<SelectListItem> CreateSubactivitySelectList
+        {
+            get
+            {
+                var selectList = new List<SelectListItem>();
+                var ac = this.ActivityList.Where(a => a.code == this.TempActivity);
+                if (ac.Count() > 0)
+                {
+                    selectList.AddRange(ac.First().subactivities.Select(a => new SelectListItem(a.code, a.code)));
+                }
+                else
+                {
+                    selectList.Add(new SelectListItem("", ""));
+                }
                 return selectList;
             }
         }
