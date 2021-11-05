@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NTR.Entities
@@ -20,6 +21,7 @@ namespace NTR.Entities
         public List<ApprovedUserActivity> accepted { get; set; }
 
         /// <summary>Has this entry been correctly read?</summary>
+        [JsonIgnore]
         public bool invalid = false;
         
         public UserMonth(){}

@@ -63,8 +63,11 @@
                                 <td>@activity.description</td>
                                 <td>
                                     <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivityInspector" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Inspect</a>
-                                    <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Edit</a>
-                                    <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Delete</a>
+                                    @if (!Model.UserMonth.frozen)
+                                    {
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Edit</a>
+                                        <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Delete</a>
+                                    }
                                 </td>
                             </tr>
                         }
