@@ -47,6 +47,8 @@ namespace NTR.Models
 
         /// <summary>Checks if the current user can delete the UA and deletes it.</summary>
         /// <param name="code">Code of the project.</param>
+        /// <param name="date">Date of the project.</param>
+        /// <param name="subcode">Subcode of the project.</param>
         /// <returns>True if successful, false otherwise.</returns>
         public bool DeleteUserActivity(string code, string date, string subcode)
         {
@@ -55,6 +57,24 @@ namespace NTR.Models
                 if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
                 {
                     this.UserMonth.entries.Remove(UA);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>Checks if the current user can lock the UA and locks it.</summary>
+        /// <param name="code">Code of the project.</param>
+        /// <param name="date">Date of the project.</param>
+        /// <param name="subcode">Subcode of the project.</param>
+        /// <returns>True if successful, false otherwise.</returns>
+        public bool LockUserActivity(string code, string date, string subcode)
+        {
+            foreach(UserActivity UA in this.UserMonth.entries)
+            {
+                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                {
+                    UA.status = "Locked";
                     return true;
                 }
             }

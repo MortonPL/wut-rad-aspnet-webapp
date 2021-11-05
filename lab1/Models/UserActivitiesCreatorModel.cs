@@ -68,7 +68,7 @@ namespace NTR.Models
                     return;
                 }
             }
-            this.UserMonth.entries.Add(new UserActivity(date, code, subcode, time, description));
+            this.UserMonth.entries.Add(new UserActivity(date, code, subcode, time, description, "Unlocked"));
         }
 
         /// <summary>Edit existing user activity.</summary>

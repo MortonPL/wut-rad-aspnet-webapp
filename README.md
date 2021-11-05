@@ -11,6 +11,7 @@ Wymagania zrealizowane:
 - Brak możliwości edycji zamrożonego miesiąca aktywności
 
 Wymagania zrealizowane częściowo:
+- Zatwierdznie aktywności - użytkownik może to zrobić per aktywność, a nie na cały miesiąc
 
 Wymagania niezrealizowane:
 - Liczenie zgłoszonego czasu w ramach miesięcznych aktywności
