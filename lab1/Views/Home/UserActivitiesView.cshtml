@@ -25,11 +25,29 @@
     <input type="date" name="date" required>
     <input type="submit" name="type" value="Change Date">
 </form>
+@{
+    if (!Model.IsMonthlyView)
+    {
+        <a asp-area="" asp-controller="Home" asp-action="UserActivitiesView" asp-route-month="true">Click here to see the monthly view.</a>
+    }
+    else
+    {
+        <a asp-area="" asp-controller="Home" asp-action="UserActivitiesView" asp-route-month="false">Click here to see the daily view.</a>
+    }
+}
+
 
 <br>
 @{
     if (Model != null && !String.IsNullOrEmpty(Model.Date)) {
-        <h3>Activities for @Model.Date</h3>
+        if (Model.IsMonthlyView)
+        {
+            <h3>Activities for @Model.GetMonth()</h3>
+        }
+        else
+        {
+            <h3>Activities for @Model.Date</h3>
+        }
     }
 }
 
@@ -53,7 +71,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var activity in Model.GetDayActivities())
+                        @foreach (var activity in Model.GetActivities())
                         {
                             <tr>
                                 <td>@activity.date</td>

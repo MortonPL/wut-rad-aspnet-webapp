@@ -21,6 +21,9 @@ namespace NTR.Models
         /// <summary>User's monthly report object.</summary>
         public UserMonth UserMonth;
 
+        /// <summary>Is the activity view per day or per month?</summary>
+        public bool IsMonthlyView = false;
+
         public UserActivitiesModel(){
             this.Date = DateTime.Today.ToString("yyyy-MM-dd");
         }
@@ -29,14 +32,17 @@ namespace NTR.Models
         /// <returns>Saved date as string in yyyy-MM format</returns>
         public string GetMonth()
         {
-            return this.Date.Remove(Date.Length - 3);
+            return this.Date.Remove(this.Date.Length - 3);
         }
 
         /// <summary>Get set date's activties for saved user.</summary>
         /// <returns>Filtered list of user activities.</returns>
-        public IEnumerable<UserActivity> GetDayActivities()
+        public IEnumerable<UserActivity> GetActivities()
         {
-            return this.UserMonth.entries.Where(e => e.date == this.Date);
+            IEnumerable<UserActivity> list = this.IsMonthlyView
+                ? this.UserMonth.entries.Where(e => e.date.Remove(e.date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
+                : this.UserMonth.entries.Where(e => e.date == this.Date);
+            return list.OrderBy(e => e.date).ToList();
         }
 
         /// <summary>Checks if the current user can delete the UA and deletes it.</summary>
