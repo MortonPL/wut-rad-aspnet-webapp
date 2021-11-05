@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "User Activities Creator";
+    ViewData["Title"] = "User Activities Editor";
 }
 <style>
     input {
@@ -17,19 +17,12 @@
     }
 </style>
 
-
-<p>Here you will be able to create add new user activities.</p>
-
 <br>
 <div>
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User))
         {
-            if(!String.IsNullOrEmpty(Model.Error))
-            {
-                <p><i>The combination of project, date and subcategory must be unique!</i></p>
-            }
-            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesCreate2">
+            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivityEdit">
 
                 <span style="margin: 8px 0px 0px 0px;">Project</span>
                 <br><b>@Model.TempProject</b><br>
@@ -37,8 +30,8 @@
                 <span style="margin: 8px 0px 0px 0px;">Date of activity</span>
                 <br><b>@Model.Date</b><br>
 
-                <label for="sub">Subactivity</label>
-                <select name="sub" asp-items="Model.CreateSubactivitySelectList"></select>
+                <span style="margin: 8px 0px 0px 0px;">Subactivity</span>
+                <br><b>@Model.TempSubactivity</b><br>
 
                 <label for="time">Time spent [minutes]</label>
                 <input type="text" id="time" name="time" autocomplete="off" required min="1">
@@ -57,4 +50,4 @@
 </div>
 
 <br>
-<a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Go back</a>
+<a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Go back</a>

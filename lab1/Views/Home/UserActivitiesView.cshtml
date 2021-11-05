@@ -62,9 +62,9 @@
                                 <td>@activity.time</td>
                                 <td>@activity.description</td>
                                 <td>
-                                    <form method="post" style="display: inline-block;"><input type="submit" name="type" value="Inspect"></form>
-                                    <form method="post" style="display: inline-block;"><input type="submit" name="type" value="Edit"></form>
-                                    <form method="post" style="display: inline-block;"><input type="submit" name="type" value="Delete"></form>
+                                    <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivityInspector" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Inspect</a>
+                                    <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Edit</a>
+                                    <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.code" asp-route-date="@activity.date" asp-route-subcode="@activity.subcode">Delete</a>
                                 </td>
                             </tr>
                         }

@@ -39,6 +39,22 @@ namespace NTR.Models
             return this.UserMonth.entries.Where(e => e.date == this.Date);
         }
 
+        /// <summary>Checks if the current user can delete the UA and deletes it.</summary>
+        /// <param name="code">Code of the project.</param>
+        /// <returns>True if successful, false otherwise.</returns>
+        public bool DeleteUserActivity(string code, string date, string subcode)
+        {
+            foreach(UserActivity UA in this.UserMonth.entries)
+            {
+                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                {
+                    this.UserMonth.entries.Remove(UA);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>Load user activities from the database.</summary>
         public void LoadFromDB()
         {

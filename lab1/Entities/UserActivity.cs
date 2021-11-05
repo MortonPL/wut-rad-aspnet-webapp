@@ -35,5 +35,13 @@ namespace NTR.Entities
             this.time = time;
             this.description = description;
         }
+
+        /// <summary>Compares own subactivity with provided one.</summary>
+        /// <param name="subcode">Subactivity to compare with.</name>
+        /// <return>True if equal, false otherwise.</return>
+        public bool IsEqualSubactivity(string subcode)
+        {
+            return (this.subcode == subcode) || (String.IsNullOrEmpty(this.subcode) && String.IsNullOrEmpty(subcode));
+        }
     }
 }

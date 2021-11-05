@@ -50,11 +50,11 @@
 
                                 @if (@project.active == true)
                                 {
-                                    <td style="color:green">Active</td>
+                                    <td style="color:green;">Active</td>
                                 }
                                 else
                                 {
-                                    <td style="color:red">Closed</td>
+                                    <td style="color:red;">Closed</td>
                                 }
                                 
                                 <td>
@@ -66,11 +66,10 @@
                                 <td>
                                     @if (Model.User == project.manager)
                                     {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspect" asp-route-code="@project.code">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspector" asp-route-code="@project.code">Inspect</a>
                                         @if (project.active)
                                         {
-                                            <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectEdit" asp-route-code="@project.code">Edit</a>
-                                            <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
+                                            <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
                                         }
                                     }
                                 </td>
