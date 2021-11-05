@@ -63,22 +63,10 @@ namespace NTR.Models
             return false;
         }
 
-        /// <summary>Checks if the current user can lock the UA and locks it.</summary>
-        /// <param name="code">Code of the project.</param>
-        /// <param name="date">Date of the project.</param>
-        /// <param name="subcode">Subcode of the project.</param>
-        /// <returns>True if successful, false otherwise.</returns>
-        public bool LockUserActivity(string code, string date, string subcode)
+        /// <summary>Freezes the month.</summary>
+        public void LockUserActivity()
         {
-            foreach(UserActivity UA in this.UserMonth.entries)
-            {
-                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
-                {
-                    UA.status = "Locked";
-                    return true;
-                }
-            }
-            return false;
+            this.UserMonth.frozen = true;
         }
 
         /// <summary>Load user activities from the database.</summary>
