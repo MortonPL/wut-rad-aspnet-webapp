@@ -153,18 +153,17 @@ namespace NTR.Controllers
             return RedirectToAction("UserActivitiesView", "Home");
         }
 
-        public IActionResult UserActivityLock(string code, string date, string subcode)
+        public IActionResult UserActivitiesLock(string date)
         {
             UserActivitiesModel model = new UserActivitiesModel();
             var cookie = Request.Cookies["CurrentUser"];
             if (cookie != null)
             {
                 model.User = cookie;
+                model.Date = date;
                 model.LoadFromDB();
-                if (model.LockUserActivity(code, date, subcode))
-                {
-                    model.SaveToDB();
-                }
+                model.LockUserActivity();
+                model.SaveToDB();
             }
 
             return RedirectToAction("UserActivitiesView", "Home");
