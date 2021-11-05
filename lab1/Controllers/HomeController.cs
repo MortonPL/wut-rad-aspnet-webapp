@@ -121,6 +121,11 @@ namespace NTR.Controllers
         [HttpGet]
         public IActionResult ActivitiesView(ActivitiesModel model)
         {
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+            }
             model.LoadFromDB();
             return View(model);
         }
@@ -165,6 +170,43 @@ namespace NTR.Controllers
                 return RedirectToAction("ActivitiesView", "Home");
             }
             return View(model);
+        }
+
+        // ****************************** USER ACTIVITIES CREATOR ****************************** //
+        public IActionResult UserActivitiesCreatorView()
+        {
+            UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult UserActivitiesCreatorView(UserActivitiesCreatorModel model)
+        {
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+            }
+            return View(model);
+        }
+
+        
+        [HttpPost]
+        public IActionResult UserActivitiesCreate(string project, string date, string time, string activity)
+        {
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookie, date);
+                model.AddUserActivity(date, project, "", Int32.Parse(time), activity);
+                model.SaveToDB("user");
+            }
+            return RedirectToAction("UserActivitiesView", "Home");
         }
 
         // ****************************** OTHER ****************************** //
