@@ -25,15 +25,19 @@ namespace NTR.Entities
         /// <summary>Description of what the user did.</summary>
         public string description { get; set; }
 
+        /// <summary>Status of the activity - Unlocked/Locked/Accepted</summary>
+        public string status { get; set; }
+
         public UserActivity(){}
 
-        public UserActivity(string date, string code, string subcode, int time, string description)
+        public UserActivity(string date, string code, string subcode, int time, string description, string status)
         {
             this.date = date;
             this.code = code;
             this.subcode = subcode;
             this.time = time;
             this.description = description;
+            this.status = status;
         }
 
         /// <summary>Compares own subactivity with provided one.</summary>
