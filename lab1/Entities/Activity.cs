@@ -26,9 +26,30 @@ namespace NTR.Entities
         public bool active { get; set; }
 
         /// <summary>Array of subactivites (categories of work) for this activity.</summary>
-        public SubActivity[] subactivities { get; set; }
+        public List<SubActivity> subactivities { get; set; }
 
         public Activity(){}
 
+        public Activity(string code, string manager, string name, int budget, string subactivities)
+        {
+            this.code = code;
+            this.manager = manager;
+            this.name = name;
+            this.budget = budget;
+            this.active = true;
+            this.subactivities = new List<SubActivity>();
+            char[] delims = new[] { '\r', '\n' };
+            if (subactivities.Length > 0)
+            {
+                string[] split = subactivities.Split(delims, StringSplitOptions.RemoveEmptyEntries);
+                if (split.Length > 0)
+                {
+                    foreach(string s in split)
+                    {
+                        this.subactivities.Add(new SubActivity(s));
+                    }
+                }
+            }
+        }
     }
 }

@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var activity in Model.UserMonth.entries)
+                        @foreach (var activity in Model.GetDayActivities())
                         {
                             <tr>
                                 <td>@activity.date</td>

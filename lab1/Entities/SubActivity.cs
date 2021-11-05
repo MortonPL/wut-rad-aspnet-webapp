@@ -15,5 +15,10 @@ namespace NTR.Entities
 
         public SubActivity(){}
 
+        public SubActivity(string code)
+        {
+            this.code = code;
+        }
+
     }
 }
