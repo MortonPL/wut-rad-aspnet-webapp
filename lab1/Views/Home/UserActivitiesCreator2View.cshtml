@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "User Activities Creator";
+}
+<style>
+    input {
+        display: block;
+    }
+    label {
+        padding: 0px;
+        margin: 8px 0px 0px 0px;
+    }
+    textarea {
+        display: block;
+    }
+    select {
+        display: block;
+    }
+</style>
+
+
+<p>Here you will be able to create add new user activities.</p>
+
+<br>
+<div>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User))
+        {
+            if(Model.Error)
+            {
+                <p><i>The combination of project, date and subcategory must be unique!</i></p>
+            }
+            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesCreate2">
+
+                <label for="project">Activity</label>
+                <br>@Model.TempActivity
+
+                <label for="date">Date of activity</label>
+                <br>@Model.Date
+
+                <label for="sub">Subactivity</label>
+                <select name="sub" asp-items="Model.CreateSubactivitySelectList"></select>
+
+                <label for="time">Time spent [minutes]</label>
+                <input type="text" id="time" name="time" autocomplete="off" required min="1">
+
+                <label for="description">Description</label>
+                <textarea id="description" name="activity" rows="4" cols="32" placeholder="Enter a short description."></textarea>
+
+                <input type="submit" name="ok" value="Create activity">
+            </form>
+        }
+        else
+        {
+            <p><i>Only logged users can create new user activities!</i></p>
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Go back</a>
