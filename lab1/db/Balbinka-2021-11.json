@@ -1,5 +1,5 @@
 {
-  "frozen": false,
+  "frozen": true,
   "entries": [
     {
       "date": "2021-11-05",
@@ -7,6 +7,27 @@
       "subcode": "Warzenie kompotu",
       "time": 10,
       "description": "kompot \u015Bliwkowy"
+    },
+    {
+      "date": "2021-11-06",
+      "code": "kompot-233",
+      "subcode": "Warzenie kompotu",
+      "time": 10,
+      "description": "kompot \u015Bliwkowy"
+    },
+    {
+      "date": "2021-11-09",
+      "code": "kompot-233",
+      "subcode": "Warzenie kompotu",
+      "time": 12,
+      "description": "kompot jabłkowy"
+    },
+    {
+      "date": "2021-11-10",
+      "code": "kompot-233",
+      "subcode": "Test smaku",
+      "time": 20,
+      "description": "smakowanie po trochu"
     }
   ],
   "accepted": []
