@@ -4,13 +4,13 @@
 
 <p>
     Choose your user profile from this list to log in:
-    <form method="post">
+    <form method="post" asp-controller="Home" asp-action="UserLogin">
         <select name="user" asp-items="Model.CreateUserSelectList"></select>
         <input type="submit" name="type" value="Select user">
     </form>
     <br>
     Don't have an account? Type your name below to create one:
-    <form method="post">
+    <form method="post" asp-controller="Home" asp-action="UserCreate">
         <input type="text" name="user" required>
         <input type="submit" name="type" value="Create user">
     </form>

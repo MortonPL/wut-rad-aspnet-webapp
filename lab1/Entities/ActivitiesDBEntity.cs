@@ -14,6 +14,11 @@ namespace NTR.Entities
         public HashSet<Activity> activities {get; set; }
 
         public ActivityList(){}
+
+        public ActivityList(HashSet<Activity> activities)
+        {
+            this.activities = activities;
+        }
     }
 
 
@@ -51,8 +56,8 @@ namespace NTR.Entities
         public static void Save(HashSet<Activity> activities)
         {
             var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };
-            var bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(activities, jsonOptions);
-            System.IO.File.WriteAllBytes("db/activities.json", bytes);
+            var bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(new ActivityList(activities), jsonOptions);
+            System.IO.File.WriteAllBytes("db/activity.json", bytes);
         }
     }
 }

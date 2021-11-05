@@ -36,6 +36,7 @@
                             <th>Budget</th>
                             <th>Active</th>
                             <th>Subactivities</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,6 +53,11 @@
                                     {
                                         @subactivity.code<text><br></text>
                                     }
+                                </td>
+                                <td>
+                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityInspect">Inspect</a>
+                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityEdit">Edit</a>
+                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityDelete">Delete</a>
                                 </td>
                             </tr>
                         }

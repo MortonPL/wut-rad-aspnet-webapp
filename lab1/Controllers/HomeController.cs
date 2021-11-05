@@ -54,19 +54,25 @@ namespace NTR.Controllers
         }
         
         [HttpPost]
-        public IActionResult UserView(String user, String type)
+        public IActionResult UserLogin(String user)
         {
-            if (type == "Create user")
-            {   
-                UserModel model = new UserModel(user);
-                if (!String.IsNullOrEmpty(model.UsernameError))
-                {
-                    return UserView(model);
-                }
+            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
+            Response.Cookies.Append("user", user, cookieOptions);
 
-                model.AddUser(user);
-                model.SaveToDB();
+            return Redirect("/Home/");
+        }
+
+        [HttpPost]
+        public IActionResult UserCreate(String user)
+        { 
+            UserModel model = new UserModel(user);
+            if (!String.IsNullOrEmpty(model.UsernameError))
+            {
+                return UserView(model);
             }
+
+            model.AddUser(user);
+            model.SaveToDB();
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
             Response.Cookies.Append("user", user, cookieOptions);
 
@@ -88,12 +94,20 @@ namespace NTR.Controllers
                 model.User = cookie;
                 model.LoadFromDB();
             }
+
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult UserActivitiesView(UserActivitiesModel model, String date)
+        public IActionResult UserActivitiesView(String date)
         {
+            UserActivitiesModel model = new UserActivitiesModel();
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+                model.LoadFromDB();
+            }
             model.Date = date;
             return View(model);
         }
@@ -108,6 +122,48 @@ namespace NTR.Controllers
         public IActionResult ActivitiesView(ActivitiesModel model)
         {
             model.LoadFromDB();
+            return View(model);
+        }
+
+        // ****************************** ACTIVITIES CREATOR ****************************** //
+        public IActionResult ActivitiesCreatorView()
+        {
+            ActivitiesCreatorModel model = new ActivitiesCreatorModel();
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ActivitiesCreatorView(ActivitiesCreatorModel model)
+        {
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+                model.LoadFromDB();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ActivityCreate(string code, string name, string budget, string project)
+        {
+            ActivitiesCreatorModel model = new ActivitiesCreatorModel();
+            var cookie = Request.Cookies["user"];
+            if(cookie != null)
+            {
+                model.User = cookie;
+                model.LoadFromDB();
+            }
+            if (model.AddActivity(code, name, Int32.Parse(budget), project))
+            {
+                model.SaveToDB();
+                return RedirectToAction("ActivitiesView", "Home");
+            }
             return View(model);
         }
 

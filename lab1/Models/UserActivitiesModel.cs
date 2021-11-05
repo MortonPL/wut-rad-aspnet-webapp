@@ -10,7 +10,7 @@ namespace NTR.Models
     /// <summary>
     /// A model for user activities view.
     /// </summary>
-    public class UserActivitiesModel
+    public class UserActivitiesModel: AbstractUserModel
     {
         /// <summary>List of all activities.</summary>
         public string ActivityError = "";
@@ -35,14 +35,19 @@ namespace NTR.Models
             return this.Date.Remove(Date.Length - 3);
         }
 
+        public IEnumerable<UserActivity> GetDayActivities()
+        {
+            return this.UserMonth.entries.Where(e => e.date == this.Date);
+        }
+
         /// <summary>Load user activities from the database.</summary>
-        public void LoadFromDB()
+        public override void LoadFromDB()
         {
             this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth());
         }
 
         /// <summary>Save user activities to the database.</summary>
-        public void SaveToDB()
+        public override void SaveToDB()
         {
             Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth(), this.UserMonth);
         }

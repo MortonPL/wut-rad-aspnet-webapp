@@ -1,20 +1,69 @@
 {
-    "activities": [
+  "activities": [
     {
-    "code": "ARGUS-123",
-    "manager": "nowak",
-    "name": "Argus",
-    "budget": 125,
-    "active": true,
-    "subactivities":[{"code":"database"},{"code":"other"} ]
+      "code": "ARGUS-123",
+      "manager": "nowak",
+      "name": "Argus",
+      "budget": 125,
+      "active": true,
+      "subactivities": [
+        {
+          "code": "database"
+        },
+        {
+          "code": "other"
+        }
+      ]
     },
     {
-    "code": "OTHER",
-    "manager": "smith",
-    "name": "Other",
-    "budget": -1,
-    "active": true,
-    "subactivities":[]
+      "code": "OTHER",
+      "manager": "smith",
+      "name": "Other",
+      "budget": -1,
+      "active": true,
+      "subactivities": []
+    },
+    {
+      "code": "kompot-233",
+      "manager": "Admin",
+      "name": "Picie kompotu",
+      "budget": 360,
+      "active": true,
+      "subactivities": [
+        {
+          "code": "Warzenie kompotu"
+        },
+        {
+          "code": "Test smaku"
+        },
+        {
+          "code": "Degustacja"
+        }
+      ]
+    },
+    {
+      "code": "BC",
+      "manager": "John Xina",
+      "name": "Bing Chilling",
+      "budget": 1,
+      "active": true,
+      "subactivities": [
+        {
+          "code": "bing"
+        },
+        {
+          "code": "chilling"
+        },
+        {
+          "code": "lao gan ma"
+        },
+        {
+          "code": "chill sauce"
+        },
+        {
+          "code": "EMBRACE"
+        }
+      ]
     }
-    ]
+  ]
 }
