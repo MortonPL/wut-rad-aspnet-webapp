@@ -10,7 +10,6 @@ namespace NTR.Entities
     /// </summary>
     public class UserActivity
     {
-
         ///<summary>Date of the registered user activity.</summary>
         public string date { get; set; }
 
@@ -36,6 +35,5 @@ namespace NTR.Entities
             this.time = time;
             this.description = description;
         }
-
     }
 }

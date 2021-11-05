@@ -12,9 +12,6 @@ namespace NTR.Models
     /// </summary>
     public class UserActivitiesModel
     {
-        /// <summary>List of all activities.</summary>
-        public string ActivityError = "";
-
         /// <summary>Date entered by the user.</summary>
         public string Date;
 
@@ -35,6 +32,8 @@ namespace NTR.Models
             return this.Date.Remove(Date.Length - 3);
         }
 
+        /// <summary>Get set date's activties for saved user.</summary>
+        /// <returns>Filtered list of user activities.</returns>
         public IEnumerable<UserActivity> GetDayActivities()
         {
             return this.UserMonth.entries.Where(e => e.date == this.Date);

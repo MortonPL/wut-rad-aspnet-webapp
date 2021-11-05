@@ -26,26 +26,32 @@ namespace NTR.Models
 
         public UserActivitiesCreatorModel()
         {
-            this.LoadFromDB("");
+            this.LoadFromDB();
         }
 
         public UserActivitiesCreatorModel(string user, string date)
         {
             this.User = user;
             this.Date = date;
-            this.LoadFromDB("user");
+            LoadExtrasFromDB("UserMonth");
         }
 
         /// <summary>Extract the saved date.</summary>
-        /// <returns>Saved date as string in yyyy-MM format</returns>
+        /// <returns>Saved date as string in yyyy-MM format.</returns>
         public string GetMonth()
         {
             return this.Date.Remove(Date.Length - 3);
         }
 
+        /// <summary>Add new user activty to the saved month.</summary>
+        /// <param name="date">Date of the activity in yyyy-MM-dd format.</param>
+        /// <param name="code">Code ID of the major activity.</param>
+        /// <param name="subcode">Subcode of the activity.</param>
+        /// <param name="time">Time spent on the activity.</param>
+        /// <param name="description">Short description of the activity.</param>
+        /// <returns>True for success, false for failure.</returns>
         public bool AddUserActivity(string date, string code, string subcode, int time, string description)
         {
-
             foreach(UserActivity UA in this.UserMonth.entries)
             {
                 if (UA.code == code)
@@ -54,6 +60,7 @@ namespace NTR.Models
                 }
             }
             this.UserMonth.entries.Add(new UserActivity(date, code, subcode, time, description));
+
             return true;
         }
 
@@ -64,25 +71,31 @@ namespace NTR.Models
             get
             {
                 var selectList = new List<SelectListItem>();
-                //var ac = this.ActivityList.Where(a => !a.active);
-                //selectList.AddRange(ac.Select(a => new SelectListItem(a.code, a.code)));
-                selectList.AddRange(this.ActivityList.Select(a => new SelectListItem(a.code, a.code)));
+                var ac = this.ActivityList.Where(a => a.active);
+                selectList.AddRange(ac.Select(a => new SelectListItem(a.code, a.code)));
+                //selectList.AddRange(this.ActivityList.Select(a => new SelectListItem(a.code, a.code)));
                 return selectList;
             }
         }
 
         /// <summary>Load user activities from the database.</summary>
-        public void LoadFromDB(string mode)
+        public void LoadFromDB()
         {
-            if (mode == "user")
-            {
-                this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth());
-            }
             this.ActivityList = Entities.ActivitiesDBEntity.Load();
         }
 
+        /// <summary>Load extra data from the database.</summary>
+        /// <param name="type">Extra data load. "UserMonth" loads current user month.</param>
+        public void LoadExtrasFromDB(string type)
+        {
+            if (type == "UserMonth")
+            {
+                this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth());
+            }
+        }
+
         /// <summary>Save user activities to the database.</summary>
-        public void SaveToDB(string mode)
+        public void SaveToDB()
         {
             Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth(), this.UserMonth);
         }
