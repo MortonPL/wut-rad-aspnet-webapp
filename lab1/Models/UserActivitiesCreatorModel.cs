@@ -18,7 +18,8 @@ namespace NTR.Models
         /// <summary>Date entered by the user.</summary>
         public string Date;
 
-        public bool Error;
+        /// <summary>Error type when creation fails.</summary>
+        public string Error;
 
         /// <summary>Temporary stored project code.</summary>
         public string TempProject;
@@ -55,18 +56,17 @@ namespace NTR.Models
         /// <param name="time">Time spent on the activity.</param>
         /// <param name="description">Short description of the activity.</param>
         /// <returns>True for success, false for failure.</returns>
-        public bool AddUserActivity(string date, string code, string subcode, int time, string description)
+        public void AddUserActivity(string date, string code, string subcode, int time, string description)
         {
             foreach(UserActivity UA in this.UserMonth.entries)
             {
                 if (UA.code == code && UA.date == date && UA.subcode == subcode)
                 {
-                    return false;
+                    this.Error = "EUNIQUE";
+                    return;
                 }
             }
             this.UserMonth.entries.Add(new UserActivity(date, code, subcode, time, description));
-
-            return true;
         }
 
         /// <summary>Generates a select list out of projects list.</summary>

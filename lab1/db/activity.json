@@ -28,7 +28,7 @@
       "manager": "Admin",
       "name": "Picie kompotu",
       "budget": 360,
-      "active": true,
+      "active": false,
       "subactivities": [
         {
           "code": "Warzenie kompotu"
