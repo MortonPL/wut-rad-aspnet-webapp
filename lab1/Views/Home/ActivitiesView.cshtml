@@ -55,9 +55,13 @@
                                     }
                                 </td>
                                 <td>
-                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityInspect">Inspect</a>
-                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityEdit">Edit</a>
-                                    <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityDelete">Delete</a>
+                                    @{ if (Model.User == activity.manager)
+                                        {
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityInspect">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityEdit">Edit</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ActivityDelete">Delete</a>
+                                        }
+                                    }
                                 </td>
                             </tr>
                         }

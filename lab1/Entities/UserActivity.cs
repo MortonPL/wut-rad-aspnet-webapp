@@ -28,5 +28,14 @@ namespace NTR.Entities
 
         public UserActivity(){}
 
+        public UserActivity(string date, string code, string subcode, int time, string description)
+        {
+            this.date = date;
+            this.code = code;
+            this.subcode = subcode;
+            this.time = time;
+            this.description = description;
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using NTR.Entities;
 
 namespace NTR.Models
 {
-    public class UserModel: AbstractUserModel
+    public class UserModel
     {
         /// <summary>User name error. Empty if no error.</summary>
         public string UsernameError = "";
@@ -68,13 +68,13 @@ namespace NTR.Models
         }
 
         /// <summary>Load list of users from the database.</summary>
-        public override  void LoadFromDB()
+        public void LoadFromDB()
         {
             this.UserList = Entities.UserListDBEntity.Load();
         }
 
         /// <summary>Save list of users to the database.</summary>
-        public override void SaveToDB()
+        public void SaveToDB()
         {
             Entities.UserListDBEntity.Save(this.UserList);
         }

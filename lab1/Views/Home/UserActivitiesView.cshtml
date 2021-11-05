@@ -38,6 +38,7 @@
     @{
         if (Model != null && Model.UserMonth != null)
         {
+            <a href="/Home/UserActivitiesCreatorView">Click here to add a new user activity.</a>
             if (!Model.UserMonth.invalid)
             {
                 <table>
@@ -77,7 +78,7 @@
         }
         else
         {
-            <p><i>Only logged users can see activities.</i></p>
+            <p><i>Only logged users can see and add activities.</i></p>
         }
     }
 </div>

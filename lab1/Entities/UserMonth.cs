@@ -14,10 +14,10 @@ namespace NTR.Entities
         public bool frozen { get; set; }
 
         /// <summary>Array of activity entries.</summary>
-        public UserActivity[] entries { get; set; }
+        public List<UserActivity> entries { get; set; }
 
         /// <summary>Array of activity entries approved by a manager.</summary>
-        public ApprovedUserActivity[] accepted { get; set; }
+        public List<ApprovedUserActivity> accepted { get; set; }
 
         /// <summary>Has this entry been correctly read?</summary>
         public bool invalid = false;

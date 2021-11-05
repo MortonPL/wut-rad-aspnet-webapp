@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "User Activities Creator";
+}
+<style>
+    input {
+        display: block;
+        padding-bottom: 4px;
+    }
+    label {
+        padding: 0px
+    }
+    textarea {
+        display: block;
+    }
+</style>
+
+
+<p>Here you will be able to create add new user activities.</p>
+
+<br>
+<div>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User))
+        {
+            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesCreate">
+
+                <label for="project">Activity<br></label>
+                <select name="project" asp-items="Model.CreateActivitySelectList"><br></select>
+                <label for="date">Date of activity<br></label>
+                <input type="date" id="date" name="date" required>
+                <label for="time">Time spent [minutes]<br></label>
+                <input type="text" id="time" name="time" required min="1">
+                <label for="description">Description<br></label>
+                <textarea id="description" name="activity" rows="4" cols="32" placeholder="Enter a short description."></textarea>
+                <br>
+                <input type="submit" name="ok" value="Create activity">
+            </form>
+        }
+        else
+        {
+            <p><i>Only logged users can create new user activities!</i></p>
+        }
+    }
+</div>
+
+<br>
+<a href="/Home/">Go Back</a>
