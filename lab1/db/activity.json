@@ -2,7 +2,7 @@
   "activities": [
     {
       "code": "ARGUS-123",
-      "manager": "nowak",
+      "manager": "Admin",
       "name": "Argus",
       "budget": 125,
       "active": true,
@@ -17,7 +17,7 @@
     },
     {
       "code": "OTHER",
-      "manager": "smith",
+      "manager": "Admin",
       "name": "Other",
       "budget": -1,
       "active": true,
@@ -25,7 +25,7 @@
     },
     {
       "code": "kompot-233",
-      "manager": "Admin",
+      "manager": "Balbinka",
       "name": "Picie kompotu",
       "budget": 360,
       "active": true,
@@ -42,26 +42,17 @@
       ]
     },
     {
-      "code": "BC",
-      "manager": "John Xina",
-      "name": "Bing Chilling",
-      "budget": 1,
-      "active": true,
+      "code": "GoogleA",
+      "manager": "Pan Jerzy",
+      "name": "Integracja z Google",
+      "budget": 100,
+      "active": false,
       "subactivities": [
         {
-          "code": "bing"
+          "code": "Optymalizacja zapytań"
         },
         {
-          "code": "chilling"
-        },
-        {
-          "code": "lao gan ma"
-        },
-        {
-          "code": "chill sauce"
-        },
-        {
-          "code": "EMBRACE"
+          "code": "Chmura"
         }
       ]
     }

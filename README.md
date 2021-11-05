@@ -9,9 +9,9 @@ Wymagania zrealizowane:
 - Przegląd aktywności dnia i miesiąca z możliwością zmiany daty
 - Brak możliwości edycji zamkniętego projektu
 - Brak możliwości edycji zamrożonego miesiąca aktywności
+- Zatwierdznie miesiąca jako użytkownik
 
 Wymagania zrealizowane częściowo:
-- Zatwierdznie aktywności - użytkownik może to zrobić per aktywność, a nie na cały miesiąc
 
 Wymagania niezrealizowane:
 - Liczenie zgłoszonego czasu w ramach miesięcznych aktywności
