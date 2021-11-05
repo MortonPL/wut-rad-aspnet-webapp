@@ -26,6 +26,22 @@ namespace NTR.Models
             this.Projects = Entities.ProjectsDBEntity.Load();
         }
 
+        /// <summary>Checks if the current user can close a project and closes it.</summary>
+        /// <param name="code">Code of the project.</param>
+        /// <returns>True if successful, false otherwise.</returns>
+        public bool CloseProject(string code)
+        {
+            foreach(var project in this.Projects)
+            {
+                if (project.code == code && project.manager == this.User)
+                {
+                    project.active = false;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>Save projects to the database.</summary>
         public void SaveToDB()
         {

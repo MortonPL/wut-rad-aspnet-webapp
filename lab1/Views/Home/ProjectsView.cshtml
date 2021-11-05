@@ -47,7 +47,16 @@
                                 <td>@project.manager</td>
                                 <td>@project.name</td>
                                 <td>@project.budget</td>
-                                <td>@project.active</td>
+
+                                @if (@project.active == true)
+                                {
+                                    <td style="color:green">Active</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red">Closed</td>
+                                }
+                                
                                 <td>
                                     @foreach (var subactivity in project.subactivities)
                                     {
@@ -55,11 +64,13 @@
                                     }
                                 </td>
                                 <td>
-                                    @{ if (Model.User == project.manager)
+                                    @if (Model.User == project.manager)
+                                    {
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspect" asp-route-code="@project.code">Inspect</a>
+                                        @if (project.active)
                                         {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspect">Inspect</a>
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectEdit">Edit</a>
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectDelete">Delete</a>
+                                            <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectEdit" asp-route-code="@project.code">Edit</a>
+                                            <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
                                         }
                                     }
                                 </td>

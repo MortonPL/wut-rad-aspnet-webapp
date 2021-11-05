@@ -131,6 +131,23 @@ namespace NTR.Controllers
             return View(model);
         }
 
+        public IActionResult ProjectClose(string code)
+        {
+            ProjectsModel model = new ProjectsModel();
+            var cookie = Request.Cookies["user"];
+            if (cookie != null)
+            {
+                model.User = cookie;
+                model.LoadFromDB();
+                if (model.CloseProject(code))
+                {
+                    model.SaveToDB();
+                }
+            }
+
+            return RedirectToAction("ProjectsView", "Home");
+        }
+
         // ****************************** PROJECTS CREATOR ****************************** //
         public IActionResult ProjectsCreatorView()
         {
@@ -190,12 +207,13 @@ namespace NTR.Controllers
         }
 
         [HttpGet]
-        public IActionResult UserActivitiesCreatorView(UserActivitiesCreatorModel model)
+        public IActionResult UserActivitiesCreatorView(UserActivitiesCreatorModel model, string error)
         {
             var cookie = Request.Cookies["user"];
             if (cookie != null)
             {
                 model.User = cookie;
+                model.Error = error;
             }
 
             return View(model);
@@ -209,17 +227,19 @@ namespace NTR.Controllers
             if (cookie != null)
             {
                 UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookie, date);
+                if (!String.IsNullOrEmpty(model.Error))
+                {
+                    return RedirectToAction("UserActivitiesCreatorView", "Home", new {error=model.Error});
+                }
+                var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
+                Response.Cookies.Append("tempProject", project, cookieOptions);
+                Response.Cookies.Append("tempDate", date, cookieOptions);
             }
-
-            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
-            Response.Cookies.Append("tempProject", project, cookieOptions);
-            Response.Cookies.Append("tempDate", date, cookieOptions);
-
             return RedirectToAction("UserActivitiesCreator2View", "Home");
         }
 
         [HttpGet]
-        public IActionResult UserActivitiesCreator2View(UserActivitiesCreatorModel model, bool error)
+        public IActionResult UserActivitiesCreator2View(UserActivitiesCreatorModel model, string error)
         {
             var cookieUser = Request.Cookies["user"];
             var cookieProject = Request.Cookies["tempProject"];
@@ -245,9 +265,10 @@ namespace NTR.Controllers
             {
                 model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
                 model.TempProject = cookieProject;
-                if (!model.AddUserActivity(cookieDate, cookieProject, sub, Int32.Parse(time), activity))
+                model.AddUserActivity(cookieDate, cookieProject, sub, Int32.Parse(time), activity);
+                if (!String.IsNullOrEmpty(model.Error))
                 {
-                    return RedirectToAction("UserActivitiesCreator2View", "Home", new {error=true});
+                    return RedirectToAction("UserActivitiesCreator2View", "Home", new {error=model.Error});
                 }
                 model.SaveToDB();
                 Response.Cookies.Delete("tempProject");
