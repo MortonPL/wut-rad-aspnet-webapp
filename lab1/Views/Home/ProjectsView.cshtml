@@ -67,7 +67,7 @@
                                 <td>
                                     @if (Model.User == project.manager)
                                     {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspector" asp-route-code="@project.code">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsView">Inspect</a>
                                         @if (project.active)
                                         {
                                             <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
