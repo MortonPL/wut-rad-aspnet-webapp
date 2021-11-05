@@ -19,12 +19,13 @@
     }
 </style>
 
-<p>Here you will be able to inspect and edit projects.</p>
+<p>Here you can inspect, create and close projects.</p>
 
 <div class="text-center">
     @{
         if (Model != null && Model.Projects != null)
         {
+            <a asp-area="" asp-controller="Home" asp-action="ProjectsCreatorView">Click here to create a new project.</a>
             if (Model.Projects.Count != 0)
             {
                 <table>

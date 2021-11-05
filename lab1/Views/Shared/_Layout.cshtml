@@ -18,10 +18,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Activities</a>
+                        </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ProjectsView">Projects</a>
+                        </li>
                     </ul>
                 </div>
                 @{
-                    if (@Context.Request.Cookies["user"] != null)
+                    if (@Context.Request.Cookies["CurrentUser"] != null)
                     {
                         <span>Current user: @Context.Request.Cookies["CurrentUser"]</span>
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>

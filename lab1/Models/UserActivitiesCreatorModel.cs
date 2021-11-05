@@ -28,7 +28,7 @@ namespace NTR.Models
         public string TempSubactivity;
 
         /// <summary>User's monthly report object.</summary>
-        public UserMonth UserMonth;
+        public UserMonth UserMonth = new UserMonth();
 
         /// <summary>List of saved projects.</summary>
         public HashSet<Project> ProjectsList;

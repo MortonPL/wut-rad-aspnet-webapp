@@ -3,7 +3,7 @@
 }
 
 <div class="text-center">
-    <h1>Welcome to NTR</h1>
+    <h1>Welcome to my Time Reporting System</h1>
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User)) {
             <p>You are logged as @Model.User.</p>
@@ -16,12 +16,10 @@
 <div class="text-center">
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User)) {
-            <h2>Your current activities</h2>
+            <h2>Activities</h2>
             <a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Click here to view your activities.</a>
         }
         <h2>Projects</h2>
         <a asp-area="" asp-controller="Home" asp-action="ProjectsView">Click here to view all projects.</a>
-        <br>
-        <a asp-area="" asp-controller="Home" asp-action="ProjectsCreatorView">Click here to create a new project.</a>
     }
 </div>

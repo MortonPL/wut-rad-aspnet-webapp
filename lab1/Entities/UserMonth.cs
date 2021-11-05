@@ -24,10 +24,15 @@ namespace NTR.Entities
         [JsonIgnore]
         public bool invalid = false;
         
-        public UserMonth(){}
+        public UserMonth(){
+            this.entries = new List<UserActivity>();
+            this.accepted = new List<ApprovedUserActivity>();
+        }
 
         public UserMonth(bool invalid){
             this.invalid = invalid;
+            this.entries = new List<UserActivity>();
+            this.accepted = new List<ApprovedUserActivity>();
         }
     }
 }
