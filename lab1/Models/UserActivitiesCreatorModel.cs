@@ -24,6 +24,9 @@ namespace NTR.Models
         /// <summary>Temporary stored project code.</summary>
         public string TempProject;
 
+        /// <summary>Temporary stored project code.</summary>
+        public string TempSubactivity;
+
         /// <summary>User's monthly report object.</summary>
         public UserMonth UserMonth;
 
@@ -46,27 +49,47 @@ namespace NTR.Models
         /// <returns>Saved date as string in yyyy-MM format.</returns>
         public string GetMonth()
         {
-            return this.Date.Remove(Date.Length - 3);
+            return this.Date.Remove(this.Date.Length - 3);
         }
 
-        /// <summary>Add new user activty to the saved month.</summary>
+        /// <summary>Add new user activity to the saved month.</summary>
         /// <param name="date">Date of the activity in yyyy-MM-dd format.</param>
         /// <param name="code">Code ID of the activity.</param>
         /// <param name="subcode">Subcode of the activity.</param>
         /// <param name="time">Time spent on the activity.</param>
         /// <param name="description">Short description of the activity.</param>
-        /// <returns>True for success, false for failure.</returns>
         public void AddUserActivity(string date, string code, string subcode, int time, string description)
         {
             foreach(UserActivity UA in this.UserMonth.entries)
             {
-                if (UA.code == code && UA.date == date && UA.subcode == subcode)
+                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
                 {
                     this.Error = "EUNIQUE";
                     return;
                 }
             }
             this.UserMonth.entries.Add(new UserActivity(date, code, subcode, time, description));
+        }
+
+        /// <summary>Edit existing user activity.</summary>
+        /// <param name="date">Date of the activity in yyyy-MM-dd format.</param>
+        /// <param name="code">Code ID of the activity.</param>
+        /// <param name="subcode">Subcode of the activity.</param>
+        /// <param name="time">Time spent on the activity.</param>
+        /// <param name="description">Short description of the activity.</param>
+        /// <returns>True for success, false for failure.</returns>
+        public bool EditUserActivity(string date, string code, string subcode, int time, string description)
+        {
+            foreach(UserActivity UA in this.UserMonth.entries)
+            {
+                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                {
+                    UA.time = time;
+                    UA.description = description;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>Generates a select list out of projects list.</summary>
