@@ -11,7 +11,7 @@ namespace NTR.Entities
     public class ActivityList
     {
         ///<summary>A list of all parsed activities.</summary>
-        public HashSet<Activity> activities {get; set; }
+        public HashSet<Activity> activities { get; set; }
 
         public ActivityList(){}
 
@@ -20,7 +20,6 @@ namespace NTR.Entities
             this.activities = activities;
         }
     }
-
 
     /// <summary>
     /// A static class handling IO of all activities database.

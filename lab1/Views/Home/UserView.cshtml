@@ -11,7 +11,7 @@
     <br>
     Don't have an account? Type your name below to create one:
     <form method="post" asp-controller="Home" asp-action="UserCreate">
-        <input type="text" name="user" required>
+        <input type="text" name="user" required autocomplete="off">
         <input type="submit" name="type" value="Create user">
     </form>
     @{
@@ -25,4 +25,4 @@
 </p>
 
 <br>
-<a href="/Home/">Go Back</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>

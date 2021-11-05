@@ -17,6 +17,5 @@ namespace NTR.Entities
         public int time { get; set; }
         
         public ApprovedUserActivity(){}
-
     }
 }

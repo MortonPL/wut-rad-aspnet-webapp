@@ -27,6 +27,5 @@ namespace NTR.Entities
         public UserMonth(bool invalid){
             this.invalid = invalid;
         }
-
     }
 }

@@ -38,7 +38,7 @@
     @{
         if (Model != null && Model.UserMonth != null)
         {
-            <a href="/Home/UserActivitiesCreatorView">Click here to add a new user activity.</a>
+            <a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Click here to add a new user activity.</a>
             if (!Model.UserMonth.invalid)
             {
                 <table>
@@ -84,4 +84,4 @@
 </div>
 
 <br>
-<a href="/Home/">Go Back</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>

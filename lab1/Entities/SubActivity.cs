@@ -19,6 +19,5 @@ namespace NTR.Entities
         {
             this.code = code;
         }
-
     }
 }

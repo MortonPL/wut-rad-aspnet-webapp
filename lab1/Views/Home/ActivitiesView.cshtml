@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Activities";
 }
+
 <style>
     table {
         width:100%;
@@ -20,7 +21,6 @@
 
 <p>Here you will be able to inspect and edit activities.</p>
 
-<br>
 <div class="text-center">
     @{
         if (Model != null && Model.Activities != null)
@@ -77,4 +77,4 @@
 </div>
 
 <br>
-<a href="/Home/">Go Back</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>

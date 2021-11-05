@@ -27,24 +27,23 @@ namespace NTR.Controllers
         {
             UserModel model = new UserModel();
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
             }
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Index(String logout)
+        public IActionResult Logout()
         {
             Response.Cookies.Delete("user");
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         // ****************************** USER ****************************** //
         public IActionResult UserView()
         {
-            return UserView(new UserModel());
+            return View(new UserModel());
         }
 
         [HttpGet]
@@ -59,7 +58,7 @@ namespace NTR.Controllers
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
             Response.Cookies.Append("user", user, cookieOptions);
 
-            return Redirect("/Home/");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -76,7 +75,7 @@ namespace NTR.Controllers
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
             Response.Cookies.Append("user", user, cookieOptions);
 
-            return Redirect("/Home/");
+            return RedirectToAction("Index", "Home");
         }
 
         // ****************************** USER ACTIVITIES ****************************** //
@@ -89,7 +88,7 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesView(UserActivitiesModel model)
         {
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
                 model.LoadFromDB();
@@ -103,12 +102,13 @@ namespace NTR.Controllers
         {
             UserActivitiesModel model = new UserActivitiesModel();
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
                 model.LoadFromDB();
             }
             model.Date = date;
+
             return View(model);
         }
 
@@ -122,11 +122,12 @@ namespace NTR.Controllers
         public IActionResult ActivitiesView(ActivitiesModel model)
         {
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
             }
             model.LoadFromDB();
+
             return View(model);
         }
 
@@ -135,10 +136,11 @@ namespace NTR.Controllers
         {
             ActivitiesCreatorModel model = new ActivitiesCreatorModel();
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
             }
+
             return View(model);
         }
 
@@ -146,11 +148,12 @@ namespace NTR.Controllers
         public IActionResult ActivitiesCreatorView(ActivitiesCreatorModel model)
         {
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
                 model.LoadFromDB();
             }
+
             return View(model);
         }
 
@@ -159,7 +162,7 @@ namespace NTR.Controllers
         {
             ActivitiesCreatorModel model = new ActivitiesCreatorModel();
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
                 model.LoadFromDB();
@@ -169,6 +172,7 @@ namespace NTR.Controllers
                 model.SaveToDB();
                 return RedirectToAction("ActivitiesView", "Home");
             }
+
             return View(model);
         }
 
@@ -177,10 +181,11 @@ namespace NTR.Controllers
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
             }
+
             return View(model);
         }
 
@@ -188,10 +193,11 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesCreatorView(UserActivitiesCreatorModel model)
         {
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 model.User = cookie;
             }
+
             return View(model);
         }
 
@@ -200,11 +206,11 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesCreate(string project, string date, string time, string activity)
         {
             var cookie = Request.Cookies["user"];
-            if(cookie != null)
+            if (cookie != null)
             {
                 UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookie, date);
                 model.AddUserActivity(date, project, "", Int32.Parse(time), activity);
-                model.SaveToDB("user");
+                model.SaveToDB();
             }
             return RedirectToAction("UserActivitiesView", "Home");
         }

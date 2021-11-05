@@ -20,6 +20,17 @@
                     <ul class="navbar-nav flex-grow-1">
                     </ul>
                 </div>
+                @{
+                    if (@Context.Request.Cookies["user"] != null)
+                    {
+                        <span>Current user: @Context.Request.Cookies["user"]</span>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <span>You are not logged.</span>
+                    }
+                }
             </div>
         </nav>
     </header>

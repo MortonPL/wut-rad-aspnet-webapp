@@ -8,26 +8,20 @@
         if (Model != null && !String.IsNullOrEmpty(Model.User)) {
             <p>You are logged as @Model.User.</p>
         } else {
-            <p>You are not logged. <a href="/Home/UserView">Click here to choose user profile</a>.</p>
+            <p>You are not logged in. <a asp-area="" asp-controller="Home" asp-action="UserView">Click here to log in.</a></p>
         }
     }
 </div>
-
-<br>
-<form method="post">
-    <input type="submit" name="logout" value="Log Out">
-</form>
-<br>
 
 <div class="text-center">
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User)) {
             <h2>Your current activities</h2>
-            <a href="/Home/UserActivitiesView">Click here to view your activities.</a>
+            <a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Click here to view your activities.</a>
         }
         <h2>All activities</h2>
-        <a href="/Home/ActivitiesView">Click here to view all activities.</a>
+        <a asp-area="" asp-controller="Home" asp-action="ActivitiesView">Click here to view all activities.</a>
         <br>
-        <a href="/Home/ActivitiesCreatorView">Click here to create a new activity.</a>
+        <a asp-area="" asp-controller="Home" asp-action="ActivitiesCreatorView">Click here to create a new activity.</a>
     }
 </div>

@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Activities Creator";
 }
+
 <style>
     input {
         display: block;
@@ -8,31 +9,33 @@
     }
     label {
         padding: 0px
+        margin: 8px 0px 0px 0px;
     }
     textarea {
         display: block;
     }
 </style>
 
-
 <p>Here you will be able to create new activities.</p>
-
 <br>
-<div>
+
+<div class="text-center">
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User))
         {
             <form method="post" name="project" asp-controller="Home" asp-action="ActivityCreate">
+                <label for="code">Activity Code</label>
+                <input type="text" id="code" name="code" autocomplete="off" required>
 
-                <label for="code">Activity Code<br></label>
-                <input type="text" id="code" name="code" required>
-                <label for="name">Activity Name<br></label>
-                <input type="text" id="name" name="name" required>
-                <label for="budget">Time Budget [minutes]<br></label>
-                <input type="text" id="budget" name="budget" required min="1">
-                <label for="subcategories">Subactivities<br></label>
+                <label for="name">Activity Name</label>
+                <input type="text" id="name" name="name" autocomplete="off" required>
+
+                <label for="budget">Time Budget [minutes]</label>
+                <input type="text" id="budget" name="budget" autocomplete="off" required min="1">
+
+                <label for="subcategories">Subactivities</label>
                 <textarea id="subcategories" name="project" rows="8" cols="32" placeholder="Enter subcategories separated by new lines."></textarea>
-                <br>
+                
                 <input type="submit" name="ok" value="Create activity">
             </form>
         }
@@ -44,4 +47,4 @@
 </div>
 
 <br>
-<a href="/Home/">Go Back</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>

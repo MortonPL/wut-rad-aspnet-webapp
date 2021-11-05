@@ -4,12 +4,15 @@
 <style>
     input {
         display: block;
-        padding-bottom: 4px;
     }
     label {
-        padding: 0px
+        padding: 0px;
+        margin: 8px 0px 0px 0px;
     }
     textarea {
+        display: block;
+    }
+    select {
         display: block;
     }
 </style>
@@ -24,15 +27,18 @@
         {
             <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesCreate">
 
-                <label for="project">Activity<br></label>
-                <select name="project" asp-items="Model.CreateActivitySelectList"><br></select>
-                <label for="date">Date of activity<br></label>
-                <input type="date" id="date" name="date" required>
-                <label for="time">Time spent [minutes]<br></label>
-                <input type="text" id="time" name="time" required min="1">
-                <label for="description">Description<br></label>
+                <label for="project">Activity</label>
+                <select name="project" asp-items="Model.CreateActivitySelectList"></select>
+
+                <label for="date">Date of activity</label>
+                <input type="date" id="date" name="date" autocomplete="off" required>
+
+                <label for="time">Time spent [minutes]</label>
+                <input type="text" id="time" name="time" autocomplete="off" required min="1">
+
+                <label for="description">Description</label>
                 <textarea id="description" name="activity" rows="4" cols="32" placeholder="Enter a short description."></textarea>
-                <br>
+
                 <input type="submit" name="ok" value="Create activity">
             </form>
         }
@@ -44,4 +50,4 @@
 </div>
 
 <br>
-<a href="/Home/">Go Back</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>
