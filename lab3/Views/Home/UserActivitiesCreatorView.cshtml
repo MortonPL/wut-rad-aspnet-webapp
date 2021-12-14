@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "User Activities Creator";
+}
+<style>
+    input {
+        display: block;
+    }
+    label {
+        padding: 0px;
+        margin: 8px 0px 0px 0px;
+    }
+    textarea {
+        display: block;
+    }
+    select {
+        display: block;
+    }
+</style>
+
+
+<p>Here you will be able to create add new user activities.</p>
+
+<br>
+<div>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User))
+        {
+            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesCreate">
+
+                <label for="project">Project</label>
+                <select name="project" asp-items="Model.CreateProjectSelectList"></select>
+
+                <label for="date">Date of activity</label>
+                <input type="date" id="date" name="date" autocomplete="off" required>
+
+                <input type="submit" name="ok" value="Continue">
+            </form>
+        }
+        else
+        {
+            <p><i>Only logged users can create new user activities!</i></p>
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Go back</a>
