@@ -11,33 +11,43 @@ namespace NTR.Entities
     public class Project
     {
         /// <summary>Code ID of the project.</summary>
-        public string code { get; set; }
+        [Key]
+        [MaxLength(16),MinLength(4)]
+        public string ProjectID { get; set; }
 
-        /// <summary>Name of the manager responsible for this project.</summary>
-        public string manager { get; set; }
+        /// <summary>Name of the Manager responsible for this project.</summary>
+        [Required]
+        [MaxLength(32),MinLength(4)]
+        public string Manager { get; set; }
 
         /// <summary>Human-readable name of the project.</summary>
-        public string name { get; set; }
+        [Required]
+        [MaxLength(64),MinLength(4)]
+        public string Name { get; set; }
 
         /// <summary>Time budget of the project.</summary>
-        public int budget { get; set; }
+        [Required]
+        public int Budget { get; set; }
 
         /// <summary>Is the project ongoing?</summary>
-        public bool active { get; set; }
+        [Required]
+        public bool Active { get; set; }
+
+        public virtual ICollection<UserActivity> UserActivities { get; set; }
 
         /// <summary>Array of subactivites (categories of work) for this project.</summary>
-        public List<SubActivity> subactivities { get; set; }
+        public List<String> Subactivities { get; set; }
 
         public Project(){}
 
         public Project(string code, string manager, string name, int budget, string subactivities)
         {
-            this.code = code;
-            this.manager = manager;
-            this.name = name;
-            this.budget = budget;
-            this.active = true;
-            this.subactivities = new List<SubActivity>();
+            this.ProjectID = code;
+            this.Manager = manager;
+            this.Name = name;
+            this.Budget = budget;
+            this.Active = true;
+            this.Subactivities = new List<String>();
             char[] delims = new[] { '\r', '\n' };
             if (subactivities.Length > 0)
             {
@@ -46,7 +56,7 @@ namespace NTR.Entities
                 {
                     foreach(string s in split)
                     {
-                        this.subactivities.Add(new SubActivity(s));
+                        this.Subactivities.Add(s);
                     }
                 }
             }

@@ -40,8 +40,8 @@ namespace NTR.Models
         public IEnumerable<UserActivity> GetActivities()
         {
             IEnumerable<UserActivity> list = this.IsMonthlyView
-                ? this.UserMonth.entries.Where(e => e.date.Remove(e.date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
-                : this.UserMonth.entries.Where(e => e.date == this.Date);
+                ? this.UserMonth.entries.Where(e => e.Date.Remove(e.Date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
+                : this.UserMonth.entries.Where(e => e.Date == this.Date);
             return list.OrderBy(e => e.date).ToList();
         }
 
@@ -52,9 +52,9 @@ namespace NTR.Models
         /// <returns>True if successful, false otherwise.</returns>
         public bool DeleteUserActivity(string code, string date, string subcode)
         {
-            foreach(UserActivity UA in this.UserMonth.entries)
+            foreach(UserActivity UA in this.UserMonth.Entries)
             {
-                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.UserActivityID == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
                 {
                     this.UserMonth.entries.Remove(UA);
                     return true;
@@ -66,7 +66,7 @@ namespace NTR.Models
         /// <summary>Freezes the month.</summary>
         public void LockUserActivity()
         {
-            this.UserMonth.frozen = true;
+            this.UserMonth.Frozen = true;
         }
 
         /// <summary>Load user activities from the database.</summary>

@@ -62,7 +62,7 @@ namespace NTR.Models
         {
             foreach(UserActivity UA in this.UserMonth.entries)
             {
-                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.UserActivityID == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
                 {
                     this.Error = "EUNIQUE";
                     return;
@@ -73,19 +73,19 @@ namespace NTR.Models
 
         /// <summary>Edit existing user activity.</summary>
         /// <param name="date">Date of the activity in yyyy-MM-dd format.</param>
-        /// <param name="code">Code ID of the activity.</param>
+        /// <param name="project">Code ID of the activity.</param>
         /// <param name="subcode">Subcode of the activity.</param>
         /// <param name="time">Time spent on the activity.</param>
         /// <param name="description">Short description of the activity.</param>
         /// <returns>True for success, false for failure.</returns>
-        public bool EditUserActivity(string date, string code, string subcode, int time, string description)
+        public bool EditUserActivity(string date, string project, string subcode, int time, string description)
         {
             foreach(UserActivity UA in this.UserMonth.entries)
             {
-                if (UA.code == code && UA.date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.ProjectID == project && UA.Date == date && UA.IsEqualSubactivity(subcode))
                 {
-                    UA.time = time;
-                    UA.description = description;
+                    UA.Time = time;
+                    UA.Description = description;
                     return true;
                 }
             }
@@ -99,23 +99,23 @@ namespace NTR.Models
             get
             {
                 var selectList = new List<SelectListItem>();
-                var pl = this.ProjectsList.Where(a => a.active);
-                selectList.AddRange(pl.Select(a => new SelectListItem(a.code, a.code)));
+                var pl = this.ProjectsList.Where(p => p.Active);
+                selectList.AddRange(pl.Select(p => new SelectListItem(p.ProjectID, p.ProjectID)));
                 return selectList;
             }
         }
 
         /// <summary>Generates a select list out of activity list.</summary>
-        /// <returns>Enumerable of select list items containing user names.</returns>
+        /// <returns>Enumerable of select list items containing subactivity names.</returns>
         public IEnumerable<SelectListItem> CreateSubactivitySelectList
         {
             get
             {
                 var selectList = new List<SelectListItem>();
-                var pl = this.ProjectsList.Where(p => p.code == this.TempProject);
+                var pl = this.ProjectsList.Where(p => p.ProjectID == this.TempProject);
                 if (pl.Count() > 0)
                 {
-                    selectList.AddRange(pl.First().subactivities.Select(a => new SelectListItem(a.code, a.code)));
+                    selectList.AddRange(pl.First().subactivities.Select(sa => new SelectListItem(sa, sa)));
                 }
                 else
                 {
