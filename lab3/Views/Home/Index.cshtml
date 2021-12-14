@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "NTR - Home";
+}
+
+<div class="text-center">
+    <h1>Welcome to my Time Reporting System</h1>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User)) {
+            <p>You are logged as @Model.User.</p>
+        } else {
+            <p>You are not logged in. <a asp-area="" asp-controller="Home" asp-action="UserView">Click here to log in.</a></p>
+        }
+    }
+</div>
+
+<div class="text-center">
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User)) {
+            <h2>Activities</h2>
+            <a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Click here to view your activities.</a>
+        }
+        <h2>Projects</h2>
+        <a asp-area="" asp-controller="Home" asp-action="ProjectsView">Click here to view all projects.</a>
+    }
+</div>
