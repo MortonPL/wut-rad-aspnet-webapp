@@ -44,7 +44,7 @@
                         @foreach (var project in Model.Projects)
                         {
                             <tr>
-                                <td>@project.ProjectID</td>
+                                <td>@project.ProjectId</td>
                                 <td>@project.Manager</td>
                                 <td>@project.Name</td>
                                 <td>@project.Budget</td>
@@ -70,7 +70,7 @@
                                         <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsView">Inspect</a>
                                         @if (project.Active)
                                         {
-                                            <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
+                                            <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.ProjectId">Close</a>
                                         }
                                     }
                                 </td>

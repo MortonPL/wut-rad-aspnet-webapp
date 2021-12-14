@@ -58,7 +58,7 @@
         if (Model != null && Model.UserMonth != null)
         {
             <a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Click here to add a new user activity.</a>
-            if (!Model.UserMonth.invalid)
+            if (!Model.UserMonth.Invalid)
             {
                 <table>
                     <thead>
@@ -76,16 +76,16 @@
                         {
                             <tr>
                                 <td>@activity.Date</td>
-                                <td>@activity.code</td>
-                                <td>@activity.Subcode</td>
+                                <td>@activity.ProjectId</td>
+                                <td>@activity.Subactivity</td>
                                 <td>@activity.Time</td>
                                 <td>@activity.Description</td>
                                 <td>
                                     <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesView">Inspect</a>
                                     @if (!Model.UserMonth.Frozen)
                                     {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.ProjectID" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Edit</a>
-                                        <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.ProjectID" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Delete</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.ProjectId" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Edit</a>
+                                        <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.ProjectId" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Delete</a>
                                     }
                                 </td>
                             </tr>

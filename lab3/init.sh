@@ -1,4 +1,4 @@
-dotnet add package Microsoft.EntityFrameworkCore.Design --version 3.1.9
-dotnet add package Microsoft.EntityFrameworkCore --version 3.1.9
-dotnet add package MySql.Data.EntityFrameworkCore --version 8.0.22
-dotnet add package Npgsql
+dotnet add package Microsoft.EntityFrameworkCore --version 5.0.13
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.13
+dotnet add package Npgsql --version 5.0.11
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 5.0.10

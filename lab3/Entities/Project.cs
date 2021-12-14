@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
 {
@@ -11,26 +12,18 @@ namespace NTR.Entities
     public class Project
     {
         /// <summary>Code ID of the project.</summary>
-        [Key]
-        [MaxLength(16),MinLength(4)]
-        public string ProjectID { get; set; }
+        public string ProjectId { get; set; }
 
         /// <summary>Name of the Manager responsible for this project.</summary>
-        [Required]
-        [MaxLength(32),MinLength(4)]
         public string Manager { get; set; }
 
         /// <summary>Human-readable name of the project.</summary>
-        [Required]
-        [MaxLength(64),MinLength(4)]
         public string Name { get; set; }
 
         /// <summary>Time budget of the project.</summary>
-        [Required]
         public int Budget { get; set; }
 
         /// <summary>Is the project ongoing?</summary>
-        [Required]
         public bool Active { get; set; }
 
         public virtual ICollection<UserActivity> UserActivities { get; set; }
@@ -42,7 +35,7 @@ namespace NTR.Entities
 
         public Project(string code, string manager, string name, int budget, string subactivities)
         {
-            this.ProjectID = code;
+            this.ProjectId = code;
             this.Manager = manager;
             this.Name = name;
             this.Budget = budget;

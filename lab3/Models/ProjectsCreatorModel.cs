@@ -29,7 +29,7 @@ namespace NTR.Models
         {
             foreach(Project P in this.Projects)
             {
-                if (P.ProjectID == code)
+                if (P.ProjectId == code)
                 {
                     return false;
                 }
