@@ -40,9 +40,9 @@ namespace NTR.Models
         public IEnumerable<UserActivity> GetActivities()
         {
             IEnumerable<UserActivity> list = this.IsMonthlyView
-                ? this.UserMonth.entries.Where(e => e.Date.Remove(e.Date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
-                : this.UserMonth.entries.Where(e => e.Date == this.Date);
-            return list.OrderBy(e => e.date).ToList();
+                ? this.UserMonth.UserActivities.Where(ua => ua.Date.Remove(ua.Date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
+                : this.UserMonth.UserActivities.Where(ua => ua.Date == this.Date);
+            return list.OrderBy(ua => ua.Date).ToList();
         }
 
         /// <summary>Checks if the current user can delete the UA and deletes it.</summary>
@@ -52,11 +52,11 @@ namespace NTR.Models
         /// <returns>True if successful, false otherwise.</returns>
         public bool DeleteUserActivity(string code, string date, string subcode)
         {
-            foreach(UserActivity UA in this.UserMonth.Entries)
+            foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if (UA.UserActivityID == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.ProjectId == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
                 {
-                    this.UserMonth.entries.Remove(UA);
+                    this.UserMonth.UserActivities.Remove(UA);
                     return true;
                 }
             }
