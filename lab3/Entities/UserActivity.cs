@@ -11,37 +11,61 @@ namespace NTR.Entities
     public class UserActivity
     {
         ///<summary>Date of the registered user activity.</summary>
-        public string date { get; set; }
+        [Key]
+        [Column(Order=1)]
+        public string Date { get; set; }
+
+        ///<summary>Date of the approval.</summary>
+        public string ApprovalDate { get; set; }
 
         /// <summary>Code ID of the activity/project that this user contributed to.</summary>
-        public string code { get; set; }
+        [Key]
+        [ForeignKey("Project")]
+        [Column(Order=2)]
+        [MaxLength(16),MinLength(4)]
+        public string ProjectID { get; set; }
+        public virtual Project Project { get; set; }
 
-        /// <summary>Code ID of the subactivity that this user contributed to.</summary>
-        public string subcode { get; set; }
+        /// <summary>Subactivity that this user contributed to.</summary>
+        [Key]
+        [MaxLength(64),MinLength(4)]
+        public string Subactivity { get; set; }
 
         /// <summary>Amount of time that this user spent on activity, in minutes.</summary>
-        public int time { get; set; }
+        [Required]
+        public int Time { get; set; }
+
+        /// <summary>Approved amount of time spent.</summary>
+        public int ApprovedTime { get; set; }
 
         /// <summary>Description of what the user did.</summary>
-        public string description { get; set; }
+        [MaxLength(300)]
+        public string Description { get; set; }
+
+        /// <summary>Code ID of the user month.</summary>
+        [ForeignKey("UserMonth")]
+        [Column(Order=3)]
+        [MaxLength(16),MinLength(4)]
+        public string UserMonthID { get; set; }
+        public virtual Project UserMonthID { get; set; }
 
         public UserActivity(){}
 
-        public UserActivity(string date, string code, string subcode, int time, string description)
+        public UserActivity(string date, string code, string subactivity, int time, string description)
         {
-            this.date = date;
-            this.code = code;
-            this.subcode = subcode;
-            this.time = time;
-            this.description = description;
+            this.Date = date;
+            this.ProjectID = code;
+            this.Subactivity = subcode;
+            this.Time = time;
+            this.Description = description;
         }
 
         /// <summary>Compares own subactivity with provided one.</summary>
-        /// <param name="subcode">Subactivity to compare with.</name>
+        /// <param name="subactivity">Subactivity to compare with.</name>
         /// <return>True if equal, false otherwise.</return>
-        public bool IsEqualSubactivity(string subcode)
+        public bool IsEqualSubactivity(string subactivity)
         {
-            return (this.subcode == subcode) || (String.IsNullOrEmpty(this.subcode) && String.IsNullOrEmpty(subcode));
+            return (this.Subactivity == subactivity) || (String.IsNullOrEmpty(this.Subactivity) && String.IsNullOrEmpty(subcode));
         }
     }
 }

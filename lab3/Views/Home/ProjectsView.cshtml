@@ -44,12 +44,12 @@
                         @foreach (var project in Model.Projects)
                         {
                             <tr>
-                                <td>@project.code</td>
-                                <td>@project.manager</td>
-                                <td>@project.name</td>
-                                <td>@project.budget</td>
+                                <td>@project.ProjectID</td>
+                                <td>@project.Manager</td>
+                                <td>@project.Name</td>
+                                <td>@project.Budget</td>
 
-                                @if (@project.active == true)
+                                @if (@project.Active == true)
                                 {
                                     <td style="color:green;">Active</td>
                                 }
@@ -59,16 +59,16 @@
                                 }
                                 
                                 <td>
-                                    @foreach (var subactivity in project.subactivities)
+                                    @foreach (var subactivity in project.Subactivities)
                                     {
-                                        @subactivity.code<text><br></text>
+                                        @subactivity<text><br></text>
                                     }
                                 </td>
                                 <td>
-                                    @if (Model.User == project.manager)
+                                    @if (Model.User == project.Manager)
                                     {
                                         <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsView">Inspect</a>
-                                        @if (project.active)
+                                        @if (project.Active)
                                         {
                                             <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.code">Close</a>
                                         }
