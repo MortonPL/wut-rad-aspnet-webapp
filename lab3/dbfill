@@ -1,0 +1,8 @@
+TRUNCATE TABLE Projects
+TRUNCATE TABLE UserActivity
+TRUNCATE TABLE UserMonth
+
+INSERT INTO Projects (project_id, active, budget, manager, name, subactivities) VALUES ('ARGUS-123', True, 125, 'Admin', 'Argus', '{database, other}');
+INSERT INTO Projects (project_id, active, budget, manager, name, subactivities) VALUES ('OTHER', False, -1, 'Admin', 'Other', '{}');
+INSERT INTO Projects (project_id, active, budget, manager, name, subactivities) VALUES ('kompot-233', True, 360, 'Balbinka', 'Picie kompotu', '{Warzenie kompotu, Test smaku, Degustacja}');
+INSERT INTO Projects (project_id, active, budget, manager, name, subactivities) VALUES ('GoogleA', False, 100, 'Pan Jerzy', 'Integracja z Google', '{Optymalizacja zapyta\u0144, Chmura}');
