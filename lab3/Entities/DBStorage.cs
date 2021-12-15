@@ -19,7 +19,7 @@ namespace NTR.Entities {
         {
             Debugger.DebugLog(new List<string>{"balbinka"});
             optionsBuilder
-                .UseNpgsql("server=localhost;database=bmoroz;user=bmoroz;password=hiperbalbinka")
+                .UseNpgsql("Server=localhost;Port=5432;Database=bmoroz;User Id=bmoroz;Password=hiperbalbinka")
                 .UseSnakeCaseNamingConvention();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
