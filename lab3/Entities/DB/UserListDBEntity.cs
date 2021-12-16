@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
 {
@@ -10,32 +10,17 @@ namespace NTR.Entities
     /// </summary>
     public class UserListDBEntity
     {
-        /// <summary>
-        /// Load the user list from the database.
-        /// </summary>
-        /// <returns>List of user names.</returns>
-        public static HashSet<String> Load()
+        public static HashSet<User> Load()
         {
-            var json = System.IO.File.ReadAllText("db/users.json");
-            try
+            using (var db = new StorageContext())
             {
-                return System.Text.Json.JsonSerializer.Deserialize<HashSet<String>>(json);
-            }
-            catch (System.Text.Json.JsonException)
-            {
-                return new HashSet<string>();
+                return new HashSet<User>(db.Users.Select(u => u).ToHashSet());
             }
         }
 
-        /// <summary>
-        /// Save the user list to the database.
-        /// </summary>
-        /// <param name="userList">List of user names.</param>
-        public static void Save(HashSet<String> userList)
+        public static void Save(HashSet<User> users)
         {
-            var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };
-            var bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(userList, jsonOptions);
-            System.IO.File.WriteAllBytes("db/users.json", bytes);
+            // insert
         }
     }
 }

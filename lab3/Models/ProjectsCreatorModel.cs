@@ -34,21 +34,14 @@ namespace NTR.Models
                     return false;
                 }
             }
-            Projects.Add(new Project(code, User, name, time, sub));
-            
+            Entities.ProjectsDBEntity.Create(code, User, name, time, sub);
+
             return true;
         }
 
-        /// <summary>Load projects from the database.</summary>
         public void LoadFromDB()
         {
             this.Projects = Entities.ProjectsDBEntity.Load();
-        }
-
-        /// <summary>Save projects to the database.</summary>
-        public void SaveToDB()
-        {
-            Entities.ProjectsDBEntity.Save(this.Projects);
         }
     }
 }

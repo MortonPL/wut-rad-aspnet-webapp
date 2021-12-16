@@ -41,11 +41,5 @@ namespace NTR.Models
             }
             return false;
         }
-
-        /// <summary>Save projects to the database.</summary>
-        public void SaveToDB()
-        {
-            Entities.ProjectsDBEntity.Save(this.Projects);
-        }
     }
 }

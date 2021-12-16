@@ -177,7 +177,7 @@ namespace NTR.Controllers
             if (cookie != null)
             {
                 model.User = cookie;
-                model.Date = date;
+                model.Date = DateTime.Parse(date, new CultureInfo("en-US"));
                 model.TempProject = code;
                 model.TempSubactivity = subcode;
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
@@ -266,7 +266,7 @@ namespace NTR.Controllers
             if (cookieUser != null && cookieProject != null && cookieDate != null)
             {
                 model.User = cookieUser;
-                model.Date = cookieDate;
+                model.Date = DateTime.Parse(cookieDate, new CultureInfo("en-US"));;
                 model.TempProject = cookieProject;
                 model.Error = error;
             }
@@ -325,7 +325,7 @@ namespace NTR.Controllers
                 model.LoadFromDB();
                 if (model.CloseProject(code))
                 {
-                    model.SaveToDB();
+                    //model.SaveToDB();
                 }
             }
 
@@ -370,7 +370,6 @@ namespace NTR.Controllers
             }
             if (model.AddProject(code, name, Int32.Parse(budget), project))
             {
-                model.SaveToDB();
                 return RedirectToAction("ProjectsView", "Home");
             }
 

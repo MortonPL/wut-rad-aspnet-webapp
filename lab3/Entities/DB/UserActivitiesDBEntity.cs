@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
+using NTR.Helpers;
 
 namespace NTR.Entities
 {
@@ -10,46 +12,21 @@ namespace NTR.Entities
     /// </summary>
     public class UserActivitiesDBEntity
     {
-        /// <summary>
-        /// Load the the user's monthly activities from the database.
-        /// </summary>
-        /// <param name="name">Name of the user.</param>
-        /// <param name="date">Year and month, in yyyy-MM format.</param>
-        /// <returns>User's month object.</returns>
-        public static UserMonth Load(string name, string date)
+        public static UserMonth Load(string name, DateTime date)
         {
-            UserMonth userMonth;
-            try
+            using (var db = new StorageContext())
             {
-                var json = System.IO.File.ReadAllText("db/" + name + "-" + date + ".json");
-                try
-                {
-                    userMonth = System.Text.Json.JsonSerializer.Deserialize<UserMonth>(json);
-                }
-                catch (System.Text.Json.JsonException)
-                {
-                    userMonth = new UserMonth(true);
-                }
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                return new UserMonth(true);
-            }
+                HashSet<UserMonth> usermonth = db.UserMonths
+                    .Include(um => um.UserActivities)
+                    .Where(um => (um.UserName == name && DateTime.Equals(um.Month, Helper.GetYM(date))))
+                    .ToHashSet();
 
-            return userMonth;
+                return usermonth.First();
+            }
         }
 
-        /// <summary>
-        /// Save a user's monthly activity to the database.
-        /// </summary>
-        /// <param name="name">Name of the user.</param>
-        /// <param name="date">Year and month, in yyyy-MM format.</param>
-        /// <param name="activities">User's monthly activities object.</param>
-        public static void Save(string name, string date, UserMonth activities)
+        public static void Save(string name, DateTime date, UserMonth usermonth)
         {
-            var jsonOptions = new System.Text.Json.JsonSerializerOptions { IncludeFields = true, WriteIndented = true };
-            var bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(activities, jsonOptions);
-            System.IO.File.WriteAllBytes("db/" + name + "-" + date + ".json", bytes);
         }
     }
 }
