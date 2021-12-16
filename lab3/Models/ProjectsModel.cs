@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using NTR.Entities;
+using NTR.Helpers;
 
 namespace NTR.Models
 {
@@ -23,23 +24,12 @@ namespace NTR.Models
         /// <summary>Load projects from the database.</summary>
         public void LoadFromDB()
         {
-            this.Projects = Entities.ProjectsDBEntity.Load();
+            this.Projects = Entities.ProjectsDBEntity.Select();
         }
 
-        /// <summary>Checks if the current user can close a project and closes it.</summary>
-        /// <param name="code">Code of the project.</param>
-        /// <returns>True if successful, false otherwise.</returns>
-        public bool CloseProject(string code)
+        public void CloseProject(string projectid)
         {
-            foreach(var project in this.Projects)
-            {
-                if (project.ProjectId == code && project.ManagerName == this.User)
-                {
-                    project.Active = false;
-                    return true;
-                }
-            }
-            return false;
+            Entities.ProjectsDBEntity.Close(projectid, this.User);
         }
     }
 }

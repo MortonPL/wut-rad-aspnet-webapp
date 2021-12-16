@@ -5,12 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
 {
-    /// <summary>
-    /// A class handling IO of user list database.
-    /// </summary>
-    public class UserListDBEntity
+    public class UsersDBEntity
     {
-        public static HashSet<User> Load()
+        public static HashSet<User> Select()
         {
             using (var db = new StorageContext())
             {
@@ -18,9 +15,14 @@ namespace NTR.Entities
             }
         }
 
-        public static void Save(HashSet<User> users)
+        public static void Insert(string username)
         {
-            // insert
+            using (var db = new StorageContext())
+            {
+                User user = new User(username);
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
         }
     }
 }

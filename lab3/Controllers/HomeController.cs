@@ -72,10 +72,8 @@ namespace NTR.Controllers
             }
 
             model.AddUser(user);
-            model.SaveToDB();
             var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
             Response.Cookies.Append("CurrentUser", user, cookieOptions);
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -323,10 +321,7 @@ namespace NTR.Controllers
             {
                 model.User = cookie;
                 model.LoadFromDB();
-                if (model.CloseProject(code))
-                {
-                    //model.SaveToDB();
-                }
+                model.CloseProject(code);
             }
 
             return RedirectToAction("ProjectsView", "Home");
