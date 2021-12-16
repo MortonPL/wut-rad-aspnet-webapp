@@ -27,5 +27,21 @@ namespace NTR.Entities
         public virtual Subactivity Subactivity { get; set; }
 
         public UserActivity(){}
+
+        public UserActivity(DateTime date, string projectId, string subactivityId, int time, string description)
+        {
+            this.Date = date;
+            this.Month = new DateTime(date.Year, date.Month, 1);
+            this.ProjectId = projectId;
+            this.SubactivityId = subactivityId;
+            this.Time = time;
+            this.Description = description;
+        }
+
+        public bool IsEqualSubactivity(string other)
+        {
+            return (this.Subactivity.SubactivityId == other)
+                || (String.IsNullOrEmpty(this.Subactivity.SubactivityId) && String.IsNullOrEmpty(other));
+        }
     }
 }

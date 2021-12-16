@@ -33,7 +33,7 @@ namespace NTR.Models
         {
             foreach(var project in this.Projects)
             {
-                if (project.ProjectId == code && project.Manager == this.User)
+                if (project.ProjectId == code && project.ManagerName == this.User)
                 {
                     project.Active = false;
                     return true;

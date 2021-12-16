@@ -16,6 +16,7 @@ namespace NTR.Entities
         public string Username { get; set; }
 
         public bool Frozen { get; set; }
+        public bool Invalid { get; set; }
 
         // Parents
         public User User { get; set; }
@@ -25,5 +26,10 @@ namespace NTR.Entities
         public virtual ICollection<ApprovedActivity> ApprovedActivities { get; set; }
         
         public UserMonth(){}
+
+        public UserMonth(bool invalid)
+        {
+            this.Invalid = invalid;
+        }
     }
 }
