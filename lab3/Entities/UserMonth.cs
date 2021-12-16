@@ -11,26 +11,19 @@ namespace NTR.Entities
     /// </summary>
     public class UserMonth
     {
-        ///<summary>Month and year of the compiled user activity.</summary>
-        public string Date { get; set; }
+        // PK
+        public DateTime Month { get; set; }
+        public string Username { get; set; }
 
-        /// <summary>Name of the user.</summary>
-        public string User { get; set; }
-
-        /// <summary>Is this month complete?</summary>
         public bool Frozen { get; set; }
 
-        /// <summary>Array of activity entries.</summary>
+        // Parents
+        public User User { get; set; }
+
+        // Children
         public virtual ICollection<UserActivity> UserActivities { get; set; }
-
-        /// <summary>Has this entry been correctly read?</summary>
-        public bool Invalid = false;
+        public virtual ICollection<ApprovedActivity> ApprovedActivities { get; set; }
         
-        public UserMonth(){
-        }
-
-        public UserMonth(bool invalid){
-            this.Invalid = invalid;
-        }
+        public UserMonth(){}
     }
 }

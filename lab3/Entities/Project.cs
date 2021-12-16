@@ -1,46 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
 {
     /// <summary>
-    /// A single project - project.
+    /// A single project.
     /// </summary>
     public class Project
     {
-        /// <summary>Code ID of the project.</summary>
+        // PK
         public string ProjectId { get; set; }
 
-        /// <summary>Name of the Manager responsible for this project.</summary>
-        public string Manager { get; set; }
-
-        /// <summary>Human-readable name of the project.</summary>
         public string Name { get; set; }
-
-        /// <summary>Time budget of the project.</summary>
         public int Budget { get; set; }
-
-        /// <summary>Is the project ongoing?</summary>
+        public string ManagerName { get; set; }
         public bool Active { get; set; }
 
-        public virtual ICollection<UserActivity> UserActivities { get; set; }
+        // Parents
+        public User Manager { get; set; }
 
-        /// <summary>Array of subactivites (categories of work) for this project.</summary>
-        public List<String> Subactivities { get; set; }
+        // Children
+        public virtual ICollection<ApprovedActivity> ApprovedActivities { get; set; }
+        public virtual ICollection<Subactivity> Subactivities { get; set; }
 
         public Project(){}
 
-        public Project(string code, string manager, string name, int budget, string subactivities)
-        {
-            this.ProjectId = code;
-            this.Manager = manager;
-            this.Name = name;
-            this.Budget = budget;
-            this.Active = true;
-            this.Subactivities = new List<String>();
+            /*this.Subactivities = new List<String>();
             char[] delims = new[] { '\r', '\n' };
             if (subactivities.Length > 0)
             {
@@ -52,7 +37,6 @@ namespace NTR.Entities
                         this.Subactivities.Add(s);
                     }
                 }
-            }
-        }
+            }*/
     }
 }
