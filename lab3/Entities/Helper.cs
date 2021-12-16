@@ -6,12 +6,12 @@ namespace NTR.Entities
 {
     public static class Debugger
     {
-        public static void DebugLog(List<string> data)
+        public static void Log(IEnumerable<string> data)
         {
             string output = "";
             foreach(string s in data)
             {
-                output = output + "|";
+                output = output + "|" + s;
             }
             System.IO.File.AppendAllText("debug.txt", output + '\n');
         }

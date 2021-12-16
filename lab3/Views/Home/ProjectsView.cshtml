@@ -45,7 +45,7 @@
                         {
                             <tr>
                                 <td>@project.ProjectId</td>
-                                <td>@project.Manager</td>
+                                <td>@project.ManagerName</td>
                                 <td>@project.Name</td>
                                 <td>@project.Budget</td>
 
@@ -61,11 +61,14 @@
                                 <td>
                                     @foreach (var subactivity in project.Subactivities)
                                     {
-                                        @subactivity<text><br></text>
+                                        @if (@subactivity.SubactivityId != "")
+                                        {
+                                            @subactivity.SubactivityId<text><br></text>
+                                        }
                                     }
                                 </td>
                                 <td>
-                                    @if (Model.User == project.Manager)
+                                    @if (Model.User == project.ManagerName)
                                     {
                                         <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsView">Inspect</a>
                                         @if (project.Active)
