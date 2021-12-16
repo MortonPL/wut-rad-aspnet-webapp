@@ -15,7 +15,7 @@ namespace NTR.Models
         public string User = "";
 
         /// <summary>List of saved users.</summary>
-        public HashSet<String> UserList;
+        public HashSet<User> Users;
 
         public UserModel()
         {
@@ -39,7 +39,7 @@ namespace NTR.Models
             get
             {
                 var selectList = new List<SelectListItem>();
-                selectList.AddRange(this.UserList.Select(s => new SelectListItem(s, s)));
+                selectList.AddRange(this.Users.Select(s => new SelectListItem(s.Name, s.Name)));
                 return selectList;
             }
         }
@@ -53,10 +53,10 @@ namespace NTR.Models
             {
                 return "EMAX";
             }
-            if (this.UserList.Contains(name))
-            {
-                return "ETAKEN";
-            }
+            //if (this.Users.Contains(name))
+            //{
+            //    return "ETAKEN";
+            //}
             
             return "";
         }
@@ -65,19 +65,19 @@ namespace NTR.Models
         /// <param name="user">User name to be added.</param>
         public void AddUser(string user)
         {
-            this.UserList.Add(user);
+            this.Users.Add(new User(user));
         }
 
         /// <summary>Load list of users from the database.</summary>
         public void LoadFromDB()
         {
-            this.UserList = Entities.UserListDBEntity.Load();
+            this.Users = Entities.UserListDBEntity.Load();
         }
 
         /// <summary>Save list of users to the database.</summary>
         public void SaveToDB()
         {
-            Entities.UserListDBEntity.Save(this.UserList);
+            Entities.UserListDBEntity.Save(this.Users);
         }
     }
 }

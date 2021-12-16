@@ -3,8 +3,10 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 using NTR.Entities;
+using NTR.Helpers;
 
 namespace NTR.Models
 {
@@ -13,36 +15,26 @@ namespace NTR.Models
     /// </summary>
     public class UserActivitiesModel
     {
-        /// <summary>Date entered by the user.</summary>
         public DateTime Date;
-
-        /// <summary>Logged user's name.</summary>
         public string User;
-
-        /// <summary>User's monthly report object.</summary>
         public UserMonth UserMonth;
-
-        /// <summary>Is the activity view per day or per month?</summary>
         public bool IsMonthlyView = false;
+        public bool IsInvalid = false;
 
         public UserActivitiesModel(){
             this.Date = DateTime.Today;
         }
-        
-        /// <summary>Extract the saved date.</summary>
-        /// <returns>Saved date as string in yyyy-MM format</returns>
-        public DateTime GetMonth()
+
+        public string GetMonth()
         {
-            return new DateTime(this.Date.Year, this.Date.Month, 1);
+            return this.Date.ToString("MMMM yyyy");
         }
 
-        /// <summary>Get set date's activties for saved user.</summary>
-        /// <returns>Filtered list of user activities.</returns>
         public IEnumerable<UserActivity> GetActivities()
         {
             IEnumerable<UserActivity> list = this.IsMonthlyView
-                ? this.UserMonth.UserActivities.Where(ua => DateTime.Equals(new DateTime(ua.Date.Year, ua.Date.Month, 1), this.GetMonth()))
-                : this.UserMonth.UserActivities.Where(ua => DateTime.Equals(ua.Date, this.Date));
+                ? this.UserMonth.UserActivities.Where(ua => DateTime.Equals(Helper.GetYM(ua.Date), Helper.GetYM(this.Date)))
+                : this.UserMonth.UserActivities.Where(ua => DateTime.Equals(Helper.GetYMD(ua.Date), Helper.GetYMD(this.Date)));
             return list.OrderBy(ua => ua.Date).ToList();
         }
 
@@ -74,13 +66,22 @@ namespace NTR.Models
         /// <summary>Load user activities from the database.</summary>
         public void LoadFromDB()
         {
-            this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth().ToString("YYYY-MM"));
+            using (var db = new StorageContext())
+            {             
+                HashSet<UserMonth> usermonths = db.UserMonths
+                    .Include(um => um.UserActivities)
+                    .ThenInclude(ua => ua.Subactivity)
+                    .Where(um => (um.UserName == this.User && DateTime.Equals(um.Month, Helper.GetYM(this.Date))))
+                    .ToHashSet();
+                this.IsInvalid = usermonths.Count == 0;
+                this.UserMonth = usermonths.First();
+            }
         }
 
         /// <summary>Save user activities to the database.</summary>
         public void SaveToDB()
         {
-            Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth().ToString("YYYY-MM"), this.UserMonth);
+            Entities.UserActivitiesDBEntity.Save(this.User, this.Date, this.UserMonth);
         }
     }
 }

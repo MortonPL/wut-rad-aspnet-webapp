@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using NTR.Entities;
+using NTR.Helpers;
 
 namespace NTR.Models
 {
@@ -17,7 +18,7 @@ namespace NTR.Models
         public string User = "";
 
         /// <summary>Date entered by the user.</summary>
-        public string Date;
+        public DateTime Date;
 
         /// <summary>Error type when creation fails.</summary>
         public string Error;
@@ -42,15 +43,8 @@ namespace NTR.Models
         public UserActivitiesCreatorModel(string user, string date)
         {
             this.User = user;
-            this.Date = date;
+            this.Date = DateTime.Parse(date, new CultureInfo("en-US"));
             LoadExtrasFromDB("UserMonth");
-        }
-
-        /// <summary>Extract the saved date.</summary>
-        /// <returns>Saved date as string in yyyy-MM format.</returns>
-        public string GetMonth()
-        {
-            return this.Date.Remove(this.Date.Length - 3);
         }
 
         /// <summary>Add new user activity to the saved month.</summary>
@@ -140,14 +134,14 @@ namespace NTR.Models
         {
             if (type == "UserMonth")
             {
-                this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth());
+                this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, Helper.GetYM(this.Date));
             }
         }
 
         /// <summary>Save user activities to the database.</summary>
         public void SaveToDB()
         {
-            Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth(), this.UserMonth);
+            Entities.UserActivitiesDBEntity.Save(this.User, Helper.GetYM(this.Date), this.UserMonth);
         }
     }
 }

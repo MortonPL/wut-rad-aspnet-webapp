@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
@@ -13,20 +12,33 @@ namespace NTR.Entities
     {
         public static HashSet<Project> Load()
         {
-            HashSet<Project> projects = new HashSet<Project>();
-            using (var db = new StorageContext()) {
-                projects = db.Projects.Include(p => p.Subactivities).Select(p => p).ToHashSet();
+            using (var db = new StorageContext())
+            {
+                return new HashSet<Project>(db.Projects.Include(p => p.Subactivities).Select(p => p).ToHashSet());
             };
-            //Debugger.Log(projects.Select(p => p.ProjectId.Subactivities));
-            return projects;
         }
 
-        /// <summary>
-        /// Save all projects to the database.
-        /// </summary>
-        /// <param name="projects"> List of all projects.</param>
-        public static void Save(HashSet<Project> projects)
+        public static void Create(string projectid, string username, string name, int budget, string subactivities)
         {
+            Project project = new Project(projectid, username, name, budget);
+            using (var db = new StorageContext())
+            {
+                db.Projects.Add(project);
+
+                char[] delims = new[] { '\r', '\n' };
+                if (subactivities.Length > 0)
+                {
+                    string[] split = subactivities.Split(delims, StringSplitOptions.RemoveEmptyEntries);
+                    if (split.Length > 0)
+                    {
+                        foreach(string s in split)
+                        {
+                            db.Subactivities.Add(new Subactivity{SubactivityId=s, ProjectId=projectid, Project=project});
+                        }
+                    }
+                }
+                db.SaveChanges();
+            };
         }
     }
 }

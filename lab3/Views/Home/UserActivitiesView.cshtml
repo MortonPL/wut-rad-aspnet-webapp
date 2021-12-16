@@ -39,7 +39,7 @@
 
 <br>
 @{
-    if (Model != null && !String.IsNullOrEmpty(Model.Date)) {
+    if (Model != null && Model.Date != DateTime.MinValue) {
         if (Model.IsMonthlyView)
         {
             <h3>Activities for @Model.GetMonth()</h3>
@@ -47,7 +47,7 @@
         }
         else
         {
-            <h3>Activities for @Model.Date</h3>
+            <h3>Activities for @Model.Date.ToString("D")</h3>
         }
     }
 }
@@ -58,7 +58,7 @@
         if (Model != null && Model.UserMonth != null)
         {
             <a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Click here to add a new user activity.</a>
-            if (!Model.UserMonth.Invalid)
+            if (!Model.IsInvalid)
             {
                 <table>
                     <thead>
@@ -75,9 +75,9 @@
                         @foreach (var activity in Model.GetActivities())
                         {
                             <tr>
-                                <td>@activity.Date</td>
+                                <td>@activity.Date.ToString()</td>
                                 <td>@activity.ProjectId</td>
-                                <td>@activity.Subactivity</td>
+                                <td>@activity.Subactivity.SubactivityId</td>
                                 <td>@activity.Time</td>
                                 <td>@activity.Description</td>
                                 <td>
