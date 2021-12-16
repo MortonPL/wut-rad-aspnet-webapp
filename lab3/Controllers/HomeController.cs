@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -102,7 +103,7 @@ namespace NTR.Controllers
                 model.User = cookieUser;
                 if (cookieDate != null)
                 {
-                    model.Date = cookieDate;
+                    model.Date = DateTime.Parse(cookieDate, new CultureInfo("en-US"));
                 }
                 if ((cookieMonthly != null) && String.IsNullOrEmpty(month))
                 {
@@ -127,7 +128,7 @@ namespace NTR.Controllers
                 model.User = cookieUser;
                 model.LoadFromDB();
             }
-            model.Date = date;
+            model.Date = DateTime.Parse(date, new CultureInfo("en-US"));;
             if (cookieMonthly != null)
             {
                 model.IsMonthlyView = Convert.ToBoolean(cookieMonthly);
@@ -160,7 +161,7 @@ namespace NTR.Controllers
             if (cookie != null)
             {
                 model.User = cookie;
-                model.Date = date;
+                model.Date = DateTime.Parse(date, new CultureInfo("en-US"));;
                 model.LoadFromDB();
                 model.LockUserActivity();
                 model.SaveToDB();

@@ -25,7 +25,15 @@ namespace NTR.Entities
 
         public Project(){}
 
-            /*this.Subactivities = new List<String>();
+        public Project(string projectId, string managerName, string name, int budget, string subactivities)
+        {
+            this.ProjectId = projectId;
+            this.ManagerName = managerName;
+            this.Name = name;
+            this.Budget = budget;
+            this.Active = true;
+
+            var tempSubactivities = new List<String>();
             char[] delims = new[] { '\r', '\n' };
             if (subactivities.Length > 0)
             {
@@ -34,9 +42,10 @@ namespace NTR.Entities
                 {
                     foreach(string s in split)
                     {
-                        this.Subactivities.Add(s);
+                        //this.Subactivities.Add(s);
                     }
                 }
-            }*/
+            }
+        }
     }
 }

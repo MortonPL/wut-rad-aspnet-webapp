@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +14,7 @@ namespace NTR.Models
     public class UserActivitiesModel
     {
         /// <summary>Date entered by the user.</summary>
-        public string Date;
+        public DateTime Date;
 
         /// <summary>Logged user's name.</summary>
         public string User;
@@ -25,14 +26,14 @@ namespace NTR.Models
         public bool IsMonthlyView = false;
 
         public UserActivitiesModel(){
-            this.Date = DateTime.Today.ToString("yyyy-MM-dd");
+            this.Date = DateTime.Today;
         }
         
         /// <summary>Extract the saved date.</summary>
         /// <returns>Saved date as string in yyyy-MM format</returns>
-        public string GetMonth()
+        public DateTime GetMonth()
         {
-            return this.Date.Remove(this.Date.Length - 3);
+            return new DateTime(this.Date.Year, this.Date.Month, 1);
         }
 
         /// <summary>Get set date's activties for saved user.</summary>
@@ -40,8 +41,8 @@ namespace NTR.Models
         public IEnumerable<UserActivity> GetActivities()
         {
             IEnumerable<UserActivity> list = this.IsMonthlyView
-                ? this.UserMonth.UserActivities.Where(ua => ua.Date.Remove(ua.Date.Length - 3) == this.Date.Remove(this.Date.Length - 3))
-                : this.UserMonth.UserActivities.Where(ua => ua.Date == this.Date);
+                ? this.UserMonth.UserActivities.Where(ua => DateTime.Equals(new DateTime(ua.Date.Year, ua.Date.Month, 1), this.GetMonth()))
+                : this.UserMonth.UserActivities.Where(ua => DateTime.Equals(ua.Date, this.Date));
             return list.OrderBy(ua => ua.Date).ToList();
         }
 
@@ -52,9 +53,10 @@ namespace NTR.Models
         /// <returns>True if successful, false otherwise.</returns>
         public bool DeleteUserActivity(string code, string date, string subcode)
         {
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
             foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if (UA.ProjectId == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.ProjectId == code && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subcode))
                 {
                     this.UserMonth.UserActivities.Remove(UA);
                     return true;
@@ -72,13 +74,13 @@ namespace NTR.Models
         /// <summary>Load user activities from the database.</summary>
         public void LoadFromDB()
         {
-            this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth());
+            this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, this.GetMonth().ToString("YYYY-MM"));
         }
 
         /// <summary>Save user activities to the database.</summary>
         public void SaveToDB()
         {
-            Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth(), this.UserMonth);
+            Entities.UserActivitiesDBEntity.Save(this.User, this.GetMonth().ToString("YYYY-MM"), this.UserMonth);
         }
     }
 }

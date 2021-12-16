@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -60,15 +61,16 @@ namespace NTR.Models
         /// <param name="description">Short description of the activity.</param>
         public void AddUserActivity(string date, string code, string subcode, int time, string description)
         {
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
             foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if (UA.ProjectId == code && UA.Date == date && UA.IsEqualSubactivity(subcode))
+                if ((UA.ProjectId == code && DateTime.Equals(UA.Date, parsedDate)) && UA.IsEqualSubactivity(subcode))
                 {
                     this.Error = "EUNIQUE";
                     return;
                 }
             }
-            this.UserMonth.UserActivities.Add(new UserActivity(date, code, subcode, time, description));
+            this.UserMonth.UserActivities.Add(new UserActivity(parsedDate, code, subcode, time, description));
         }
 
         /// <summary>Edit existing user activity.</summary>
@@ -80,9 +82,10 @@ namespace NTR.Models
         /// <returns>True for success, false for failure.</returns>
         public bool EditUserActivity(string date, string project, string subcode, int time, string description)
         {
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
             foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if (UA.ProjectId == project && UA.Date == date && UA.IsEqualSubactivity(subcode))
+                if (UA.ProjectId == project && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subcode))
                 {
                     UA.Time = time;
                     UA.Description = description;
@@ -115,7 +118,7 @@ namespace NTR.Models
                 var pl = this.ProjectsList.Where(p => p.ProjectId == this.TempProject);
                 if (pl.Count() > 0)
                 {
-                    selectList.AddRange(pl.First().Subactivities.Select(sa => new SelectListItem(sa, sa)));
+                    //selectList.AddRange(pl.First().Subactivities.Select(sa => new SelectListItem(sa, sa)));
                 }
                 else
                 {
