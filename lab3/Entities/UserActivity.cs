@@ -13,12 +13,12 @@ namespace NTR.Entities
     {
         // PK - UserMonth
         public DateTime Month { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
         // PK - Rest
         public string ProjectId { get; set; }
         public string SubactivityId { get; set; }
-
         public DateTime Date { get; set; }
+
         public int Time { get; set; }
         public string Description { get; set; }
 

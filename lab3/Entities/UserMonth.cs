@@ -13,10 +13,9 @@ namespace NTR.Entities
     {
         // PK
         public DateTime Month { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public bool Frozen { get; set; }
-        public bool Invalid { get; set; }
 
         // Parents
         public User User { get; set; }
@@ -27,9 +26,6 @@ namespace NTR.Entities
         
         public UserMonth(){}
 
-        public UserMonth(bool invalid)
-        {
-            this.Invalid = invalid;
-        }
+        public UserMonth(bool invalid){}
     }
 }
