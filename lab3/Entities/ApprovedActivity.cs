@@ -10,7 +10,7 @@ namespace NTR.Entities
     {
         // PK
         public DateTime Month { get; set; }
-        public string User { get; set; }
+        public string UserName { get; set; }
         public string ProjectId { get; set; }
 
         public int Time { get; set; }
