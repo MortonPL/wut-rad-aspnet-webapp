@@ -125,7 +125,7 @@ namespace NTR.Models
         /// <summary>Load projects from the database.</summary>
         public void LoadFromDB()
         {
-            this.ProjectsList = Entities.ProjectsDBEntity.Load();
+            this.ProjectsList = Entities.ProjectsDBEntity.Select();
         }
 
         /// <summary>Load extra data from the database.</summary>

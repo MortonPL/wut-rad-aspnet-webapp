@@ -8,23 +8,18 @@ namespace NTR.Models
 {
     public class UserModel
     {
-        /// <summary>User name error. Empty if no error.</summary>
         public string UsernameError = "";
-
-        /// <summary>Name of the user.</summary>
         public string User = "";
-
-        /// <summary>List of saved users.</summary>
         public HashSet<User> Users;
 
         public UserModel()
         {
-            this.LoadFromDB();
+            this.LoadUsers();
         }
 
         public UserModel(string user)
         {
-            this.LoadFromDB();
+            this.LoadUsers();
             this.UsernameError = this.CheckName(user);
             if (String.IsNullOrEmpty(this.UsernameError))
             {
@@ -53,31 +48,22 @@ namespace NTR.Models
             {
                 return "EMAX";
             }
-            //if (this.Users.Contains(name))
-            //{
-            //    return "ETAKEN";
-            //}
+            if (this.Users.Where(u => u.Name == name).Count() > 0)
+            {
+                return "ETAKEN";
+            }
             
             return "";
         }
 
-        /// <summary>Add the user to the model's list.</summary>
-        /// <param name="user">User name to be added.</param>
+        public void LoadUsers()
+        {
+            this.Users = Entities.UsersDBEntity.Select();
+        }
+
         public void AddUser(string user)
         {
-            this.Users.Add(new User(user));
-        }
-
-        /// <summary>Load list of users from the database.</summary>
-        public void LoadFromDB()
-        {
-            this.Users = Entities.UserListDBEntity.Load();
-        }
-
-        /// <summary>Save list of users to the database.</summary>
-        public void SaveToDB()
-        {
-            Entities.UserListDBEntity.Save(this.Users);
+            Entities.UsersDBEntity.Insert(user);
         }
     }
 }

@@ -34,14 +34,14 @@ namespace NTR.Models
                     return false;
                 }
             }
-            Entities.ProjectsDBEntity.Create(code, User, name, time, sub);
+            Entities.ProjectsDBEntity.Insert(code, User, name, time, sub);
 
             return true;
         }
 
         public void LoadFromDB()
         {
-            this.Projects = Entities.ProjectsDBEntity.Load();
+            this.Projects = Entities.ProjectsDBEntity.Select();
         }
     }
 }
