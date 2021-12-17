@@ -54,10 +54,5 @@ namespace NTR.Models
             this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, this.Date);
             this.IsInvalid = this.UserMonth.UserActivities.Count <= 0;
         }
-
-        public void SaveToDB()
-        {
-            Entities.UserActivitiesDBEntity.Save(this.User, this.Date, this.UserMonth);
-        }
     }
 }

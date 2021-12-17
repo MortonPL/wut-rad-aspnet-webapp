@@ -27,13 +27,13 @@ namespace NTR.Models
         public UserActivitiesCreatorModel(string user, string date)
         {
             this.User = user;
-            this.Date = DateTime.Parse(date, new CultureInfo("en-US"));
+            this.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
             LoadMoreFromDB();
         }
 
         public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)
         {
-            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
             this.Error = Entities.UserActivitiesDBEntity.Insert(parsedDate, this.User, projectId, subactivityId, time, description);
             return;
 
@@ -41,17 +41,8 @@ namespace NTR.Models
 
         public bool EditUserActivity(string date, string projectId, string subactivity, int time, string description)
         {
-            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
-            foreach(UserActivity UA in this.UserMonth.UserActivities)
-            {
-                //if (UA.ProjectId == projectId && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subactivity))
-                {
-                    UA.Time = time;
-                    UA.Description = description;
-                    return true;
-                }
-            }
-            return false;
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
+            return Entities.UserActivitiesDBEntity.Update(parsedDate, this.User, projectId, subactivity, time, description);
         }
 
         public IEnumerable<SelectListItem> CreateProjectSelectList
@@ -91,11 +82,6 @@ namespace NTR.Models
         public void LoadMoreFromDB()
         {
             this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, this.Date);
-        }
-
-        public void SaveToDB()
-        {
-            Entities.UserActivitiesDBEntity.Save(this.User, this.Date, this.UserMonth);
         }
     }
 }

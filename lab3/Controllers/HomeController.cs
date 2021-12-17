@@ -160,7 +160,6 @@ namespace NTR.Controllers
                 model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));;
                 model.LoadFromDB();
                 model.LockUserActivity();
-                model.SaveToDB();
             }
 
             return RedirectToAction("UserActivitiesView", "Home");
@@ -198,7 +197,6 @@ namespace NTR.Controllers
                 model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
                 if (model.EditUserActivity(cookieDate, cookieProject, Uri.UnescapeDataString(cookieSubactivity), Int32.Parse(time), activity))
                 {
-                    model.SaveToDB();
                     Response.Cookies.Delete("tempProject");
                     Response.Cookies.Delete("tempDate");
                     Response.Cookies.Delete("tempSubactivity");
