@@ -34,7 +34,7 @@
                             <th>Project</th>
                             <th>Manager</th>
                             <th>Name</th>
-                            <th>Budget</th>
+                            <th>Current Budget / Initial Budget</th>
                             <th>Active</th>
                             <th>Subactivities</th>
                             <th>Actions</th>
@@ -49,11 +49,11 @@
                                 <td>@project.Name</td>
                                 @if (Model.User == project.ManagerName)
                                 {
-                                <td>@Model.CalcBudget(project)</td>
+                                <td>@(Model.CalcBudget(project)) / @project.Budget</td>
                                 }
                                 else
                                 {
-                                    <td>@project.Budget</td>
+                                    <td>- / @project.Budget</td>
                                 }
 
                                 @if (@project.Active == true)

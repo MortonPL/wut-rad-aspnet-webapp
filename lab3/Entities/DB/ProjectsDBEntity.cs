@@ -18,6 +18,7 @@ namespace NTR.Entities
 
         public static void Insert(string projectid, string username, string name, int budget, string subactivities)
         {
+            subactivities = subactivities != null ? subactivities : "";
             Project project = new Project(projectid, username, name, budget);
             using (var db = new StorageContext())
             {
@@ -50,11 +51,14 @@ namespace NTR.Entities
         {
             using (var db = new StorageContext())
             {
-                return db.UserActivities
+                var uas = db.UserActivities
                     .GroupBy(ua => ua.ProjectId, ua => ua.Time, (id, time) => new {Id=id, Total=time.Sum()})
-                    .Where(q => q.Id == project.ProjectId)
-                    .Select(q => q.Total)
-                    .First();
+                    .Where(q => q.Id == project.ProjectId);
+                if (uas.Count() > 0)
+                {
+                return uas.Select(q => q.Total).First();
+                }
+                return 0;
             }
         }
     }
