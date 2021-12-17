@@ -19,12 +19,25 @@
     }
 </style>
 
+<form method="post">
+    <p>Change date below:</p>
+    <input type="date" name="date" required>
+    <input type="submit" name="type" value="Change Date">
+</form>
+<br>
+@{
+    if (Model != null && Model.Date != DateTime.MinValue)
+    {
+        <h3>Manage activities for @Model.GetMonth()</h3>
+    }
+}
+
+<br>
 <div class="text-center">
     @{
         if (Model != null)
         {
-            <h3>Project Model</h3>
-            if (Model.Users.Count != 0)
+            if (Model.UserMonths.Count != 0)
             {
                 <table>
                     <thead>
@@ -35,10 +48,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in Model.Users)
+                        @foreach (var usermonth in Model.UserMonths)
                         {
                             <tr>
-                                <td>@user</td>
+                                <td>@usermonth.User</td>
+                                <td>@usermonth.Time</td>
+                                <td><a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspectorApprovalView"
+                                    asp-route-user="@usermonth.User"
+                                    asp-route-date="@Model.Date"
+                                    asp-route-time="@usermonth.Time">Modify</a></td>
                             </tr>
                         }
                     </tbody>
@@ -46,11 +64,11 @@
             }
             else
             {
-                <p><i>This project has no users!</i></p>
+                <p><i>This project has no work reported!</i></p>
             }
         }
     }
 </div>
 
 <br>
-<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>
+<a asp-area="" asp-controller="Home" asp-action="ProjectsView">Go back</a>

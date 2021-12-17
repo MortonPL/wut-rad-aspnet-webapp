@@ -61,5 +61,17 @@ namespace NTR.Entities
                 return 0;
             }
         }
+
+        public static HashSet<UserMonthT> SelectUserMonths(DateTime date, string projectId)
+        {
+            using (var db = new StorageContext())
+            {
+                var ums = db.UserActivities.AsEnumerable()
+                    .Where(ua => (ua.ProjectId == projectId && DateTime.Equals(Helper.GetYM(ua.Month), Helper.GetYM(date))))
+                    .GroupBy(ua => ua.UserName, ua => ua.Time, (user, time) => new UserMonthT{User=user, Time=time.Sum()})
+                    .ToHashSet();
+                return ums;
+            }
+        }
     }
 }
