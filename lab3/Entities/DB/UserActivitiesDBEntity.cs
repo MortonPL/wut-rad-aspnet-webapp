@@ -7,9 +7,6 @@ using NTR.Helpers;
 
 namespace NTR.Entities
 {
-    /// <summary>
-    /// A class handling IO of each user's monthly activities database.
-    /// </summary>
     public class UserActivitiesDBEntity
     {
         public static UserMonth Select(string name, DateTime date)
@@ -27,6 +24,16 @@ namespace NTR.Entities
 
         public static void Save(string name, DateTime date, UserMonth usermonth)
         {
+        }
+
+        public static void Lock(UserMonth userMonth)
+        {
+            using (var db = new StorageContext())
+            {
+                db.Update(userMonth);
+                userMonth.Frozen = true;
+                db.SaveChanges();
+            }
         }
 
         public static void Delete(string user, string projectid, DateTime date, string subcode)

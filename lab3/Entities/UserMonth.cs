@@ -1,14 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace NTR.Entities
 {
-    /// <summary>
-    /// A single user's monthly activity summary.
-    /// </summary>
     public class UserMonth
     {
         // PK

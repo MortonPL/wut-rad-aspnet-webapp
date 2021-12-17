@@ -7,15 +7,9 @@ using NTR.Entities;
 
 namespace NTR.Models
 {
-    /// <summary>
-    /// A model for projects creator view.
-    /// </summary>
     public class ProjectsCreatorModel
     {
-        /// <summary>Name of the user.</summary>
         public string User = "";
-
-        /// <summary>List of all projects.</summary>
         public HashSet<Project> Projects;
 
         public ProjectsCreatorModel(){}
@@ -25,17 +19,16 @@ namespace NTR.Models
             this.User = user;
         }
 
-        public bool AddProject(string code, string name, int time, string sub)
+        public bool AddProject(string projectId, string name, int budget, string subactivities)
         {
             foreach(Project P in this.Projects)
             {
-                if (P.ProjectId == code)
+                if (P.ProjectId == projectId)
                 {
                     return false;
                 }
             }
-            Entities.ProjectsDBEntity.Insert(code, User, name, time, sub);
-
+            Entities.ProjectsDBEntity.Insert(projectId, User, name, budget, subactivities);
             return true;
         }
 

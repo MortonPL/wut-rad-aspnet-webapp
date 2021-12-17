@@ -10,16 +10,13 @@ using NTR.Helpers;
 
 namespace NTR.Models
 {
-    /// <summary>
-    /// A model for user activities view.
-    /// </summary>
     public class UserActivitiesModel
     {
         public DateTime Date;
         public string User;
-        public UserMonth UserMonth;
+        public UserMonth UserMonth = new UserMonth();
         public bool IsMonthlyView = false;
-        public bool IsInvalid = false;
+        public bool IsInvalid = true;
 
         public UserActivitiesModel(){
             this.Date = DateTime.Today;
@@ -38,16 +35,18 @@ namespace NTR.Models
             return list.OrderBy(ua => ua.Date).ToList();
         }
 
-        public void DeleteUserActivity(string code, string date, string subcode)
+        public void DeleteUserActivity(string projectId, string date, string subactivityId)
         {
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
-            Entities.UserActivitiesDBEntity.Delete(UserMonth.UserName, code, parsedDate, subcode);
+            Entities.UserActivitiesDBEntity.Delete(UserMonth.UserName, projectId, parsedDate, subactivityId);
         }
 
-        /// <summary>Freezes the month.</summary>
         public void LockUserActivity()
         {
-            this.UserMonth.Frozen = true;
+            if (this.UserMonth.UserActivities != null)
+            {
+                Entities.UserActivitiesDBEntity.Lock(UserMonth);
+            }
         }
 
         public void LoadFromDB()
@@ -60,7 +59,10 @@ namespace NTR.Models
                     .Where(um => (um.UserName == this.User && DateTime.Equals(um.Month, Helper.GetYM(this.Date))))
                     .ToHashSet();
                 this.IsInvalid = usermonths.Count == 0;
-                this.UserMonth = usermonths.First();
+                if (!this.IsInvalid)
+                {
+                    this.UserMonth = usermonths.First();
+                }
             }
         }
 

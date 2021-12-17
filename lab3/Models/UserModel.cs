@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using NTR.Entities;
 
 namespace NTR.Models
@@ -27,8 +28,6 @@ namespace NTR.Models
             }
         }
 
-        /// <summary>Generates a select list out of user list.</summary>
-        /// <returns>Enumerable of select list items containing user names.</returns>
         public IEnumerable<SelectListItem> CreateUserSelectList
         {
             get
@@ -39,9 +38,6 @@ namespace NTR.Models
             }
         }
 
-        /// <summary>Check if the nate is not empty and has less than 48 characters.</summary>
-        /// <param name="name">Name to be validated.</param>
-        /// <returns>Error code if any.</returns>
         public string CheckName(string name)
         {
             if (name.Length >= 48)
@@ -52,7 +48,6 @@ namespace NTR.Models
             {
                 return "ETAKEN";
             }
-            
             return "";
         }
 
