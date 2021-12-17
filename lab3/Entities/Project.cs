@@ -19,6 +19,7 @@ namespace NTR.Entities
         // Children
         public virtual ICollection<ApprovedActivity> ApprovedActivities { get; set; }
         public virtual ICollection<Subactivity> Subactivities { get; set; }
+        public virtual ICollection<UserActivity> UserActivities { get; set; }
 
         public Project(){}
 

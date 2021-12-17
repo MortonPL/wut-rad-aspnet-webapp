@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using NTR.Models;
 using NTR.Entities;
+using NTR.Helpers;
 
 namespace NTR.Controllers
 {
@@ -284,7 +285,6 @@ namespace NTR.Controllers
                 {
                     return RedirectToAction("UserActivitiesCreator2View", "Home", new {error=model.Error});
                 }
-                model.SaveToDB();
                 Response.Cookies.Delete("tempProject");
                 Response.Cookies.Delete("tempDate");
             }

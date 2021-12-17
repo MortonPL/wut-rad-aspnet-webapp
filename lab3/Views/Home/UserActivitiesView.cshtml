@@ -43,7 +43,7 @@
         if (Model.IsMonthlyView)
         {
             <h3>Activities for @Model.GetMonth()</h3>
-            if (!Model.IsInvalid)
+            if (!Model.IsInvalid && !Model.UserMonth.Frozen)
             {
                 <a asp-area="" asp-controller="Home" asp-action="UserActivitiesLock" asp-route-date="@Model.Date">Lock this month</a>
             }

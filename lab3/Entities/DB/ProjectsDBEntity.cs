@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
+using NTR.Helpers;
 namespace NTR.Entities
 {
     public class ProjectsDBEntity
@@ -25,9 +26,8 @@ namespace NTR.Entities
                 char[] delims = new[] { '\r', '\n' };
                 if (subactivities.Length > 0)
                 {
-                    string[] split = subactivities.Split(delims, StringSplitOptions.RemoveEmptyEntries);
-                    split.Prepend("");
-                    foreach(string s in split)
+                    List<string> split = subactivities.Split(delims, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach(string s in split.Prepend(""))
                     {
                         db.Subactivities.Add(new Subactivity{SubactivityId=s, ProjectId=projectid, Project=project});
                     }
