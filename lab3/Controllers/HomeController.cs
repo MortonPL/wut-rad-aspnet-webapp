@@ -57,8 +57,11 @@ namespace NTR.Controllers
         [HttpPost]
         public IActionResult UserLogin(String user)
         {
-            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
-            Response.Cookies.Append("CurrentUser", user, cookieOptions);
+            if (user != null)
+            {
+                var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
+                Response.Cookies.Append("CurrentUser", user, cookieOptions);
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -408,32 +411,57 @@ namespace NTR.Controllers
         }
 
         // ****************************** PROJECT INSPECTOR ****************************** //
-
-        public IActionResult ProjectsInspectorView()
+        [HttpGet]
+        public IActionResult ProjectInspectorView(string projectId, string dummy)
         {
             ProjectInspectorModel model = new ProjectInspectorModel();
-            var cookie = Request.Cookies["CurrentUser"];
-            if (cookie != null)
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieDate = Request.Cookies["ProjectInspectorDate"];
+            if (cookieUser != null)
             {
-                model.User = cookie;
+                model.User = cookieUser;
+                model.ProjectId = projectId;
+                if (cookieDate != null)
+                {
+                    model.Date = DateTime.Parse(cookieDate, new CultureInfo("pl-pl"));
+                }
+                model.LoadFromDB();
             }
 
             return View(model);
-        }
+        }     
 
-        [HttpGet]
-        public IActionResult ProjectsInspectorView(ProjectInspectorModel model)
+        [HttpPost]
+        public IActionResult ProjectInspectorView(string date)
         {
-            var cookie = Request.Cookies["CurrentUser"];
-            if (cookie != null)
+            ProjectInspectorModel model = new ProjectInspectorModel();
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
+            Response.Cookies.Append("ProjectInspectorDate", date, cookieOptions);
+            if (cookieUser != null)
             {
-                model.User = cookie;
+                model.User = cookieUser;
+                model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
                 model.LoadFromDB();
             }
 
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult ProjectInspectorApprovalView(string user, string date, string time)
+        {
+            ProjectInspectorModel model = new ProjectInspectorModel();
+            var cookie = Request.Cookies["CurrentUser"];
+            if (cookie != null)
+            {
+                model.User = cookie;
+                model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
+                model.LoadFromDB();
+            }
+
+            return View(model);
+        }
         // ****************************** OTHER ****************************** //
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
