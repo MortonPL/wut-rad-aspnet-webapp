@@ -58,7 +58,7 @@ namespace NTR.Models
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
             foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if ((UA.ProjectId == code && DateTime.Equals(UA.Date, parsedDate)) && UA.IsEqualSubactivity(subcode))
+                //if ((UA.ProjectId == code && DateTime.Equals(UA.Date, parsedDate)) && UA.IsEqualSubactivity(subcode))
                 {
                     this.Error = "EUNIQUE";
                     return;
@@ -79,7 +79,7 @@ namespace NTR.Models
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
             foreach(UserActivity UA in this.UserMonth.UserActivities)
             {
-                if (UA.ProjectId == project && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subcode))
+                //if (UA.ProjectId == project && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subcode))
                 {
                     UA.Time = time;
                     UA.Description = description;
@@ -134,7 +134,7 @@ namespace NTR.Models
         {
             if (type == "UserMonth")
             {
-                this.UserMonth = Entities.UserActivitiesDBEntity.Load(this.User, Helper.GetYM(this.Date));
+                this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, Helper.GetYM(this.Date));
             }
         }
 
