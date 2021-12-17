@@ -16,6 +16,7 @@ namespace NTR.Entities
         public string SubactivityId {get; set; }
         public int Time { get; set; }
         public string Description { get; set; }
+        public Byte[] Timestamp { get; set; }
 
         // Parents
         public virtual UserMonth UserMonth { get; set; }
