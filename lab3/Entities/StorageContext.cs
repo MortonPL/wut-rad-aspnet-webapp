@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Pomelo.EntityFrameworkCore.MySql;
 using EFCore.NamingConventions;
 
 namespace NTR.Entities {
@@ -22,9 +22,9 @@ namespace NTR.Entities {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string conn = "server=localhost;database=ntr;user=bmoroz;password=hiperbalbinka";
             optionsBuilder
-                .UseNpgsql("Server=localhost;Port=5432;Database=bmoroz;User Id=bmoroz;Password=hiperbalbinka")
-                .UseSnakeCaseNamingConvention();
+                .UseMySql(conn, ServerVersion.AutoDetect(conn));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

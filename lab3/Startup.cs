@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace NTR
 {
@@ -26,7 +27,9 @@ namespace NTR
         {
             services.AddControllersWithViews();
             services.AddDbContext<NTR.Entities.StorageContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("StorageContext")));
+                options.UseMySql(Configuration.GetConnectionString("StorageContext"),
+                ServerVersion.AutoDetect(Configuration.GetConnectionString("StorageContext")))
+                .EnableDetailedErrors());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
