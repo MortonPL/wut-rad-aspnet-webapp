@@ -41,7 +41,7 @@
                 <select name="sub" asp-items="Model.CreateSubactivitySelectList"></select>
 
                 <label for="time">Time spent [minutes]</label>
-                <input type="text" id="time" name="time" autocomplete="off" required min="1">
+                <input type="number" id="time" name="time" autocomplete="off" required min="1">
 
                 <label for="description">Description</label>
                 <textarea id="description" name="activity" rows="4" cols="32" placeholder="Enter a short description."></textarea>
