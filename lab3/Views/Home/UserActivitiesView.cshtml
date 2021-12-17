@@ -61,6 +61,7 @@
         if (Model != null && Model.UserMonth != null)
         {
             <a asp-area="" asp-controller="Home" asp-action="UserActivitiesCreatorView">Click here to add a new user activity.</a>
+            <a asp-area="" asp-controller="Home" asp-action="UserActivitiesMonthlyView">Click here to view your monthly activity statistics.</a>
             if (!Model.IsInvalid)
             {
                 <table>

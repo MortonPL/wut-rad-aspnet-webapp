@@ -10,6 +10,12 @@ using NTR.Helpers;
 
 namespace NTR.Models
 {
+    public class ActivityStats
+    {
+        public string ProjectId { get; set; }
+        public int TotalTime {get; set; }
+    }
+
     public class UserActivitiesModel
     {
         public DateTime Date;
@@ -17,6 +23,7 @@ namespace NTR.Models
         public UserMonth UserMonth = new UserMonth();
         public bool IsMonthlyView = false;
         public bool IsInvalid = true;
+        public List<int> totals = new List<int>();
 
         public UserActivitiesModel(){
             this.Date = DateTime.Today;
@@ -53,6 +60,17 @@ namespace NTR.Models
         {
             this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, this.Date);
             this.IsInvalid = this.UserMonth.UserActivities.Count <= 0;
+        }
+
+        public IEnumerable<ActivityStats> GetProjects()
+        {
+            IEnumerable<ActivityStats> list = new List<ActivityStats>();
+            var query = this.UserMonth.UserActivities.GroupBy(ua => ua.ProjectId, ua => ua.Time, (id, time) => new {Key=id, Total=time.Sum()});
+            foreach (var q in query)
+            {
+                list = list.Append(new ActivityStats{ProjectId=q.Key, TotalTime=q.Total});
+            }
+            return list;
         }
     }
 }

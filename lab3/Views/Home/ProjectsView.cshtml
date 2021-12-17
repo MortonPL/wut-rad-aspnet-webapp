@@ -47,7 +47,7 @@
                                 <td>@project.ProjectId</td>
                                 <td>@project.ManagerName</td>
                                 <td>@project.Name</td>
-                                <td>@project.Budget</td>
+                                <td>@Model.CalcBudget(project)</td>
 
                                 @if (@project.Active == true)
                                 {
