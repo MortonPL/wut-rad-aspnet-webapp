@@ -27,7 +27,7 @@ namespace NTR.Models
             this.User = user;
             this.tempProject = projectid;
             LoadFromDB(projectid);
-            this.tempSubs = String.Concat(this.Project.Subactivities.SelectMany(s => s.SubactivityId + '\n'));
+            this.tempSubs = String.Concat(this.Project.Subactivities.SelectMany(s => s.SubactivityId.Append('\n')));
         }
 
         public bool AddProject(string projectId, string name, int budget, string subactivities)
