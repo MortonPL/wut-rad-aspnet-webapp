@@ -206,6 +206,48 @@ namespace NTR.Controllers
             return RedirectToAction("UserActivitiesView", "Home");
         }
 
+        // ****************************** USER ACTIVITIES MONTHLY ****************************** //
+        public IActionResult UserActivitiesMonthlyView()
+        {
+            UserActivitiesModel model = new UserActivitiesModel();
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult UserActivitiesMonthlyView(UserActivitiesModel model)
+        {
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieDate = Request.Cookies["ActivitiesMonthlyViewDate"];
+            if (cookieUser != null)
+            {
+                model.User = cookieUser;
+                if (cookieDate != null)
+                {
+                    model.Date = DateTime.Parse(cookieDate, new CultureInfo("pl-pl"));
+                }
+                model.LoadFromDB();
+            }
+
+            return View(model);
+        }        
+
+        [HttpPost]
+        public IActionResult UserActivitiesMonthlyView(String date)
+        {
+            UserActivitiesModel model = new UserActivitiesModel();
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
+            Response.Cookies.Append("ActivitiesMonthlyViewDate", date, cookieOptions);
+            if (cookieUser != null)
+            {
+                model.User = cookieUser;
+                model.LoadFromDB();
+            }
+            model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));;
+
+            return View(model);
+        }
+
         // ****************************** USER ACTIVITIES CREATOR ****************************** //
         public IActionResult UserActivitiesCreatorView()
         {

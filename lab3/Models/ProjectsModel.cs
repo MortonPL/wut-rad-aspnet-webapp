@@ -24,5 +24,10 @@ namespace NTR.Models
         {
             Entities.ProjectsDBEntity.Close(projectid, this.User);
         }
+
+        public int CalcBudget(Project project)
+        {
+            return project.Budget;
+        }
     }
 }
