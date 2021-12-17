@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace NTR.Entities
 {
-    /// <summary>
-    /// A single approved activity.
-    /// </summary>
     public class ApprovedActivity
     {
         // PK

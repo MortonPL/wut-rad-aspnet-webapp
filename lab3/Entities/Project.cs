@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace NTR.Entities
 {
-    /// <summary>
-    /// A single project.
-    /// </summary>
     public class Project
     {
         // PK
