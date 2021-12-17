@@ -31,10 +31,14 @@ namespace NTR.Entities {
             base.OnModelCreating(modelBuilder);
     
             modelBuilder.Entity<UserActivity>(entity => {
-                entity.HasKey(ua => new { ua.Month, ua.UserName, ua.ProjectId, ua.SubactivityId, ua.Date });
+                entity.HasKey(ua => new { ua.Pid, ua.Month, ua.UserName, ua.ProjectId });
+                entity.Property(ua =>ua.Pid).ValueGeneratedOnAdd();
                 entity.Property(ua => ua.Time).IsRequired();
+                entity.Property(ua => ua.Date).IsRequired();
+                entity.Property(ua => ua.SubactivityId).IsRequired();
                 entity.Property(ua => ua.Description);
                 entity.HasOne(ua => ua.Subactivity).WithMany(s => s.UserActivities).HasForeignKey(ua => new { ua.ProjectId, ua.SubactivityId });
+                entity.HasOne(ua => ua.Project).WithMany(p => p.UserActivities).HasForeignKey(ua => new { ua.ProjectId});
                 entity.HasOne(ua => ua.UserMonth).WithMany(um => um.UserActivities).HasForeignKey(ua => new { ua.Month, ua.UserName });
             });
 

@@ -28,21 +28,15 @@ namespace NTR.Models
         {
             this.User = user;
             this.Date = DateTime.Parse(date, new CultureInfo("en-US"));
-            LoadExtrasFromDB("UserMonth");
+            LoadMoreFromDB();
         }
 
-        public void AddUserActivity(string date, string projectId, string subactivity, int time, string description)
+        public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)
         {
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
-            foreach(UserActivity UA in this.UserMonth.UserActivities)
-            {
-                //if ((UA.ProjectId == projectId && DateTime.Equals(UA.Date, parsedDate)) && UA.IsEqualSubactivity(subactivity))
-                {
-                    this.Error = "EUNIQUE";
-                    return;
-                }
-            }
-            this.UserMonth.UserActivities.Add(new UserActivity(parsedDate, projectId, subactivity, time, description));
+            this.Error = Entities.UserActivitiesDBEntity.Insert(parsedDate, this.User, projectId, subactivityId, time, description, UserMonth);
+            return;
+
         }
 
         public bool EditUserActivity(string date, string projectId, string subactivity, int time, string description)
@@ -79,7 +73,7 @@ namespace NTR.Models
                 var pl = this.ProjectsList.Where(p => p.ProjectId == this.TempProject);
                 if (pl.Count() > 0)
                 {
-                    //selectList.AddRange(pl.First().Subactivities.Select(sa => new SelectListItem(sa, sa)));
+                    selectList.AddRange(pl.First().Subactivities.Select(sa => new SelectListItem(sa.SubactivityId, sa.SubactivityId)));
                 }
                 else
                 {
@@ -94,17 +88,14 @@ namespace NTR.Models
             this.ProjectsList = Entities.ProjectsDBEntity.Select();
         }
 
-        public void LoadExtrasFromDB(string type)
+        public void LoadMoreFromDB()
         {
-            if (type == "UserMonth")
-            {
-                this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, Helper.GetYM(this.Date));
-            }
+            this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, this.Date);
         }
 
         public void SaveToDB()
         {
-            Entities.UserActivitiesDBEntity.Save(this.User, Helper.GetYM(this.Date), this.UserMonth);
+            Entities.UserActivitiesDBEntity.Save(this.User, this.Date, this.UserMonth);
         }
     }
 }

@@ -51,19 +51,8 @@ namespace NTR.Models
 
         public void LoadFromDB()
         {
-            using (var db = new StorageContext())
-            {             
-                HashSet<UserMonth> usermonths = db.UserMonths
-                    .Include(um => um.UserActivities)
-                    .ThenInclude(ua => ua.Subactivity)
-                    .Where(um => (um.UserName == this.User && DateTime.Equals(um.Month, Helper.GetYM(this.Date))))
-                    .ToHashSet();
-                this.IsInvalid = usermonths.Count == 0;
-                if (!this.IsInvalid)
-                {
-                    this.UserMonth = usermonths.First();
-                }
-            }
+            this.UserMonth = Entities.UserActivitiesDBEntity.Select(this.User, this.Date);
+            this.IsInvalid = this.UserMonth.UserActivities.Count <= 0;
         }
 
         public void SaveToDB()
