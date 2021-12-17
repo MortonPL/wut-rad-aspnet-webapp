@@ -5,6 +5,13 @@ TRUNCATE TABLE user_months CASCADE;
 TRUNCATE TABLE projects CASCADE;
 TRUNCATE TABLE users CASCADE;
 
+DROP TABLE user_activities CASCADE;
+DROP TABLE approved_activities CASCADE;
+DROP TABLE subactivities CASCADE;
+DROP TABLE user_months CASCADE;
+DROP TABLE projects CASCADE;
+DROP TABLE users CASCADE;
+
 INSERT INTO users (name) VALUES ('Admin');
 INSERT INTO users (name) VALUES ('Balbinka');
 INSERT INTO users (name) VALUES ('Pan Jerzy');

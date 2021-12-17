@@ -20,6 +20,9 @@ namespace NTR.Entities
         
         public UserMonth(){}
 
-        public UserMonth(bool invalid){}
+        public UserMonth(bool invalid)
+        {
+            this.UserActivities = new List<UserActivity>();
+        }
     }
 }

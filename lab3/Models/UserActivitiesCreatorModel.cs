@@ -34,7 +34,7 @@ namespace NTR.Models
         public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)
         {
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
-            this.Error = Entities.UserActivitiesDBEntity.Insert(parsedDate, this.User, projectId, subactivityId, time, description, UserMonth);
+            this.Error = Entities.UserActivitiesDBEntity.Insert(parsedDate, this.User, projectId, subactivityId, time, description);
             return;
 
         }
