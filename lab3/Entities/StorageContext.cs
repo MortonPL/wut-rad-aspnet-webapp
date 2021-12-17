@@ -37,6 +37,7 @@ namespace NTR.Entities {
                 entity.Property(ua => ua.Date).IsRequired();
                 entity.Property(ua => ua.SubactivityId).IsRequired();
                 entity.Property(ua => ua.Description);
+                entity.Property(ua => ua.Timestamp).IsRowVersion();
                 entity.HasOne(ua => ua.Subactivity).WithMany(s => s.UserActivities).HasForeignKey(ua => new { ua.ProjectId, ua.SubactivityId });
                 entity.HasOne(ua => ua.Project).WithMany(p => p.UserActivities).HasForeignKey(ua => new { ua.ProjectId});
                 entity.HasOne(ua => ua.UserMonth).WithMany(um => um.UserActivities).HasForeignKey(ua => new { ua.Month, ua.UserName });

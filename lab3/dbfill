@@ -5,10 +5,10 @@ TRUNCATE TABLE user_months CASCADE;
 TRUNCATE TABLE projects CASCADE;
 TRUNCATE TABLE users CASCADE;
 
-DROP TABLE user_activities CASCADE;
-DROP TABLE approved_activities CASCADE;
+DROP TABLE useractivities CASCADE;
+DROP TABLE approvedactivities CASCADE;
 DROP TABLE subactivities CASCADE;
-DROP TABLE user_months CASCADE;
+DROP TABLE usermonths CASCADE;
 DROP TABLE projects CASCADE;
 DROP TABLE users CASCADE;
 
