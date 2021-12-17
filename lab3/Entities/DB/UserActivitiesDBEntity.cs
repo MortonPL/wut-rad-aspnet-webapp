@@ -26,8 +26,25 @@ namespace NTR.Entities
             }
         }
 
-        public static void Save(string name, DateTime date, UserMonth userMonth)
+        public static bool Update(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
         {
+            using (var db = new StorageContext())
+            {
+                try
+                {
+                    UserActivity userActivity = db.UserActivities.AsEnumerable()
+                        .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(date) && ua.UserName == userName && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
+                        .First();
+                    db.Update(userActivity);
+                    userActivity.Time = time;
+                    userActivity.Description = description;
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
+            }
         }
 
         public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
@@ -36,14 +53,16 @@ namespace NTR.Entities
             using (var db = new StorageContext())
             {
                 UserMonth userMonth;
-                HashSet<UserMonth> userMonths = db.UserMonths.Where(um => (um.UserName == userName && um.Month == date)).ToHashSet();
+                HashSet<UserMonth> userMonths = db.UserMonths.AsEnumerable()
+                    .Where(um => (um.UserName == userName && Helper.GetYM(um.Month) == Helper.GetYM(date)))
+                    .ToHashSet();
                 if (userMonths.Count > 0)
                 {
                     userMonth = userMonths.First();
                 }
                 else
                 {
-                    userMonth = new UserMonth{Month=date, UserName=userName};
+                    userMonth = new UserMonth{Month=Helper.GetYM(date), UserName=userName};
                     db.UserMonths.Add(userMonth);
                 }
                 UserActivity userActivity = new UserActivity{Date=date, ProjectId=projectId, SubactivityId=subactivityId,
@@ -51,12 +70,12 @@ namespace NTR.Entities
                 try
                 {
                     db.UserActivities.Add(userActivity);
+                    db.SaveChanges();
                 }
                 catch (DbUpdateException)
                 {
                     return "EUNIQUE";
                 }
-                db.SaveChanges();
                 return "";
             }
         }
