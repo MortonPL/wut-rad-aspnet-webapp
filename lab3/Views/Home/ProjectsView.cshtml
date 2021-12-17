@@ -78,6 +78,7 @@
                                     @if (Model.User == project.ManagerName)
                                     {
                                         <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspectorView" asp-route-projectId="@project.ProjectId" asp-route-dummy="a">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsEditorView" asp-route-projectId="@project.ProjectId">Edit</a>
                                         @if (project.Active)
                                         {
                                             <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.ProjectId">Close</a>

@@ -410,6 +410,40 @@ namespace NTR.Controllers
             return View(model);
         }
 
+        public IActionResult ProjectsEditorView(string projectId)
+        {
+            ProjectsCreatorModel model = new ProjectsCreatorModel();
+            var cookieUser = Request.Cookies["CurrentUser"];
+            if (cookieUser != null)
+            {
+                model = new ProjectsCreatorModel(cookieUser, projectId);
+                var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
+                Response.Cookies.Append("tempProject", model.tempProject, cookieOptions);
+                Response.Cookies.Append("tempSubs", model.tempSubs, cookieOptions);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ProjectsEditor(string budget, string name)
+        {
+            ProjectsCreatorModel model;
+            var cookieUser = Request.Cookies["CurrentUser"];
+            var cookieProject = Request.Cookies["tempProject"];
+            if (cookieUser != null)
+            {
+                model = new ProjectsCreatorModel(cookieUser);
+                if (model.EditProject(cookieProject, name, Int32.Parse(budget)))
+                {
+                    Response.Cookies.Delete("tempProject");
+                    Response.Cookies.Delete("tempSubs");
+                }
+            }
+
+            return RedirectToAction("ProjectsView", "Home");
+        }
+
         // ****************************** PROJECT INSPECTOR ****************************** //
         [HttpGet]
         public IActionResult ProjectInspectorView(string projectId, string dummy)
