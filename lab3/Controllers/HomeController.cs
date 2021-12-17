@@ -101,7 +101,7 @@ namespace NTR.Controllers
                 model.User = cookieUser;
                 if (cookieDate != null)
                 {
-                    model.Date = DateTime.Parse(cookieDate, new CultureInfo("en-US"));
+                    model.Date = DateTime.Parse(cookieDate, new CultureInfo("pl-pl"));
                 }
                 if ((cookieMonthly != null) && String.IsNullOrEmpty(month))
                 {
@@ -126,7 +126,7 @@ namespace NTR.Controllers
                 model.User = cookieUser;
                 model.LoadFromDB();
             }
-            model.Date = DateTime.Parse(date, new CultureInfo("en-US"));;
+            model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));;
             if (cookieMonthly != null)
             {
                 model.IsMonthlyView = Convert.ToBoolean(cookieMonthly);
@@ -143,10 +143,7 @@ namespace NTR.Controllers
             {
                 model.User = cookie;
                 model.LoadFromDB();
-                if (model.DeleteUserActivity(code, date, subcode))
-                {
-                    model.SaveToDB();
-                }
+                model.DeleteUserActivity(code, date, subcode);
             }
 
             return RedirectToAction("UserActivitiesView", "Home");
@@ -159,7 +156,7 @@ namespace NTR.Controllers
             if (cookie != null)
             {
                 model.User = cookie;
-                model.Date = DateTime.Parse(date, new CultureInfo("en-US"));;
+                model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));;
                 model.LoadFromDB();
                 model.LockUserActivity();
                 model.SaveToDB();
@@ -175,7 +172,7 @@ namespace NTR.Controllers
             if (cookie != null)
             {
                 model.User = cookie;
-                model.Date = DateTime.Parse(date, new CultureInfo("en-US"));
+                model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
                 model.TempProject = code;
                 model.TempSubactivity = subcode;
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
@@ -264,7 +261,7 @@ namespace NTR.Controllers
             if (cookieUser != null && cookieProject != null && cookieDate != null)
             {
                 model.User = cookieUser;
-                model.Date = DateTime.Parse(cookieDate, new CultureInfo("en-US"));;
+                model.Date = DateTime.Parse(cookieDate, new CultureInfo("pl-pl"));;
                 model.TempProject = cookieProject;
                 model.Error = error;
             }

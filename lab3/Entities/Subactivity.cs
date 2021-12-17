@@ -17,5 +17,10 @@ namespace NTR.Entities
 
         // Children
         public virtual ICollection<UserActivity> UserActivities { get; set; }
+
+        public bool IsEqualSubactivity(string other)
+        {
+            return (this.SubactivityId == other) || (String.IsNullOrEmpty(this.SubactivityId) && String.IsNullOrEmpty(other));
+        }
     }
 }

@@ -84,8 +84,14 @@
                                     <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesView">Inspect</a>
                                     @if (!Model.UserMonth.Frozen)
                                     {
-                                        <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView" asp-route-code="@activity.ProjectId" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Edit</a>
-                                        <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete" asp-route-code="@activity.ProjectId" asp-route-date="@activity.Date" asp-route-subcode="@activity.Subactivity">Delete</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="UserActivitiesEditorView"
+                                            asp-route-code="@activity.ProjectId"
+                                            asp-route-date="@activity.Date"
+                                            asp-route-subcode="@activity.Subactivity.SubactivityId">Edit</a>
+                                        <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="UserActivityDelete"
+                                            asp-route-code="@activity.ProjectId"
+                                            asp-route-date="@activity.Date"
+                                            asp-route-subcode=@activity.Subactivity.SubactivityId>Delete</a>
                                     }
                                 </td>
                             </tr>

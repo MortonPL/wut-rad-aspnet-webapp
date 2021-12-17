@@ -33,28 +33,15 @@ namespace NTR.Models
         public IEnumerable<UserActivity> GetActivities()
         {
             IEnumerable<UserActivity> list = this.IsMonthlyView
-                ? this.UserMonth.UserActivities.Where(ua => DateTime.Equals(Helper.GetYM(ua.Date), Helper.GetYM(this.Date)))
-                : this.UserMonth.UserActivities.Where(ua => DateTime.Equals(Helper.GetYMD(ua.Date), Helper.GetYMD(this.Date)));
+                ? this.UserMonth.UserActivities.Where(ua => Helper.EqualsYM(ua.Date, this.Date))
+                : this.UserMonth.UserActivities.Where(ua => Helper.EqualsYMD(ua.Date, this.Date));
             return list.OrderBy(ua => ua.Date).ToList();
         }
 
-        /// <summary>Checks if the current user can delete the UA and deletes it.</summary>
-        /// <param name="code">Code of the project.</param>
-        /// <param name="date">Date of the project.</param>
-        /// <param name="subcode">Subcode of the project.</param>
-        /// <returns>True if successful, false otherwise.</returns>
-        public bool DeleteUserActivity(string code, string date, string subcode)
+        public void DeleteUserActivity(string code, string date, string subcode)
         {
-            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("en-US"));
-            foreach(UserActivity UA in this.UserMonth.UserActivities)
-            {
-                if (UA.ProjectId == code && DateTime.Equals(UA.Date, parsedDate) && UA.IsEqualSubactivity(subcode))
-                {
-                    this.UserMonth.UserActivities.Remove(UA);
-                    return true;
-                }
-            }
-            return false;
+            DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
+            Entities.UserActivitiesDBEntity.Delete(UserMonth.UserName, code, parsedDate, subcode);
         }
 
         /// <summary>Freezes the month.</summary>
@@ -63,7 +50,6 @@ namespace NTR.Models
             this.UserMonth.Frozen = true;
         }
 
-        /// <summary>Load user activities from the database.</summary>
         public void LoadFromDB()
         {
             using (var db = new StorageContext())
@@ -78,7 +64,6 @@ namespace NTR.Models
             }
         }
 
-        /// <summary>Save user activities to the database.</summary>
         public void SaveToDB()
         {
             Entities.UserActivitiesDBEntity.Save(this.User, this.Date, this.UserMonth);

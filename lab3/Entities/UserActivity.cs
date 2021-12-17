@@ -37,11 +37,5 @@ namespace NTR.Entities
             this.Time = time;
             this.Description = description;
         }
-
-        public bool IsEqualSubactivity(string other)
-        {
-            return (this.Subactivity.SubactivityId == other)
-                || (String.IsNullOrEmpty(this.Subactivity.SubactivityId) && String.IsNullOrEmpty(other));
-        }
     }
 }
