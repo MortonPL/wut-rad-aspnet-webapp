@@ -27,7 +27,7 @@ namespace NTR.Models
 
         public int CalcBudget(Project project)
         {
-            return project.Budget;
+            return project.Budget - Entities.ProjectsDBEntity.SpecialBudget(project);
         }
     }
 }

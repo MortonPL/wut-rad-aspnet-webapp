@@ -45,5 +45,17 @@ namespace NTR.Entities
                 db.SaveChanges();
             };
         }
+
+        public static int SpecialBudget(Project project)
+        {
+            using (var db = new StorageContext())
+            {
+                return db.UserActivities
+                    .GroupBy(ua => ua.ProjectId, ua => ua.Time, (id, time) => new {Id=id, Total=time.Sum()})
+                    .Where(q => q.Id == project.ProjectId)
+                    .Select(q => q.Total)
+                    .First();
+            }
+        }
     }
 }
