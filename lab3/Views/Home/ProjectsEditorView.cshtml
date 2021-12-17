@@ -28,13 +28,13 @@
                 <br><b>@Model.tempProject</b><br>
 
                 <label for="name">Project Name</label>
-                <input type="text" id="name" name="name" autocomplete="off" value=@Model.Project.Name>
+                <input type="text" id="name" name="name" autocomplete="off" value="@Model.Project.Name">
 
                 <label for="budget">Time Budget [minutes]</label>
                 <input type="number" id="budget" name="budget" autocomplete="off" value=@Model.Project.Budget required min="1">
 
-                <span style="margin: 8px 0px 0px 0px;">Subactivities</span>
-                <br><b>@Model.tempSubs</b><br>
+                <!---<span style="margin: 8px 0px 0px 0px;">Subactivities</span> --->
+                <!--- <br><b>@Model.tempSubs</b><br> --->
 
                 <input type="submit" name="ok" value="Edit project">
             </form>
