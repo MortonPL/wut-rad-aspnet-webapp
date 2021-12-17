@@ -16,6 +16,14 @@ namespace NTR.Entities
             };
         }
 
+        public static Project Select(string projectId)
+        {
+            using (var db = new StorageContext())
+            {
+                return db.Projects.Include(p => p.Subactivities).Where(p => p.ProjectId == projectId).First();
+            };
+        }
+
         public static void Insert(string projectid, string username, string name, int budget, string subactivities)
         {
             subactivities = subactivities != null ? subactivities : "";
@@ -35,6 +43,26 @@ namespace NTR.Entities
                 }
                 db.SaveChanges();
             };
+        }
+
+        public static bool Update(string projectid, string username, string name, int budget)
+        {
+            using (var db = new StorageContext())
+            {
+                try
+                {
+                    Project project = Select(projectid);
+                    db.Update(project);
+                    project.Name = name;
+                    project.Budget = budget;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
+            }
         }
 
         public static void Close(string projectid, string manager)
