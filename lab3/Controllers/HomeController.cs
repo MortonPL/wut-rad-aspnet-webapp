@@ -168,11 +168,10 @@ namespace NTR.Controllers
         public IActionResult UserActivitiesEditorView(string code, string date, string subcode)
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
-            var cookie = Request.Cookies["CurrentUser"];
-            if (cookie != null)
+            var cookieUser = Request.Cookies["CurrentUser"];
+            if (cookieUser != null)
             {
-                model.User = cookie;
-                model.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
+                model = new UserActivitiesCreatorModel(cookieUser, date, code, subcode);
                 model.TempProject = code;
                 model.TempSubactivity = subcode;
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };

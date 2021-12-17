@@ -18,6 +18,7 @@ namespace NTR.Models
         public string TempSubactivity;
         public UserMonth UserMonth = new UserMonth();
         public HashSet<Project> ProjectsList;
+        public UserActivity userActivity;
 
         public UserActivitiesCreatorModel()
         {
@@ -29,6 +30,17 @@ namespace NTR.Models
             this.User = user;
             this.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
             LoadMoreFromDB();
+        }
+
+        public UserActivitiesCreatorModel(string user, string date, string projectId, string subactivityId)
+        {
+            this.User = user;
+            this.Date = DateTime.Parse(date, new CultureInfo("pl-pl"));
+            LoadMoreFromDB();
+            this.userActivity = UserMonth.UserActivities.AsEnumerable()
+                .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(this.Date)
+                    && ua.UserName == this.User && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
+                .First();
         }
 
         public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)

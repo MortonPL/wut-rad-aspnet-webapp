@@ -33,11 +33,13 @@ namespace NTR.Entities
                 try
                 {
                     UserActivity userActivity = db.UserActivities.AsEnumerable()
-                        .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(date) && ua.UserName == userName && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
+                        .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(date)
+                            && ua.UserName == userName && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
                         .First();
                     db.Update(userActivity);
                     userActivity.Time = time;
                     userActivity.Description = description;
+                    db.SaveChanges();
                     return true;
                 }
                 catch (DbUpdateException)

@@ -64,13 +64,10 @@ namespace NTR.Models
 
         public IEnumerable<ActivityStats> GetProjects()
         {
-            IEnumerable<ActivityStats> list = new List<ActivityStats>();
-            var query = this.UserMonth.UserActivities.GroupBy(ua => ua.ProjectId, ua => ua.Time, (id, time) => new {Key=id, Total=time.Sum()});
-            foreach (var q in query)
-            {
-                list = list.Append(new ActivityStats{ProjectId=q.Key, TotalTime=q.Total});
-            }
-            return list;
+            return this.UserMonth.UserActivities
+                .GroupBy(ua => ua.ProjectId, ua => ua.Time,
+                    (id, time) => new ActivityStats{ProjectId=id, TotalTime=time.Sum()})
+                .ToList();
         }
     }
 }

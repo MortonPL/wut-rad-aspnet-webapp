@@ -47,7 +47,14 @@
                                 <td>@project.ProjectId</td>
                                 <td>@project.ManagerName</td>
                                 <td>@project.Name</td>
+                                @if (Model.User == project.ManagerName)
+                                {
                                 <td>@Model.CalcBudget(project)</td>
+                                }
+                                else
+                                {
+                                    <td>@project.Budget</td>
+                                }
 
                                 @if (@project.Active == true)
                                 {
