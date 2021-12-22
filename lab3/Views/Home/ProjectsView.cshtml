@@ -1,0 +1,102 @@
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<style>
+    table {
+        width:100%;
+        border: 1px solid black
+    }
+    tr:nth-child(even) {
+        background-color: #dfdfdf;
+    }
+    th {
+        border: 1px solid grey;
+    }
+    td {
+        vertical-align: top;
+        border-left: 1px solid grey;
+    }
+</style>
+
+<p>Here you can inspect, create and close projects.</p>
+
+<div class="text-center">
+    @{
+        if (Model != null && Model.Projects != null)
+        {
+            <a asp-area="" asp-controller="Home" asp-action="ProjectsCreatorView">Click here to create a new project.</a>
+            if (Model.Projects.Count != 0)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Manager</th>
+                            <th>Name</th>
+                            <th>Current Budget / Initial Budget</th>
+                            <th>Active</th>
+                            <th>Subactivities</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var project in Model.Projects)
+                        {
+                            <tr>
+                                <td>@project.ProjectId</td>
+                                <td>@project.ManagerName</td>
+                                <td>@project.Name</td>
+                                @if (Model.User == project.ManagerName)
+                                {
+                                <td>@(Model.CalcBudget(project)) / @project.Budget</td>
+                                }
+                                else
+                                {
+                                    <td>- / @project.Budget</td>
+                                }
+
+                                @if (@project.Active == true)
+                                {
+                                    <td style="color:green;">Active</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red;">Closed</td>
+                                }
+                                
+                                <td>
+                                    @foreach (var subactivity in project.Subactivities)
+                                    {
+                                        @if (@subactivity.SubactivityId != "")
+                                        {
+                                            @subactivity.SubactivityId<text><br></text>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @if (Model.User == project.ManagerName)
+                                    {
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspectorView" asp-route-projectId="@project.ProjectId" asp-route-dummy="a">Inspect</a>
+                                        <a style="display: inline-block;" asp-controller="Home" asp-action="ProjectsEditorView" asp-route-projectId="@project.ProjectId">Edit</a>
+                                        @if (project.Active)
+                                        {
+                                            <a style="display: inline-block; color:red;" asp-controller="Home" asp-action="ProjectClose" asp-route-code="@project.ProjectId">Close</a>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Couldn't find projects!</p>
+            }
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>
