@@ -26,7 +26,7 @@ namespace NTR.Entities
             }
         }
 
-        public static bool Update(DateTime date, string userName, string projectId, string subactivityId, int time, string description, Byte[] timestamp)
+        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string description, Byte[] timestamp)
         {
             UserActivity userActivity;
             using (var db = new StorageContext())
@@ -34,7 +34,7 @@ namespace NTR.Entities
                 try
                 {
                     userActivity = new UserActivity{
-                        Pid=1, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
+                        Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
                         Date=date, Time=1, Description=description, Timestamp=timestamp};
                     userActivity.Time = time;
                     userActivity.Description = description;
