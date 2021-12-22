@@ -168,7 +168,7 @@ namespace NTR.Controllers
             return RedirectToAction("UserActivitiesView", "Home");
         }
 
-        public IActionResult UserActivitiesEditorView(string code, string date, string subcode, string error, int time, string desc)
+        public IActionResult UserActivitiesEditorView(string code, string date, string subcode, string error, int time, string desc, string pid)
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
             var cookieUser = Request.Cookies["CurrentUser"];
@@ -180,6 +180,7 @@ namespace NTR.Controllers
                 model.Error = error;
                 model.Time = time;
                 model.Description = desc;
+                if (!String.IsNullOrEmpty(pid)) model.Pid = Int32.Parse(pid);
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
                 Response.Cookies.Append("tempProject", code, cookieOptions);
                 Response.Cookies.Append("tempDate", date, cookieOptions);
@@ -190,7 +191,7 @@ namespace NTR.Controllers
         }
 
         [HttpPost]
-        public IActionResult UserActivitiesEdit(string TempProject, string TempSubactivity, string time, string activity, string Timestamp)
+        public IActionResult UserActivitiesEdit(string TempProject, string TempSubactivity, string time, string activity, string Timestamp, string pid)
         {
             var cookieUser = Request.Cookies["CurrentUser"];
             var cookieProject = Request.Cookies["tempProject"];
@@ -200,10 +201,10 @@ namespace NTR.Controllers
             {
                 UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
                 model.Timestamp = Convert.FromBase64String(Timestamp);
-                if (!model.EditUserActivity(cookieDate, cookieProject, Uri.UnescapeDataString(cookieSubactivity), Int32.Parse(time), activity))
+                if (!model.EditUserActivity(cookieDate, cookieProject, Uri.UnescapeDataString(cookieSubactivity), Int32.Parse(time), activity, Int32.Parse(pid)))
                 {
                     return RedirectToAction("UserActivitiesEditorView", "Home", new {
-                        code = TempProject, date=cookieDate, subcode=TempSubactivity, error="ECONC", time=time, desc=activity});
+                        code = TempProject, date=cookieDate, subcode=TempSubactivity, error="ECONC", time=time, desc=activity, pid=pid});
                 }
             }
 
