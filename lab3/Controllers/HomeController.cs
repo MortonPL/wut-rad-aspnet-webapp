@@ -168,7 +168,7 @@ namespace NTR.Controllers
             return RedirectToAction("UserActivitiesView", "Home");
         }
 
-        public IActionResult UserActivitiesEditorView(string code, string date, string subcode)
+        public IActionResult UserActivitiesEditorView(string code, string date, string subcode, string error, int time, string desc)
         {
             UserActivitiesCreatorModel model = new UserActivitiesCreatorModel();
             var cookieUser = Request.Cookies["CurrentUser"];
@@ -177,6 +177,9 @@ namespace NTR.Controllers
                 model = new UserActivitiesCreatorModel(cookieUser, date, code, subcode);
                 model.TempProject = code;
                 model.TempSubactivity = subcode;
+                model.Error = error;
+                model.Time = time;
+                model.Description = desc;
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
                 Response.Cookies.Append("tempProject", code, cookieOptions);
                 Response.Cookies.Append("tempDate", date, cookieOptions);
@@ -187,21 +190,20 @@ namespace NTR.Controllers
         }
 
         [HttpPost]
-        public IActionResult UserActivityEdit(string time, string activity)
+        public IActionResult UserActivitiesEdit(string TempProject, string TempSubactivity, string time, string activity, string Timestamp)
         {
-            UserActivitiesCreatorModel model;
             var cookieUser = Request.Cookies["CurrentUser"];
             var cookieProject = Request.Cookies["tempProject"];
             var cookieDate = Request.Cookies["tempDate"];
             var cookieSubactivity = Request.Cookies["tempSubactivity"];
             if (cookieUser != null)
             {
-                model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
-                if (model.EditUserActivity(cookieDate, cookieProject, Uri.UnescapeDataString(cookieSubactivity), Int32.Parse(time), activity))
+                UserActivitiesCreatorModel model = new UserActivitiesCreatorModel(cookieUser, cookieDate);
+                model.Timestamp = Convert.FromBase64String(Timestamp);
+                if (!model.EditUserActivity(cookieDate, cookieProject, Uri.UnescapeDataString(cookieSubactivity), Int32.Parse(time), activity))
                 {
-                    Response.Cookies.Delete("tempProject");
-                    Response.Cookies.Delete("tempDate");
-                    Response.Cookies.Delete("tempSubactivity");
+                    return RedirectToAction("UserActivitiesEditorView", "Home", new {
+                        code = TempProject, date=cookieDate, subcode=TempSubactivity, error="ECONC", time=time, desc=activity});
                 }
             }
 
@@ -410,23 +412,25 @@ namespace NTR.Controllers
             return View(model);
         }
 
-        public IActionResult ProjectsEditorView(string projectId)
+        public IActionResult ProjectsEditorView(string projectId, string error, string name, int budget)
         {
             ProjectsCreatorModel model = new ProjectsCreatorModel();
             var cookieUser = Request.Cookies["CurrentUser"];
             if (cookieUser != null)
             {
                 model = new ProjectsCreatorModel(cookieUser, projectId);
+                model.Error = error;
+                model.Name = name;
+                model.Budget = budget;
                 var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(5) };
                 Response.Cookies.Append("tempProject", model.tempProject, cookieOptions);
                 Response.Cookies.Append("tempSubs", model.tempSubs, cookieOptions);
             }
-
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult ProjectsEditor(string budget, string name)
+        public IActionResult ProjectsEditor(string budget, string name, string Timestamp)
         {
             ProjectsCreatorModel model;
             var cookieUser = Request.Cookies["CurrentUser"];
@@ -434,10 +438,11 @@ namespace NTR.Controllers
             if (cookieUser != null)
             {
                 model = new ProjectsCreatorModel(cookieUser);
-                if (model.EditProject(cookieProject, name, Int32.Parse(budget)))
+                model.Timestamp = Convert.FromBase64String(Timestamp);
+                if (!model.EditProject(cookieProject, name, Int32.Parse(budget)))
                 {
-                    Response.Cookies.Delete("tempProject");
-                    Response.Cookies.Delete("tempSubs");
+                    return RedirectToAction("ProjectsEditorView", "Home", new {
+                        projectId=cookieProject, error="ECONC", name=name, budget=budget});
                 }
             }
 

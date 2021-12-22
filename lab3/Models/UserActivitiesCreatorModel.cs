@@ -19,6 +19,9 @@ namespace NTR.Models
         public UserMonth UserMonth = new UserMonth();
         public HashSet<Project> ProjectsList;
         public UserActivity userActivity;
+        public Byte[] Timestamp;
+        public int Time;
+        public string Description;
 
         public UserActivitiesCreatorModel()
         {
@@ -41,6 +44,7 @@ namespace NTR.Models
                 .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(this.Date)
                     && ua.UserName == this.User && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
                 .First();
+            this.Timestamp = this.userActivity.Timestamp;
         }
 
         public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)
@@ -48,13 +52,12 @@ namespace NTR.Models
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
             this.Error = Entities.UserActivitiesDBEntity.Insert(parsedDate, this.User, projectId, subactivityId, time, description);
             return;
-
         }
 
         public bool EditUserActivity(string date, string projectId, string subactivity, int time, string description)
         {
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
-            return Entities.UserActivitiesDBEntity.Update(parsedDate, this.User, projectId, subactivity, time, description);
+            return Entities.UserActivitiesDBEntity.Update(parsedDate, this.User, projectId, subactivity, time, description, this.Timestamp);
         }
 
         public IEnumerable<SelectListItem> CreateProjectSelectList

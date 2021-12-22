@@ -1,3 +1,5 @@
+@model NTR.Models.ProjectsCreatorModel
+
 @{
     ViewData["Title"] = "Projects Editor";
 }
@@ -22,6 +24,10 @@
     @{
         if (Model != null && !String.IsNullOrEmpty(Model.User))
         {
+            if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+            {
+                <p style="color:red;">Error: This project has been modified by someone else. Please review the changes before resubmitting.</p>
+            }
             <form method="post" name="project" asp-controller="Home" asp-action="ProjectsEditor">
 
                 <span style="margin: 8px 0px 0px 0px;">Project Code</span>
@@ -29,13 +35,20 @@
 
                 <label for="name">Project Name</label>
                 <input type="text" id="name" name="name" autocomplete="off" value="@Model.Project.Name">
+                @{if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+                {
+                    <span style="color:red;">Entered name: @Model.Name</span><br>
+                }}
 
                 <label for="budget">Time Budget [minutes]</label>
                 <input type="number" id="budget" name="budget" autocomplete="off" value=@Model.Project.Budget required min="1">
+                @{if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+                {
+                    <span style="color:red;">Entered budget: @Model.Budget</span><br>
+                }}
 
-                <!---<span style="margin: 8px 0px 0px 0px;">Subactivities</span> --->
-                <!--- <br><b>@Model.tempSubs</b><br> --->
-
+                @Html.HiddenFor(m => m.Timestamp)
+                
                 <input type="submit" name="ok" value="Edit project">
             </form>
         }

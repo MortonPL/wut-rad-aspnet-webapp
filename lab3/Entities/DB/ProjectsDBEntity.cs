@@ -45,24 +45,23 @@ namespace NTR.Entities
             };
         }
 
-        public static bool Update(string projectid, string username, string name, int budget)
+        public static bool Update(string projectid, string username, string name, int budget, Byte[] timestamp)
         {
             using (var db = new StorageContext())
             {
                 try
                 {
-                    Project project = Select(projectid);
+                    Project project = new Project{
+                        ProjectId=projectid, Name=name, Budget=budget, ManagerName=username, Active=true, Timestamp=timestamp};
                     db.Update(project);
-                    project.Name = name;
-                    project.Budget = budget;
                     db.SaveChanges();
-                    return true;
                 }
-                catch (DbUpdateException)
+                catch (DbUpdateConcurrencyException)
                 {
                     return false;
                 }
             }
+            return true;
         }
 
         public static void Close(string projectid, string manager)

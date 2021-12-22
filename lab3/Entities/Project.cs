@@ -12,6 +12,7 @@ namespace NTR.Entities
         public int Budget { get; set; }
         public string ManagerName { get; set; }
         public bool Active { get; set; }
+        public Byte[] Timestamp { get; set; }
 
         // Parents
         public User Manager { get; set; }

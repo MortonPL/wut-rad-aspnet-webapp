@@ -26,27 +26,27 @@ namespace NTR.Entities
             }
         }
 
-        public static bool Update(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
+        public static bool Update(DateTime date, string userName, string projectId, string subactivityId, int time, string description, Byte[] timestamp)
         {
+            UserActivity userActivity;
             using (var db = new StorageContext())
             {
                 try
                 {
-                    UserActivity userActivity = db.UserActivities.AsEnumerable()
-                        .Where(ua => (Helper.GetYM(ua.Month) == Helper.GetYM(date)
-                            && ua.UserName == userName && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
-                        .First();
-                    db.Update(userActivity);
+                    userActivity = new UserActivity{
+                        Pid=1, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
+                        Date=date, Time=1, Description=description, Timestamp=timestamp};
                     userActivity.Time = time;
                     userActivity.Description = description;
+                    db.Update(userActivity);
                     db.SaveChanges();
-                    return true;
                 }
-                catch (DbUpdateException)
+                catch (DbUpdateConcurrencyException)
                 {
                     return false;
                 }
             }
+            return true;
         }
 
         public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
