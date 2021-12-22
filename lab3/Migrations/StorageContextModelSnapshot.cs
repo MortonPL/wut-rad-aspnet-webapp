@@ -57,6 +57,11 @@ namespace NTR.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
+
                     b.HasKey("ProjectId");
 
                     b.HasIndex("ManagerName");
@@ -115,7 +120,7 @@ namespace NTR.Migrations
                     b.Property<int>("Time")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Timestamp")
+                    b.Property<DateTime>("Timestamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp(6)");

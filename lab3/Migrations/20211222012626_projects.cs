@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NTR.Migrations
 {
-    public partial class newone : Migration
+    public partial class projects : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
                 name: "Timestamp",
-                table: "UserActivities",
+                table: "Projects",
                 type: "timestamp(6)",
                 rowVersion: true,
-                nullable: true)
+                nullable: false)
                 .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
         }
 
@@ -21,7 +21,7 @@ namespace NTR.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Timestamp",
-                table: "UserActivities");
+                table: "Projects");
         }
     }
 }

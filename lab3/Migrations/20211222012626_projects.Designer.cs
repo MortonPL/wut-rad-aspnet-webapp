@@ -9,8 +9,8 @@ using NTR.Entities;
 namespace NTR.Migrations
 {
     [DbContext(typeof(StorageContext))]
-    [Migration("20211217155709_initial")]
-    partial class initial
+    [Migration("20211222012626_projects")]
+    partial class projects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,11 @@ namespace NTR.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
 
                     b.HasKey("ProjectId");
 
@@ -116,6 +121,11 @@ namespace NTR.Migrations
 
                     b.Property<int>("Time")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
 
                     b.HasKey("Pid", "Month", "UserName", "ProjectId");
 
