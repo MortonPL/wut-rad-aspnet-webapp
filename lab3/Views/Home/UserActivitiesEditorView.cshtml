@@ -1,0 +1,72 @@
+@model NTR.Models.UserActivitiesCreatorModel
+
+@{
+    ViewData["Title"] = "User Activities Editor";
+}
+<style>
+    input {
+        display: block;
+    }
+    label {
+        padding: 0px;
+        margin: 8px 0px 0px 0px;
+    }
+    textarea {
+        display: block;
+    }
+    select {
+        display: block;
+    }
+</style>
+
+<br>
+<div>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User))
+        {
+            if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+            {
+                <p style="color:red;">Error: This activity has been modified by someone else. Please review the changes before resubmitting.</p>
+            }
+            <form method="post" name="activity" asp-controller="Home" asp-action="UserActivitiesEdit">
+
+                <span style="margin: 8px 0px 0px 0px;">Project</span>
+                <br><b>@Model.TempProject</b><br>
+                @Html.HiddenFor(m => m.TempProject)
+
+                <span style="margin: 8px 0px 0px 0px;">Date of activity</span>
+                <br><b>@Model.Date</b><br>
+                @Html.HiddenFor(m => m.Date)
+
+                <span style="margin: 8px 0px 0px 0px;">Subactivity</span>
+                <br><b>@Model.TempSubactivity</b><br>
+                @Html.HiddenFor(m => m.TempSubactivity)
+
+                <label for="time">Time spent [minutes]</label>
+                <input type="number" id="time" name="time" autocomplete="off" value=@Model.userActivity.Time required min="1">
+                @{if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+                {
+                    <span style="color:red;">Entered time: @Model.Time</span><br>
+                }}
+
+                <label for="description">Description</label>
+                <textarea id="description" name="activity" rows="4" cols="32" placeholder="Enter a short description.">@Model.userActivity.Description</textarea>
+                @{if (!String.IsNullOrEmpty(Model.Error) && Model.Error == "ECONC")
+                {
+                    <span style="color:red;">Entered description: &#13;&#10;@Model.Description</span><br>
+                }}
+
+                @Html.HiddenFor(m => m.Timestamp)
+
+                <input type="submit" name="ok" value="Create activity">
+            </form>
+        }
+        else
+        {
+            <p><i>Only logged users can edit!</i></p>
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="UserActivitiesView">Go back</a>

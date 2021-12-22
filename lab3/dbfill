@@ -1,0 +1,52 @@
+TRUNCATE TABLE user_activities CASCADE;
+TRUNCATE TABLE approved_activities CASCADE;
+TRUNCATE TABLE subactivities CASCADE;
+TRUNCATE TABLE user_months CASCADE;
+TRUNCATE TABLE projects CASCADE;
+TRUNCATE TABLE users CASCADE;
+
+DROP TABLE useractivities CASCADE;
+DROP TABLE approvedactivities CASCADE;
+DROP TABLE subactivities CASCADE;
+DROP TABLE usermonths CASCADE;
+DROP TABLE projects CASCADE;
+DROP TABLE users CASCADE;
+
+INSERT INTO users (name) VALUES ('Admin');
+INSERT INTO users (name) VALUES ('Balbinka');
+INSERT INTO users (name) VALUES ('Pan Jerzy');
+
+INSERT INTO projects (project_id, name, budget, manager_name, active) VALUES ('ARGUS-123', 'Argus', 125, 'Admin', True);
+INSERT INTO projects (project_id, name, budget, manager_name, active) VALUES ('OTHER', 'Other', -1, 'Admin', False);
+INSERT INTO projects (project_id, name, budget, manager_name, active) VALUES ('kompot-233', 'Picie kompotu', 360, 'Balbinka', True);
+INSERT INTO projects (project_id, name, budget, manager_name, active) VALUES ('GoogleA', 'Integracja z Google', 100, 'Pan Jerzy', False);
+
+INSERT INTO user_months (month, user_name, frozen) VALUES ('2021-12-01 01:01:01-01', 'Admin', False);
+INSERT INTO user_months (month, user_name, frozen) VALUES ('2021-12-01 01:01:01-01', 'Balbinka', False);
+INSERT INTO user_months (month, user_name, frozen) VALUES ('2021-12-01 01:01:01-01', 'Pan Jerzy', True);
+
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('', 'ARGUS-123');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('database', 'ARGUS-123');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('other', 'ARGUS-123');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('', 'OTHER');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('', 'kompot-233');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('Warzenie kompotu', 'kompot-233');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('Test smaku', 'kompot-233');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('Degustacja', 'kompot-233');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('', 'GoogleA');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('Optymalizacja zapytan', 'GoogleA');
+INSERT INTO subactivities (subactivity_id, project_id) VALUES ('Chmura', 'GoogleA');
+
+INSERT INTO approved_activities (month, user_name, project_id, time) VALUES ('2021-12-01 01:01:01-01', 'Pan Jerzy', 'GoogleA', 30);
+
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Admin', '', 'OTHER', '2021-12-01 01:01:01-01', 120, 'Picie kawy');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Admin', '', 'ARGUS-123', '2021-12-01 01:01:01-01', 45, 'Kompilacja');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Admin', '', 'OTHER', '2021-12-01 10:01:01-01', 120, 'Office arrangement');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Admin', 'other', 'ARGUS-123', '2021-12-01 01:01:01-01', 45, 'Project meeting');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Admin', 'Test smaku', 'kompot-233', '2021-12-01 01:01:01-01', 21, 'pyszności 2');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Balbinka', 'Warzenie kompotu', 'kompot-233', '2021-12-05 01:01:01-01', 10, 'kompot śliwkowy');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Balbinka', 'Warzenie kompotu', 'kompot-233', '2021-12-06 01:01:01-01', 10, 'kompot śliwkowy');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Balbinka', 'Warzenie kompotu', 'kompot-233', '2021-12-09 01:01:01-01', 12, 'kompot jabłkowy');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Balbinka', 'Test smaku', 'kompot-233', '2021-12-10 01:01:01-01', 20, 'smakowanie po trochu');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Pan Jerzy', 'Warzenie kompotu', 'kompot-233', '2021-12-09 01:01:01-01', 12, 'kompot jabłkowy');
+INSERT INTO user_activities (month, user_name, subactivity_id, project_id, date, time, description) VALUES ('2021-12-01 01:01:01-01', 'Pan Jerzy', 'Chmura', 'GoogleA', '2021-12-07 01:01:01-01', 30, 'Głowa w chmurach');

@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<style>
+    table {
+        width:100%;
+        border: 1px solid black
+    }
+    tr:nth-child(even) {
+        background-color: #dfdfdf;
+    }
+    th {
+        border: 1px solid grey;
+    }
+    td {
+        vertical-align: top;
+        border-left: 1px solid grey;
+    }
+</style>
+
+<form method="post">
+    <p>Change date below:</p>
+    <input type="date" name="date" required>
+    <input type="submit" name="type" value="Change Date">
+</form>
+<br>
+@{
+    if (Model != null && Model.Date != DateTime.MinValue)
+    {
+        <h3>Manage activities for @Model.GetMonth()</h3>
+    }
+}
+
+<br>
+<div class="text-center">
+    @{
+        if (Model != null)
+        {
+            if (Model.UserMonths.Count != 0)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Total Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usermonth in Model.UserMonths)
+                        {
+                            <tr>
+                                <td>@usermonth.User</td>
+                                <td>@usermonth.Time</td>
+                                <td><a style="display: inline-block;" asp-controller="Home" asp-action="ProjectInspectorApprovalView"
+                                    asp-route-user="@usermonth.User"
+                                    asp-route-date="@Model.Date"
+                                    asp-route-time="@usermonth.Time">Modify</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p><i>This project has no work reported!</i></p>
+            }
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="ProjectsView">Go back</a>

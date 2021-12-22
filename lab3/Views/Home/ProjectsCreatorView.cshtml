@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Project Creator";
+}
+
+<style>
+    input {
+        display: block;
+    }
+    label {
+        padding: 0px;
+        margin: 8px 0px 0px 0px;
+    }
+    textarea {
+        display: block;
+    }
+</style>
+
+<p>Here you will be able to create new projects.</p>
+<br>
+
+<div>
+    @{
+        if (Model != null && !String.IsNullOrEmpty(Model.User))
+        {
+            <form method="post" name="project" asp-controller="Home" asp-action="ProjectCreate">
+                <label for="code">Project Code</label>
+                <input type="text" id="code" name="code" autocomplete="off" required>
+
+                <label for="name">Project Name</label>
+                <input type="text" id="name" name="name" autocomplete="off" required>
+
+                <label for="budget">Time Budget [minutes]</label>
+                <input type="number" id="budget" name="budget" autocomplete="off" required min="1">
+
+                <label for="subcategories">Subactivities</label>
+                <textarea id="subcategories" name="project" rows="8" cols="32" placeholder="Enter subcategories separated by new lines."></textarea>
+                
+                <input type="submit" name="ok" value="Create project">
+            </form>
+        }
+        else
+        {
+            <p><i>Only logged users can create new projects!</i></p>
+        }
+    }
+</div>
+
+<br>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go back</a>
