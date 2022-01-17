@@ -3,6 +3,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+// builder.Services.AddDbContext<NTR.Entities.StorageContext>(
+//    options => options.UseMySql(Configuration.GetConnectionString("StorageContext"),
+//    ServerVersion.AutoDetect(Configuration.GetConnectionString("StorageContext")))
+// );
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -17,11 +22,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
+app.MapControllers();
 app.MapFallbackToFile("index.html");;
 
 app.Run();
