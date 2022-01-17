@@ -3,16 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace lab4.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
 public class BaseController : Controller
 {
-    public BaseController()
-    {
-    }
+    private ILogger<BaseController> _logger;
 
-    [HttpGet]
-    public IEnumerable<int> Get()
+    public BaseController(ILogger<BaseController> logger)
     {
-        return Enumerable.Range(1, 5).ToArray();
+        _logger = logger;
     }
 }
