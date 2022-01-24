@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTR.Helpers
+namespace lab4.Helpers
 {
     public static class Helper
     {

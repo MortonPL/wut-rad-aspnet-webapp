@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using NTR.Models;
-using NTR.Entities;
-using NTR.Helpers;
+using lab4.Models;
+using lab4.Entities;
+using lab4.Helpers;
 
-namespace NTR.Controllers
+namespace lab4.Controllers
 {
     public class HomeController : Controller
     {

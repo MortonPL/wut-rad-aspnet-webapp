@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-using NTR.Entities;
+using lab4.Entities;
 
-namespace NTR.Entities
+namespace lab4.Entities
 {
     public class UserMonthT
     {
@@ -13,7 +13,8 @@ namespace NTR.Entities
         public int Time {get; set; }
     }
 }
-namespace NTR.Models
+
+namespace lab4.Models
 {
     public class ProjectInspectorModel
     {

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
-using EFCore.NamingConventions;
 
-namespace NTR.Entities {
+namespace lab4.Entities {
     public class StorageContext : DbContext {
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserMonth> UserMonths { get; set; }

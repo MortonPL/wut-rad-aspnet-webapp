@@ -1,6 +1,6 @@
 using System;
 
-namespace NTR.Models
+namespace lab4.Models
 {
     public class ErrorViewModel
     {

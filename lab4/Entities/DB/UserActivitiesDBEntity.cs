@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-using NTR.Helpers;
+using lab4.Helpers;
 
-namespace NTR.Entities
+namespace lab4.Entities
 {
     public class UserActivitiesDBEntity
     {
