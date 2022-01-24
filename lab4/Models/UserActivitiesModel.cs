@@ -5,10 +5,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using NTR.Entities;
-using NTR.Helpers;
+using lab4.Entities;
+using lab4.Helpers;
 
-namespace NTR.Models
+namespace lab4.Models
 {
     public class ActivityStats
     {

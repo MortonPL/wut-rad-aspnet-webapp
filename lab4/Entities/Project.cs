@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTR.Entities
+namespace lab4.Entities
 {
     public class Project
     {

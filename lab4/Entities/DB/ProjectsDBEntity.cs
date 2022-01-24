@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-using NTR.Helpers;
-namespace NTR.Entities
+using lab4.Helpers;
+namespace lab4.Entities
 {
     public class ProjectsDBEntity
     {

@@ -1,28 +1,35 @@
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
-// builder.Services.AddDbContext<NTR.Entities.StorageContext>(
-//    options => options.UseMySql(Configuration.GetConnectionString("StorageContext"),
-//    ServerVersion.AutoDetect(Configuration.GetConnectionString("StorageContext")))
-// );
+string conn = "Server=localhost;Database=ntr;User=bmoroz;Password=hiperbalbinka";
+builder.Services.AddDbContext<lab4.Entities.StorageContext>(
+    options => options.UseMySql(conn, ServerVersion.AutoDetect(conn))
+);
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 app.MapControllers();
-app.MapFallbackToFile("index.html");;
+app.MapFallbackToFile("index.html");
+
+using (var context = new lab4.Entities.StorageContext())
+{
+    if (!context.Database.CanConnect())
+    {
+        throw new Exception("Cannot connect to the database!");
+    } else {
+        context.Database.EnsureCreated();
+    }
+}
 
 app.Run();
