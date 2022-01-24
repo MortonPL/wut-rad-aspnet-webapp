@@ -24,5 +24,13 @@ namespace lab4.Entities
                 db.SaveChanges();
             }
         }
+
+        public static bool Find(string username)
+        {
+            using (var db = new StorageContext())
+            {
+                return db.Users.Any(u => u.Name == username);
+            }
+        }
     }
 }
