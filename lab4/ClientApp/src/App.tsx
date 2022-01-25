@@ -8,6 +8,7 @@ import MainLayout from './shared-components/MainLayout';
 import NotFoundComponent from './routes/NotFound';
 import HomeComponent from './routes/Home';
 import UserComponent from './routes/User';
+import ActivitiesComponent from './routes/Activities';
 
 function App() {
     const [userState, setUserState] = useState<UserState>(emptyUserState);
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/" element={<MainLayout />}>
                     <Route path="" element={<HomeComponent />} />
                     <Route path="user" element={<UserComponent />} />
+                    <Route path="activities" element={<ActivitiesComponent />} />
                     <Route path="*" element={<NotFoundComponent />} />
                 </Route>
             </Routes>

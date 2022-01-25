@@ -3,7 +3,6 @@ namespace lab4.Entities
     public class SubactivityJson : EntityJson
     {
         public string subactivityId { get; set; } = "";
-        public string projectId { get; set; } = "";
     }
 
     public class Subactivity : IEntity<SubactivityJson>
@@ -25,7 +24,7 @@ namespace lab4.Entities
 
         public SubactivityJson toJSON()
         {
-            return new SubactivityJson{subactivityId=SubactivityId, projectId=ProjectId};
+            return new SubactivityJson{subactivityId=SubactivityId};
         }
     }
 }

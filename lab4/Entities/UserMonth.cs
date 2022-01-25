@@ -35,11 +35,7 @@ namespace lab4.Entities
         public UserMonth()
         {
             this.UserActivities = new List<UserActivity>();
-        }
-
-        public UserMonth(bool invalid)
-        {
-            this.UserActivities = new List<UserActivity>();
+            this.ApprovedActivities = new List<ApprovedActivity>();
         }
 
         public UserMonthJson toJSON()
