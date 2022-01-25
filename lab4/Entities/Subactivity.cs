@@ -1,6 +1,12 @@
 namespace lab4.Entities
 {
-    public class Subactivity
+    public class SubactivityJson : EntityJson
+    {
+        public string subactivityId { get; set; } = "";
+        public string projectId { get; set; } = "";
+    }
+
+    public class Subactivity : IEntity<SubactivityJson>
     {
         // PK
         public string SubactivityId { get; set; } = "";
@@ -15,6 +21,11 @@ namespace lab4.Entities
         public bool IsEqualSubactivity(string other)
         {
             return (this.SubactivityId == other) || (String.IsNullOrEmpty(this.SubactivityId) && String.IsNullOrEmpty(other));
+        }
+
+        public SubactivityJson toJSON()
+        {
+            return new SubactivityJson{subactivityId=SubactivityId, projectId=ProjectId};
         }
     }
 }

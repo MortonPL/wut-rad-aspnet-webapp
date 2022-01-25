@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 
+using lab4.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,7 +30,7 @@ using (var context = new lab4.Entities.StorageContext())
     {
         throw new Exception("Cannot connect to the database!");
     } else {
-        context.Database.EnsureCreated();
+        PopulateDBEntity.Populate(context);
     }
 }
 
