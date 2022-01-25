@@ -32,7 +32,7 @@ public class UserController : BaseController
     [Route("all")]
     public IActionResult GetAll()
     {
-        var response = Entities.UsersDBEntity.Select();
+        var response = Entities.UsersDBEntity.SelectNames();
         return Ok(response);
     }
 

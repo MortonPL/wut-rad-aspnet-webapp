@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 using lab4.Helpers;
@@ -19,32 +16,24 @@ namespace lab4.Entities
                     .Where(um => (um.UserName == name && DateTime.Equals(Helper.GetYM(um.Month), Helper.GetYM(date))))
                     .ToHashSet();
                 if (usermonths.Count > 0)
-                {
                     return usermonths.First();
-                }
-                return new UserMonth(true);
+                else
+                    return new UserMonth(true);
             }
         }
 
-        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string description, Byte[] timestamp)
+        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string description)
         {
             UserActivity userActivity;
             using (var db = new StorageContext())
             {
-                try
-                {
-                    userActivity = new UserActivity{
-                        Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
-                        Date=date, Time=1, Description=description, Timestamp=timestamp};
-                    userActivity.Time = time;
-                    userActivity.Description = description;
-                    db.Update(userActivity);
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return false;
-                }
+                userActivity = new UserActivity{
+                    Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
+                    Date=date, Time=1, Description=description};
+                userActivity.Time = time;
+                userActivity.Description = description;
+                db.Update(userActivity);
+                db.SaveChanges();
             }
             return true;
         }

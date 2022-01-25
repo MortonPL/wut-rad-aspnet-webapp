@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
 
 namespace lab4.Entities {
     public class StorageContext : DbContext {
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<UserMonth> UserMonths { get; set; }
-        public DbSet<UserActivity> UserActivities { get; set; }
-        public DbSet<ApprovedActivity> ApprovedActivities { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Subactivity> Subactivities { get; set; }
+        public virtual DbSet<Project> Projects { get; set; } = null!;
+        public virtual DbSet<UserMonth> UserMonths { get; set; } = null!;
+        public virtual DbSet<UserActivity> UserActivities { get; set; } = null!;
+        public virtual DbSet<ApprovedActivity> ApprovedActivities { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Subactivity> Subactivities { get; set; } = null!;
 
-        public StorageContext(){}
+        public StorageContext() { }
 
         public StorageContext(DbContextOptions<StorageContext> options)
             : base(options)
@@ -36,7 +32,6 @@ namespace lab4.Entities {
                 entity.Property(ua => ua.Date).IsRequired();
                 entity.Property(ua => ua.SubactivityId).IsRequired();
                 entity.Property(ua => ua.Description);
-                entity.Property(ua => ua.Timestamp).IsRowVersion().IsRequired();
                 entity.HasOne(ua => ua.Subactivity).WithMany(s => s.UserActivities).HasForeignKey(ua => new { ua.ProjectId, ua.SubactivityId });
                 entity.HasOne(ua => ua.Project).WithMany(p => p.UserActivities).HasForeignKey(ua => new { ua.ProjectId});
                 entity.HasOne(ua => ua.UserMonth).WithMany(um => um.UserActivities).HasForeignKey(ua => new { ua.Month, ua.UserName });
@@ -48,7 +43,6 @@ namespace lab4.Entities {
                 entity.Property(p => p.Budget).IsRequired();
                 entity.Property(p => p.Active).IsRequired();
                 entity.Property(p=> p.ManagerName).IsRequired();
-                entity.Property(p => p.Timestamp).IsRowVersion().IsRequired();
                 entity.HasOne(p => p.Manager).WithMany(u => u.Projects).HasForeignKey(p => p.ManagerName);
             });
 
