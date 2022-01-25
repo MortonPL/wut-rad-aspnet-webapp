@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-using lab4.Entities;
 
 namespace lab4.Controllers;
 
@@ -19,15 +16,15 @@ public class UserController : BaseController
     public IActionResult AmILogged()
     {
         var cookie = Request.Cookies["sessionUser"];
-        var check = Enforcer.DemandLogged(this);
-        if (check == null)
+        var unauth = Enforcer.DemandLogged(this);
+        if (unauth == null)
         {
             var response = new {name=cookie};
             return Ok(response);
         }
         else
         {
-            return check;
+            return unauth;
         }
     }
 
