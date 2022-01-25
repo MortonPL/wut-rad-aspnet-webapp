@@ -30,7 +30,8 @@ using (var context = new lab4.Entities.StorageContext())
     {
         throw new Exception("Cannot connect to the database!");
     } else {
-        PopulateDBEntity.Populate(context);
+        var pdbe = new PopulateDBEntity();
+        pdbe.Populate(context);
     }
 }
 

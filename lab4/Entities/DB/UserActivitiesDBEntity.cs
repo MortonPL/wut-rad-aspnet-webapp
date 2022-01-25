@@ -18,7 +18,7 @@ namespace lab4.Entities
                 if (usermonths.Count > 0)
                     return usermonths.First();
                 else
-                    return new UserMonth(true);
+                    return new UserMonth{Month=date, UserName=name};
             }
         }
 
