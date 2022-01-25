@@ -7,6 +7,8 @@ export default class FetchWrapper {
     static postUserLogin = (user: User) => FetchWrapper._fetch(`user/login?user=${user.name}`, 'POST');
     static postUserLogout = () => FetchWrapper._fetch(`user/logout`, 'POST');
 
+    static putUserRegister = (user: User) => FetchWrapper._fetch(`user/create?user=${user.name}`, 'PUT');
+
 
     private static _fetch = (url: string, method: string = 'GET', payload?: {}) => {
         const request: RequestInit = { method: method };
