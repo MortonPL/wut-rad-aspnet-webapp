@@ -7,11 +7,11 @@ namespace lab4.Entities
 {
     public class UsersDBEntity
     {
-        public static HashSet<User> Select()
+        public static HashSet<string> SelectNames()
         {
             using (var db = new StorageContext())
             {
-                return new HashSet<User>(db.Users.Select(u => u).ToHashSet());
+                return new HashSet<string>(db.Users.Select(u => u.Name).ToHashSet());
             }
         }
 

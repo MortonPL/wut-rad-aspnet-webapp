@@ -7,13 +7,13 @@ namespace lab4.Entities
     {
         // PK
         public DateTime Month { get; set; }
-        public string UserName { get; set; }
-        public string ProjectId { get; set; }
+        public string UserName { get; set; } = "";
+        public string ProjectId { get; set; } = "";
 
         public int Time { get; set; }
         
         // Parents
-        public virtual Project Project { get; set; }
-        public virtual UserMonth UserMonth { get; set; }
+        public virtual Project? Project { get; set; }
+        public virtual UserMonth? UserMonth { get; set; }
     }
 }

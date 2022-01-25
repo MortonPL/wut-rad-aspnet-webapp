@@ -24,63 +24,6 @@ namespace lab4.Controllers
             _logger = logger;
         }
 
-        // ****************************** INDEX ****************************** //
-        public IActionResult Index()
-        {
-            UserModel model = new UserModel();
-            var cookie = Request.Cookies["CurrentUser"];
-            if (cookie != null)
-            {
-                model.User = cookie;
-            }
-            return View(model);
-        }
-
-        public IActionResult Logout()
-        {
-            Response.Cookies.Delete("CurrentUser");
-            return RedirectToAction("Index", "Home");
-        }
-
-        // ****************************** USER ****************************** //
-        public IActionResult UserView()
-        {
-            return View(new UserModel());
-        }
-
-        [HttpGet]
-        public IActionResult UserView(UserModel model)
-        {
-            return View(model);
-        }
-        
-        [HttpPost]
-        public IActionResult UserLogin(String user)
-        {
-            if (user != null)
-            {
-                var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
-                Response.Cookies.Append("CurrentUser", user, cookieOptions);
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        public IActionResult UserCreate(String user)
-        { 
-            UserModel model = new UserModel(user);
-            if (!String.IsNullOrEmpty(model.UsernameError))
-            {
-                return UserView(model);
-            }
-
-            model.AddUser(user);
-            var cookieOptions = new CookieOptions { HttpOnly = true, Secure = false, MaxAge = TimeSpan.FromMinutes(15) };
-            Response.Cookies.Append("CurrentUser", user, cookieOptions);
-            return RedirectToAction("Index", "Home");
-        }
-
         // ****************************** USER ACTIVITIES ****************************** //
         public IActionResult UserActivitiesView()
         {

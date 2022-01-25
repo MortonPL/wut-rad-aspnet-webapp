@@ -1,36 +1,21 @@
-using System;
-using System.Collections.Generic;
-
 namespace lab4.Entities
 {
     public class Project
     {
         // PK
-        public string ProjectId { get; set; }
+        public string ProjectId { get; set; } = "";
 
-        public string Name { get; set; }
-        public int Budget { get; set; }
-        public string ManagerName { get; set; }
-        public bool Active { get; set; }
-        public Byte[] Timestamp { get; set; }
+        public string Name { get; set; } = "";
+        public int Budget { get; set; } = 0;
+        public string ManagerName { get; set; } = "";
+        public bool Active { get; set; } = true;
 
         // Parents
-        public User Manager { get; set; }
+        public User? Manager { get; set; }
 
         // Children
-        public virtual ICollection<ApprovedActivity> ApprovedActivities { get; set; }
-        public virtual ICollection<Subactivity> Subactivities { get; set; }
-        public virtual ICollection<UserActivity> UserActivities { get; set; }
-
-        public Project(){}
-
-        public Project(string projectId, string managerName, string name, int budget)
-        {
-            this.ProjectId = projectId;
-            this.ManagerName = managerName;
-            this.Name = name;
-            this.Budget = budget;
-            this.Active = true;
-        }
+        public virtual ICollection<ApprovedActivity>? ApprovedActivities { get; set; }
+        public virtual ICollection<Subactivity>? Subactivities { get; set; }
+        public virtual ICollection<UserActivity>? UserActivities { get; set; }
     }
 }

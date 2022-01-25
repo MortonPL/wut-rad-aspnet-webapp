@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 using lab4.Helpers;
@@ -27,7 +24,8 @@ namespace lab4.Entities
         public static void Insert(string projectid, string username, string name, int budget, string subactivities)
         {
             subactivities = subactivities != null ? subactivities : "";
-            Project project = new Project(projectid, username, name, budget);
+            Project project = new Project{
+                ProjectId=projectid, Name=name, Budget=budget, ManagerName=username, Active=true};
             using (var db = new StorageContext())
             {
                 db.Projects.Add(project);
@@ -37,29 +35,20 @@ namespace lab4.Entities
                 {
                     List<string> split = subactivities.Split(delims, StringSplitOptions.RemoveEmptyEntries).ToList();
                     foreach(string s in split.Prepend(""))
-                    {
                         db.Subactivities.Add(new Subactivity{SubactivityId=s, ProjectId=projectid, Project=project});
-                    }
                 }
                 db.SaveChanges();
             };
         }
 
-        public static bool Update(string projectid, string username, string name, int budget, Byte[] timestamp)
+        public static bool Update(string projectid, string username, string name, int budget)
         {
             using (var db = new StorageContext())
             {
-                try
-                {
-                    Project project = new Project{
-                        ProjectId=projectid, Name=name, Budget=budget, ManagerName=username, Active=true, Timestamp=timestamp};
-                    db.Update(project);
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return false;
-                }
+                Project project = new Project{
+                    ProjectId=projectid, Name=name, Budget=budget, ManagerName=username, Active=true};
+                db.Update(project);
+                db.SaveChanges();
             }
             return true;
         }
@@ -82,10 +71,9 @@ namespace lab4.Entities
                     .GroupBy(ua => ua.ProjectId, ua => ua.Time, (id, time) => new {Id=id, Total=time.Sum()})
                     .Where(q => q.Id == project.ProjectId);
                 if (uas.Count() > 0)
-                {
-                return uas.Select(q => q.Total).First();
-                }
-                return 0;
+                    return uas.Select(q => q.Total).First();
+                else
+                    return 0;
             }
         }
 

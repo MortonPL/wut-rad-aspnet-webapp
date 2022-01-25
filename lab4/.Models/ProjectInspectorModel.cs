@@ -9,8 +9,8 @@ namespace lab4.Entities
 {
     public class UserMonthT
     {
-        public string User { get; set; }
-        public int Time {get; set; }
+        public string? User { get; set; }
+        public int? Time {get; set; }
     }
 }
 
