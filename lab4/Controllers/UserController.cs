@@ -18,13 +18,16 @@ public class UserController : BaseController
     [Route("me")]
     public IActionResult AmILogged()
     {
-        
         var cookie = Request.Cookies["sessionUser"];
-        if (string.IsNullOrEmpty(cookie)) {
-            return Unauthorized();
-        } else {
+        var check = Enforcer.DemandLogged(this);
+        if (check == null)
+        {
             var response = new {name=cookie};
             return Ok(response);
+        }
+        else
+        {
+            return check;
         }
     }
 
@@ -32,7 +35,7 @@ public class UserController : BaseController
     [Route("all")]
     public IActionResult GetAll()
     {
-        var response = Entities.UsersDBEntity.SelectNames();
+        var response = Entities.UsersDBEntity.Select().Select(u => u.toJSON());
         return Ok(response);
     }
 

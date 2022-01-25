@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace lab4.Entities
 {
     public class UsersDBEntity
     {
-        public static HashSet<string> SelectNames()
+        public static HashSet<User> Select()
         {
             using (var db = new StorageContext())
             {
-                return new HashSet<string>(db.Users.Select(u => u.Name).ToHashSet());
+                return new HashSet<User>(db.Users.ToHashSet());
             }
         }
 
@@ -25,8 +22,10 @@ namespace lab4.Entities
             }
         }
 
-        public static bool Find(string username)
+        public static bool Find(string? username)
         {
+            if (string.IsNullOrEmpty(username))
+                return false;
             using (var db = new StorageContext())
             {
                 return db.Users.Any(u => u.Name == username);
