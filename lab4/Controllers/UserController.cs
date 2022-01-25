@@ -65,7 +65,15 @@ public class UserController : BaseController
     [Route("create")]
     public IActionResult Create(string user)
     {
-        Entities.UsersDBEntity.Insert(user);
-        return Ok(user);
+        var response = Entities.UsersDBEntity.Find(user);
+        if (response)
+        {
+            return Conflict(user);
+        }
+        else
+        {
+            Entities.UsersDBEntity.Insert(user);
+            return Ok(user);
+        }
     }
 }
