@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 
-type NotFoundProps = {};
+type NotFoundComponentProps = {};
 
-export const NotFound: FunctionComponent<NotFoundProps> = () => {
+export const NotFoundComponent: FunctionComponent<NotFoundComponentProps> = () => {
     return (
         <p>
             Page not found!
@@ -10,4 +10,4 @@ export const NotFound: FunctionComponent<NotFoundProps> = () => {
     );
 }
 
-export default NotFound;
+export default NotFoundComponent;

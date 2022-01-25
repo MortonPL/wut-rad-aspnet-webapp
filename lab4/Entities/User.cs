@@ -1,5 +1,11 @@
 namespace lab4.Entities
 {
+
+    public class UserJson
+    {
+        public string name { get; set; } = "";
+    }
+
     public class User
     {
         // PK
@@ -12,6 +18,11 @@ namespace lab4.Entities
         public User(string name)
         {
             this.Name = name;
+        }
+
+        public UserJson toJSON()
+        {
+            return new UserJson{name=this.Name};
         }
     }
 }
