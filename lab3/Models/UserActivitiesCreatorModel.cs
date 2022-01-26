@@ -22,6 +22,7 @@ namespace NTR.Models
         public Byte[] Timestamp;
         public int Time;
         public string Description;
+        public int Pid;
 
         public UserActivitiesCreatorModel()
         {
@@ -45,6 +46,7 @@ namespace NTR.Models
                     && ua.UserName == this.User && ua.ProjectId == projectId && ua.SubactivityId == subactivityId))
                 .First();
             this.Timestamp = this.userActivity.Timestamp;
+            this.Pid = this.userActivity.Pid;
         }
 
         public void AddUserActivity(string date, string projectId, string subactivityId, int time, string description)
@@ -54,10 +56,10 @@ namespace NTR.Models
             return;
         }
 
-        public bool EditUserActivity(string date, string projectId, string subactivity, int time, string description)
+        public bool EditUserActivity(string date, string projectId, string subactivity, int time, string description, int pid)
         {
             DateTime parsedDate = DateTime.Parse(date, new CultureInfo("pl-pl"));
-            return Entities.UserActivitiesDBEntity.Update(parsedDate, this.User, projectId, subactivity, time, description, this.Timestamp);
+            return Entities.UserActivitiesDBEntity.Update(parsedDate, pid, this.User, projectId, subactivity, time, description, this.Timestamp);
         }
 
         public IEnumerable<SelectListItem> CreateProjectSelectList
