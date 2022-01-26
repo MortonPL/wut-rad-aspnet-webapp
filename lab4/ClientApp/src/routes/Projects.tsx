@@ -80,7 +80,7 @@ export const ProjectsComponent: FunctionComponent<ProjectsComponentProps> = () =
             <tbody>
                 {stats.map((stat: ApprovedActivityStats) => <tr key={stat.projectId}>
                     <>
-                        <td>{stat.projectId}</td>
+                        <td><b>{stat.projectId}</b></td>
                         <td>{findProjectName(stat.projectId)}</td>
                         <td>{stat.time}</td>
                     </>

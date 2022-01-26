@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-string conn = "Server=localhost;Database=ntr;User=bmoroz;Password=hiperbalbinka";
+string conn = "Server=localhost;Database=ntr;User=app;Password=maslo";
 builder.Services.AddDbContext<lab4.Entities.StorageContext>(
     options => options.UseMySql(conn, ServerVersion.AutoDetect(conn))
 );

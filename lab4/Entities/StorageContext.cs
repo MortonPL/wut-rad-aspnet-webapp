@@ -17,7 +17,7 @@ namespace lab4.Entities {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string conn = "server=localhost;database=ntr;user=bmoroz;password=hiperbalbinka";
+            string conn = "server=localhost;database=ntr;user=app;password=maslo";
             optionsBuilder
                 .UseMySql(conn, ServerVersion.AutoDetect(conn));
         }
