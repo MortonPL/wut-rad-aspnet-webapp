@@ -26,4 +26,20 @@ public class ProjectController : BaseController
             return unauth;
         }
     }
+
+    [HttpGet]
+    [Route("stats")]
+    public IActionResult GetStats(string user)
+    {
+        var unauth = Enforcer.DemandLogged(this);
+        if (unauth == null)
+        {
+            var response = Entities.ApprovedActivitiesDBEntity.SelectStats(user);
+            return Ok(response);
+        }
+        else
+        {
+            return unauth;
+        }
+    }
 }

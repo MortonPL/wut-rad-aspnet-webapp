@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace lab4.Entities
 {
+    public class ApprovedActivityStatsJson : EntityJson
+    {
+        public string projectId { get; set; } = "";
+        public int time { get; set; }
+    }
+
     public class ApprovedActivityJson : EntityJson
     {
         public DateTime month { get; set; } = new DateTime();

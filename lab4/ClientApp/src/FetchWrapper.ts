@@ -7,6 +7,7 @@ export default class FetchWrapper {
     static getUsers = () => FetchWrapper._fetch(`user/all/`, 'GET');
     static getUserMonth = (user: string, month: Date) => FetchWrapper._fetch(`useractivity/one/?user=${user}&month=${dateToString(month)}`, 'GET');
     static getProjects = () => FetchWrapper._fetch(`project/all/`, 'GET');
+    static getUserStats = (user: string) => FetchWrapper._fetch(`project/stats?user=${user}`, 'GET');
 
     static postUserLogin = (user: User) => FetchWrapper._fetch(`user/login?user=${user.name}`, 'POST');
     static postUserLogout = () => FetchWrapper._fetch(`user/logout`, 'POST');
