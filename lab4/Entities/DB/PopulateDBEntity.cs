@@ -73,7 +73,9 @@ namespace lab4.Entities
 
             var aas = new List<ApprovedActivity>
             {
-                new ApprovedActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, ProjectId="NTR", Time=42}
+                new ApprovedActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, ProjectId="KOMPOT", Time=32},
+                new ApprovedActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, ProjectId="KOMPOT", Time=10},
+                new ApprovedActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, ProjectId="NTR", Time=27}
             };
             Add<ApprovedActivity>(db, db.ApprovedActivities, aas);
 

@@ -9,6 +9,7 @@ import NotFoundComponent from './routes/NotFound';
 import HomeComponent from './routes/Home';
 import UserComponent from './routes/User';
 import ActivitiesComponent from './routes/Activities';
+import ProjectsComponent from './routes/Projects';
 
 function App() {
     const [userState, setUserState] = useState<UserState>(emptyUserState);
@@ -39,6 +40,7 @@ function App() {
                     <Route path="" element={<ActivitiesComponent />} />
                     <Route path="user" element={<UserComponent />} />
                     <Route path="activities" element={<ActivitiesComponent />} />
+                    <Route path="projects" element={<ProjectsComponent />} />
                     <Route path="*" element={<NotFoundComponent />} />
                 </Route>
             </Routes>

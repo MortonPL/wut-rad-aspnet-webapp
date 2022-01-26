@@ -3,12 +3,12 @@ export class UserActivity {
     userName: string;
     pid: number;
     projectId: string;
-    date: Date;
+    date: string;
     subactivityId: string;
     time: number;
     description: string;
 
-    constructor(month: Date, userName: string, pid: number, projectId: string, date: Date, subactivityId: string, time: number, description: string) {
+    constructor(month: Date, userName: string, pid: number, projectId: string, date: string, subactivityId: string, time: number, description: string) {
         this.month = month;
         this.userName = userName;
         this.pid = pid;
@@ -37,7 +37,7 @@ export class UserActivity {
     }
 
     static createEmpty() {
-        return new UserActivity(new Date(), '', 0, '', new Date(), '', 0, '');
+        return new UserActivity(new Date(), '', 0, '', '', '', 0, '');
     }
 
     modify(setter: any, key: string, value: any) {

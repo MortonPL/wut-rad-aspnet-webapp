@@ -28,7 +28,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         if (userState.state.isLogged && userState.state.name) {
             ua.month = umonth.month;
             ua.userName = userState.state.name;
-            ua.date = new Date();
+            ua.date = dateToString(new Date());
             FetchWrapper.putUA(ua).then(() => {
                 getUserMonth();
             })
@@ -58,7 +58,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
     // EFFECT HOOKS METHODS
     const getUserMonth = () => {
         if (userState.state.isLogged && userState.state.name) {
-            FetchWrapper.getUserMonth(userState.state.name, new Date()).then((json: any) => {
+            FetchWrapper.getUserMonth(userState.state.name, new Date(date)).then((json: any) => {
                 setUmonth(UserMonth.fromJSON(json));
             });
         }
@@ -82,7 +82,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         }
     }
 
-    useEffect(getUserMonth, [userState.state.isLogged, userState.state.name]);
+    useEffect(getUserMonth, [userState.state.isLogged, userState.state.name, date]);
     useEffect(getProjectList, [userState.state.isLogged]);
     useEffect(preloadEditedUA, [editId, umonth]);
 
@@ -113,22 +113,22 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
 
     let header = (<div className="pb-5">
         <div className="pb-2">
-            <h3>
-            <thead>
-                <tr><th style={{width: "300px"}}></th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Current date:</td><td>{date}</td>
-                </tr>
-                <tr>
-                    <td>Total time spent:</td><td>{total}</td>
-                </tr>
-                <tr>
-                    <td>Status:</td><td>{umonth.frozen ? <span style={{color:"red"}}>Frozen</span> : <span style={{color:"green"}}>active</span>}</td>
-                </tr>
-            </tbody>
-            </h3>
+            <table>
+                <thead>
+                    <tr><th style={{width: "300px"}}></th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><h3>Current date:</h3></td><td><h3>{date}</h3></td>
+                    </tr>
+                    <tr>
+                        <td><h3>Total time spent:</h3></td><td><h3>{total}</h3></td>
+                    </tr>
+                    <tr>
+                        <td><h3>Status:</h3></td><td><h3>{umonth.frozen ? <span style={{color:"red"}}>Frozen</span> : <span style={{color:"green"}}>active</span>}</h3></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         Select date: <input type="date" onChange={e => setDate(e.target.value)} />
     </div>);
@@ -193,7 +193,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
             <tbody>
                 {umonth.userActivities.filter((ua_: UserActivity) => date === dateToString(new Date(ua_.date.toString()))).map((ua_: UserActivity) => <tr key={ua_.pid}>
                     <>
-                        <td>{ua_.date}</td>
+                        <td>{ua_.date.split('T').join(' ').slice(0, -3)}</td>
                         <td>{ua_.projectId}</td>
                         <td>{findProjectName(ua_)}</td>
                         {aEditable(ua_)}

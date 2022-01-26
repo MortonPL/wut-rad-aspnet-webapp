@@ -1,5 +1,5 @@
 import { gremoveFromArray } from "../Helpers";
-import ApprovedActivity from "./ApprovedActivity";
+import ApprovedActivity from "./ApprovedActivityStats";
 import UserActivity from "./UserActivity";
 
 export class UserMonth {

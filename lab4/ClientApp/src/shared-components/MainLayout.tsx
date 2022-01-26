@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { PersonFill, PencilSquare } from 'react-bootstrap-icons';
+import { PersonFill, PencilSquare, ClipboardData } from 'react-bootstrap-icons';
 
 import UserContext from '../Context';
 
@@ -26,6 +26,12 @@ export const MainLayout: FunctionComponent<MainLayoutProps> = () => {
                     <Link className={"nav-link link-light" + disableable} to="/activities">
                         <PencilSquare className="me-2" />
                         Activities
+                    </Link>
+                </h5></li>
+                <li className="nav-item mr-3"><h5>
+                    <Link className={"nav-link link-light" + disableable} to="/projects">
+                        <ClipboardData className="me-2" />
+                        Projects
                     </Link>
                 </h5></li>
             </ul>
