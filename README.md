@@ -1,13 +1,14 @@
-Narzędzia Type RAD 21Z - Projekt - Bartłomiej Moroz
+# Narzędzia Type RAD 21Z - Projekt - Bartłomiej Moroz
 
-# Lab 4
+## Lab 4
 
-# Wstęp
+### Wstęp
 
 Do realizacji projektu jako serwera REST użyto technologii ASP.MVC i języka C# i jako aplikacji webowej użyto biblioteki React i języka TypeScript. Do trzymania danych użyo bazy danych MySQL.
+
 Szkielet projektu wytworzono za pomocą następujących komend: `dotnet new react` i `npx create-react-app --template typescript`.
 
-# Instrukcja uruchomienia
+### Instrukcja uruchomienia
 
 1. Sklonowanie repozytorium: `git clone https://gitlab-stud.elka.pw.edu.pl/bmoroz/ntr21z-moroz-bartlomiej.git`
 2. Przejście do katalogu projektu: `cd ntr21z-moroz-bartlomiej && cd lab4`
@@ -19,43 +20,46 @@ Szkielet projektu wytworzono za pomocą następujących komend: `dotnet new reac
 6. Uruchomienie serwera poprzez: `./lab4.exe` (PowerShell i bash) lub `lab4.exe` (Wiersz Poleceń).
 7. Po włączeniu serwera aplikacja internetowa będzie dostępna pod adresem: `https://localhost:5001/` lub `http://localhost:5000/`.
 
-# Dane testowe
+### Dane testowe
 
 Istnieje czterech użytkowników: `Balbinka`, `John Fighter`, `Jacob Hoe` i `Jacob Birder`.
+
 Istnieją trzy projekty:
     - `KOMPOT` (kategorie `Warzenie kompotu`, `Rozlewanie kompotu`, `Smakowanie kompotu` ),
     - `NTR` (kategorie `Kolokwium`, `Projekt`),
     -  `ARGUS`, zamknięty (jedna kategoria `Argusowanie`).
 
 Użytkownik `Balbinka` posiada otwarte miesięczne raporty na miesiące 12.2021 i 01.2022, zaś użytkownik `John Fighter` na 01.2022. Reszta użytkowników nie posiada aktywności.
+
 Użytkownik `Balbinka` posiada aktywności w następujące dni: 24.12.2021, 25.01.2022.
+
 Użytkownik `John Fighter` posiada aktywności w następujące dni: 24.01.2022, 25.01.2022.
 
-# Skrócony opis interfejsu
+### Skrócony opis interfejsu
 
-    - Ekran główny: domyślnie działa jak zakładka `Activities`.
-    - Zakładka `Users`: ekran zarządzania profilem - można się zalogować/utworzyć nowe konto, lub wylogować.
-    - Zakładka `Activities`: ekran przeglądu i zarządzania aktywnościami, posiada nagłówek informujący o obecnie wybranej dacie, sumie czasu z danego dnia i status miesiąca. Poniżej posiada tabelę ze szczegółowym podglądem aktywności i możliwością zarządzania nimi.
-    - Zakładka `Projects`: ekran podglądu całkowitego czasu spełnionego na projekty, w których się uczestniczyło.
+- Ekran główny: domyślnie działa jak zakładka `Activities`.
+- Zakładka `Users`: ekran zarządzania profilem - można się zalogować/utworzyć nowe konto, lub wylogować.
+- Zakładka `Activities`: ekran przeglądu i zarządzania aktywnościami, posiada nagłówek informujący o obecnie wybranej dacie, sumie czasu z danego dnia i status miesiąca. Poniżej posiada tabelę ze szczegółowym podglądem aktywności i możliwością zarządzania nimi.
+- Zakładka `Projects`: ekran podglądu całkowitego czasu spełnionego na projekty, w których się uczestniczyło.
 
-# Skrócony opis architektury systemu
+### Skrócony opis architektury systemu
 
-    * `/` - katalog główny serwera
-    * `/Controllers/` - katalog kontrolerów
-    * `/Entities/` - katalog modeli danych i innych używanych klas w projekcie
-    * `/Entities/DB/` - katalog klas odpowiedzialnych za komunikację z bazą danych
-    * `/Entities/Helper.cs` - statyczna klasa udostępniająca zbiór pomniejszych funkcji używanych w projekcie
+* `/` - katalog główny serwera
+* `/Controllers/` - katalog kontrolerów
+* `/Entities/` - katalog modeli danych i innych używanych klas w projekcie
+* `/Entities/DB/` - katalog klas odpowiedzialnych za komunikację z bazą danych
+* `/Entities/Helper.cs` - statyczna klasa udostępniająca zbiór pomniejszych funkcji używanych w projekcie
 
-    * `ClientApp/` - katalog główny aplikacji webowej
-    * `ClientApp/src/` - katalog główny plików źródłowych aplikacji
-    * `ClientApp/routes/` - katalog komponentów funkcyjnych dotyczących określonej ścieżki
-    * `ClientApp/shared-components` - katalog komponentów funkcyjnych o ogólnym przeznaczeniu
-    * `ClientApp/entities/` - katalog modeli danych istniejących po stronie aplikacji webowej
-    * `ClientApp/Helpers.ts` - zbiór pomniejszych funkcji używanych w projekcie
-    * `Client/FetchWrapper.ts` - statyczna klasa funkcjonująca jako wrapper obsługi żądań REST
+* `ClientApp/` - katalog główny aplikacji webowej
+* `ClientApp/src/` - katalog główny plików źródłowych aplikacji
+* `ClientApp/routes/` - katalog komponentów funkcyjnych dotyczących określonej ścieżki
+* `ClientApp/shared-components` - katalog komponentów funkcyjnych o ogólnym przeznaczeniu
+* `ClientApp/entities/` - katalog modeli danych istniejących po stronie aplikacji webowej
+* `ClientApp/Helpers.ts` - zbiór pomniejszych funkcji używanych w projekcie
+* `Client/FetchWrapper.ts` - statyczna klasa funkcjonująca jako wrapper obsługi żądań REST
 
 
-# Środowisko
+### Środowisko
 
 Projekt przetestowano na następujących systemach operacyjnych / platformach:
 * Windows 10
