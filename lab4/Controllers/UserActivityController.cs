@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using lab4.Entities;
+
 namespace lab4.Controllers;
 
 [ApiController]
@@ -13,23 +15,59 @@ public class UserActivityController : BaseController
 
     [HttpGet]
     [Route("one")]
-    public IActionResult GetOne(string user, DateTime month)
+    public IActionResult GetOne(string user, string month)
     {
-        var response = Entities.UserActivitiesDBEntity.Select(user, month).toJSON();
+        var parsed = month.Split('-').Select((string s) => int.Parse(s)).ToList();
+        var date = new DateTime(parsed[0], parsed[1], parsed[2]);
+        var response = Entities.UserActivitiesDBEntity.Select(user, date).toJSON();
         return Ok(response);
     }
 
     [HttpPost]
     [Route("create")]
-    public IActionResult Create([FromBody] string user)
+    public IActionResult Create([FromBody] UserActivityJson uaj)
     {
-        var response = Entities.UsersDBEntity.Find(user);
-        if (response) {
-            var cookieOptions = new CookieOptions{ HttpOnly = false, Secure = false, MaxAge = TimeSpan.FromMinutes(60) };
-            Response.Cookies.Append("sessionUser", user, cookieOptions);
-            return Ok(response);
-        } else {
-            return NotFound(response);
+        var unauth = Enforcer.DemandLogged(this);
+        if (unauth == null)
+        {
+            
+            return Ok();
+        }
+        else
+        {
+            return unauth;
+        }
+    }
+
+    [HttpPatch]
+    [Route("edit")]
+    public IActionResult Edit([FromBody] UserActivityJson uaj)
+    {
+        var unauth = Enforcer.DemandLogged(this);
+        if (unauth == null)
+        {
+            Entities.UserActivitiesDBEntity.Update(uaj.date, uaj.pid, uaj.userName, uaj.projectId, uaj.subactivityId, uaj.time, uaj.description);
+            return Ok();
+        }
+        else
+        {
+            return unauth;
+        }
+    }
+
+    [HttpDelete]
+    [Route("delete")]
+    public IActionResult Delete([FromBody] UserActivityJson uaj)
+    {
+        var unauth = Enforcer.DemandLogged(this);
+        if (unauth == null)
+        {
+            Entities.UserActivitiesDBEntity.Delete(uaj.userName, uaj.projectId, uaj.date, uaj.subactivityId);
+            return Ok();
+        }
+        else
+        {
+            return unauth;
         }
     }
 }
