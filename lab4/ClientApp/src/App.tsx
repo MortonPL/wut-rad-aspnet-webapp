@@ -36,7 +36,7 @@ function App() {
         <UserContext.Provider value={userStateProvider}>
             <Routes>
                 <Route path="/" element={<MainLayout />}>
-                    <Route path="" element={<HomeComponent />} />
+                    <Route path="" element={<ActivitiesComponent />} />
                     <Route path="user" element={<UserComponent />} />
                     <Route path="activities" element={<ActivitiesComponent />} />
                     <Route path="*" element={<NotFoundComponent />} />

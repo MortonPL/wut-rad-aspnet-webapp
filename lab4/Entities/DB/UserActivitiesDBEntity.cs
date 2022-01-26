@@ -38,7 +38,7 @@ namespace lab4.Entities
             return true;
         }
 
-        public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
+        public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string? description)
         {
             subactivityId = subactivityId != null ? subactivityId : "";
             using (var db = new StorageContext())

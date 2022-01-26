@@ -23,14 +23,14 @@ public class UserActivityController : BaseController
         return Ok(response);
     }
 
-    [HttpPost]
+    [HttpPut]
     [Route("create")]
     public IActionResult Create([FromBody] UserActivityJson uaj)
     {
         var unauth = Enforcer.DemandLogged(this);
         if (unauth == null)
         {
-            
+            Entities.UserActivitiesDBEntity.Insert(uaj.date, uaj.userName, uaj.projectId, uaj.subactivityId, uaj.time, uaj.description);
             return Ok();
         }
         else

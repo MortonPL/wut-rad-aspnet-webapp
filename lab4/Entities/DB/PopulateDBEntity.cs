@@ -40,12 +40,14 @@ namespace lab4.Entities
                 new Subactivity{SubactivityId="Kolokwium", ProjectId="NTR"},
                 new Subactivity{SubactivityId="Warzenie kompotu", ProjectId="KOMPOT"},
                 new Subactivity{SubactivityId="Rozlewanie kompotu", ProjectId="KOMPOT"},
-                new Subactivity{SubactivityId="Smakowanie kompotu", ProjectId="KOMPOT"}
+                new Subactivity{SubactivityId="Smakowanie kompotu", ProjectId="KOMPOT"},
+                new Subactivity{SubactivityId="Argusowanie", ProjectId="ARGUS"}
             };
             Add<Subactivity>(db, db.Subactivities, subs);
 
             var umonths = new List<UserMonth>
             {
+                new UserMonth{Month=new DateTime(2021, 12, 1, 1, 1, 1), UserName="Balbinka", Frozen=true},
                 new UserMonth{Month=new DateTime(2022, 1, 1, 1, 1, 1), UserName="Balbinka", Frozen=false},
                 new UserMonth{Month=new DateTime(2022, 1, 1, 1, 1, 1), UserName="John Fighter", Frozen=false},
             };
@@ -54,18 +56,26 @@ namespace lab4.Entities
             var uas = new List<UserActivity>
             {
                 new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
+                    Date=new DateTime(2021, 12, 24, 20, 30, 1), SubactivityId=subs[4].SubactivityId, Time=100, Description="Święta z kompotem"},
+                new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="KOMPOT",
                     Date=new DateTime(2022, 1, 25, 20, 30, 1), SubactivityId=subs[2].SubactivityId, Time=10, Description="Mieszanie"},
-                new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
+                new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="KOMPOT",
                     Date=new DateTime(2022, 1, 25, 20, 40, 1), SubactivityId=subs[2].SubactivityId, Time=15, Description="Dodawanie cukru"},
-                new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
+                new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="KOMPOT",
                     Date=new DateTime(2022, 1, 25, 21, 00, 1), SubactivityId=subs[3].SubactivityId, Time=20, Description="Do słoików siup!"},
 
-                new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="NTR",
+                new UserActivity{Month=umonths[2].Month, UserName=umonths[2].UserName, Pid=pid, ProjectId="NTR",
                     Date=new DateTime(2022, 1, 24, 18, 15, 1), SubactivityId=subs[0].SubactivityId, Time=50, Description="Klepanie projektu"},
-                new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="NTR",
+                new UserActivity{Month=umonths[2].Month, UserName=umonths[2].UserName, Pid=pid, ProjectId="NTR",
                     Date=new DateTime(2022, 1, 25, 23, 23, 1), SubactivityId=subs[0].SubactivityId, Time=36, Description="Klepanie projektu"},
             };
             Add<UserActivity>(db, db.UserActivities, uas);
+
+            var aas = new List<ApprovedActivity>
+            {
+                new ApprovedActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, ProjectId="NTR", Time=42}
+            };
+            Add<ApprovedActivity>(db, db.ApprovedActivities, aas);
 
             Console.WriteLine("[INFO] Database population complete.");
         }

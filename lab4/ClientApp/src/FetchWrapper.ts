@@ -14,6 +14,7 @@ export default class FetchWrapper {
     static patchUA = (ua: UserActivity) => FetchWrapper._fetch(`useractivity/edit/`, 'PATCH', ua);
 
     static putUserRegister = (user: User) => FetchWrapper._fetch(`user/create?user=${user.name}`, 'PUT');
+    static putUA = (ua: UserActivity) => FetchWrapper._fetch(`useractivity/create/`, 'PUT', ua);
 
     static deleteUA = (ua: UserActivity) => FetchWrapper._fetch(`useractivity/delete/`, 'DELETE', ua);
 
