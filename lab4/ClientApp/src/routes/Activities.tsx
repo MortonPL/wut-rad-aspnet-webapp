@@ -88,7 +88,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
 
     // OTHER FUNCTIONS
     const isMutable = (ua: UserActivity) => {
-        return userState.state.isLogged && !umonth.frozen; // && check if project is active
+        return userState.state.isLogged && !umonth.frozen && project.active;
     };
 
     const modifyWrap = (setter: Function, ua: UserActivity, key: string, value: any) => {
@@ -111,7 +111,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         total += e.time;
     });
 
-    let header = (<div className="pb-5">
+    let header = (<div className="pb-3">
         <div className="pb-2">
             <table>
                 <thead>
@@ -130,7 +130,9 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
                 </tbody>
             </table>
         </div>
-        Select date: <input type="date" onChange={e => setDate(e.target.value)} />
+        <div className="pb-4">
+            Select date: <input type="date" onChange={e => setDate(e.target.value)} />
+        </div>
     </div>);
 
     let aEditable = (ua: UserActivity) => {
@@ -149,7 +151,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         </> : <>
             <td>{ua.subactivityId}</td>
             <td>{ua.time}</td>
-            <td>{ua.description}</td>
+            <td><i>{ua.description}</i></td>
         </>
     };
 
@@ -158,11 +160,11 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         <>
             { ua.pid === editId ?
             <>
-                <Button type="submit" variant="success" onClick={handleEdit}>Confirm</Button>
-                <Button variant="danger" onClick={() => setEditId(-1)}>Cancel</Button>
+                <Button className="m-2" type="submit" variant="success" onClick={handleEdit}>Confirm</Button>
+                <Button className="m-2" variant="danger" onClick={() => setEditId(-1)}>Cancel</Button>
             </> : <>
-                <Button variant="warning" onClick={() => setEditId(ua.pid)}>Edit</Button>
-                <Button variant="danger" onClick={() => handleDelete(ua)}>Delete</Button>
+                <Button className="m-2" variant="warning" onClick={() => setEditId(ua.pid)}>Edit</Button>
+                <Button className="m-2" variant="danger" onClick={() => handleDelete(ua)}>Delete</Button>
             </>
             }
         </> : <></>
@@ -181,23 +183,23 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th style={{width: "160px"}}>Date</th>
                     <th>Project ID</th>
                     <th>Project Name</th>
                     <th>Subactivity</th>
-                    <th>Time spent</th>
+                    <th style={{width: "110px"}}>Time spent</th>
                     <th>Description</th>
-                    <th>Actions</th>
+                    <th style={{width: "210px"}}>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {umonth.userActivities.filter((ua_: UserActivity) => date === dateToString(new Date(ua_.date.toString()))).map((ua_: UserActivity) => <tr key={ua_.pid}>
                     <>
                         <td>{ua_.date.split('T').join(' ').slice(0, -3)}</td>
-                        <td>{ua_.projectId}</td>
+                        <td><b>{ua_.projectId}</b></td>
                         <td>{findProjectName(ua_)}</td>
                         {aEditable(ua_)}
-                        <td>
+                        <td style={{textAlign: "center"}}>
                             {aEditableButtons(ua_)}
                         </td>
                     </>
@@ -228,7 +230,7 @@ export const ActivitiesComponent: FunctionComponent<ActivitiesComponentProps> = 
             </Form.Group>
             <Form.Group className="mb-3" controlId="formTime">
                 <Form.Label><b>Enter time spent:</b></Form.Label>
-                <Form.Control type="number" className="w-50" onChange={e => ua.modify(setUa, 'time', parseInt(e.target.value))} />
+                <Form.Control type="number" className="w-25" onChange={e => ua.modify(setUa, 'time', parseInt(e.target.value))} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formTime">
                 <Form.Label><b>Enter description</b></Form.Label>

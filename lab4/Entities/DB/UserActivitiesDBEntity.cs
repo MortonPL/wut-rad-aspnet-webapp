@@ -6,6 +6,7 @@ namespace lab4.Entities
 {
     public class UserActivitiesDBEntity
     {
+        #nullable disable
         public static UserMonth Select(string name, DateTime date)
         {
             using (var db = new StorageContext())
@@ -21,6 +22,7 @@ namespace lab4.Entities
                     return new UserMonth{Month=date, UserName=name};
             }
         }
+        #nullable enable
 
         public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string? description)
         {
@@ -81,6 +83,7 @@ namespace lab4.Entities
             }
         }
 
+        #nullable disable
         public static void Delete(string user, string projectid, DateTime date, string subcode)
         {
             using (var db = new StorageContext())
@@ -95,5 +98,6 @@ namespace lab4.Entities
                 db.SaveChanges();
             }
         }
+        #nullable enable
     }
 }
