@@ -39,6 +39,10 @@ export class UserActivity {
     static createEmpty() {
         return new UserActivity(new Date(), '', 0, '', new Date(), '', 0, '');
     }
+
+    modify(setter: any, key: string, value: any) {
+        setter(UserActivity.fromJSON({...this.toJSON(), [key]:value}));
+    }
 };
 
 export default UserActivity;

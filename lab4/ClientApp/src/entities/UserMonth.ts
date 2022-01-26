@@ -1,3 +1,4 @@
+import { gremoveFromArray } from "../Helpers";
 import ApprovedActivity from "./ApprovedActivity";
 import UserActivity from "./UserActivity";
 
@@ -27,11 +28,16 @@ export class UserMonth {
     }
 
     static fromJSON(json: any) {
-        return new UserMonth(json['month'], json['userName'], json['frozen'], json['userActivities'], json['approvedActivities']);
+        var uas = json['userActivities'].map((ua: any) => UserActivity.fromJSON(ua));
+        return new UserMonth(json['month'], json['userName'], json['frozen'], uas, json['approvedActivities']);
     }
 
     static createEmpty() {
         return new UserMonth(new Date(), '', false, [], []);
+    }
+
+    modify(setter: Function, key: string, value: any){
+        setter(UserMonth.fromJSON({...this.toJSON(), [key]:value}));
     }
 };
 

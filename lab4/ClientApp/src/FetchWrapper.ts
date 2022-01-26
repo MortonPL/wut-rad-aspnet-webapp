@@ -1,13 +1,21 @@
 import User from "./entities/User";
+import UserActivity from "./entities/UserActivity";
+import { dateToString } from "./Helpers";
 
 export default class FetchWrapper {
     static getUserLogged = () => FetchWrapper._fetch(`user/me/`, 'GET');
     static getUsers = () => FetchWrapper._fetch(`user/all/`, 'GET');
+    static getUserMonth = (user: string, month: Date) => FetchWrapper._fetch(`useractivity/one/?user=${user}&month=${dateToString(month)}`, 'GET');
+    static getProjects = () => FetchWrapper._fetch(`project/all/`, 'GET');
 
     static postUserLogin = (user: User) => FetchWrapper._fetch(`user/login?user=${user.name}`, 'POST');
     static postUserLogout = () => FetchWrapper._fetch(`user/logout`, 'POST');
 
+    static patchUA = (ua: UserActivity) => FetchWrapper._fetch(`useractivity/edit/`, 'PATCH', ua);
+
     static putUserRegister = (user: User) => FetchWrapper._fetch(`user/create?user=${user.name}`, 'PUT');
+
+    static deleteUA = (ua: UserActivity) => FetchWrapper._fetch(`useractivity/delete/`, 'DELETE', ua);
 
 
     private static _fetch = (url: string, method: string = 'GET', payload?: {}) => {

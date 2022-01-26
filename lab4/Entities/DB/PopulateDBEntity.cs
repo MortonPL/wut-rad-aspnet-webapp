@@ -46,24 +46,24 @@ namespace lab4.Entities
 
             var umonths = new List<UserMonth>
             {
-                new UserMonth{Month=new DateTime(2022, 1, 25), UserName="Balbinka", Frozen=false},
-                new UserMonth{Month=new DateTime(2022, 1, 24), UserName="John Fighter", Frozen=false},
+                new UserMonth{Month=new DateTime(2022, 1, 1, 1, 1, 1), UserName="Balbinka", Frozen=false},
+                new UserMonth{Month=new DateTime(2022, 1, 1, 1, 1, 1), UserName="John Fighter", Frozen=false},
             };
             Add<UserMonth>(db, db.UserMonths, umonths);
 
             var uas = new List<UserActivity>
             {
                 new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
-                Date=new DateTime(2022, 1, 25, 20, 30, 1), SubactivityId=subs[2].SubactivityId, Time=10, Description="Mieszanie"},
+                    Date=new DateTime(2022, 1, 25, 20, 30, 1), SubactivityId=subs[2].SubactivityId, Time=10, Description="Mieszanie"},
                 new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
-                Date=new DateTime(2022, 1, 25, 20, 40, 1), SubactivityId=subs[2].SubactivityId, Time=15, Description="Dodawanie cukru"},
+                    Date=new DateTime(2022, 1, 25, 20, 40, 1), SubactivityId=subs[2].SubactivityId, Time=15, Description="Dodawanie cukru"},
                 new UserActivity{Month=umonths[0].Month, UserName=umonths[0].UserName, Pid=pid, ProjectId="KOMPOT",
-                Date=new DateTime(2022, 1, 25, 21, 00, 1), SubactivityId=subs[3].SubactivityId, Time=20, Description="Do słoików siup!"},
+                    Date=new DateTime(2022, 1, 25, 21, 00, 1), SubactivityId=subs[3].SubactivityId, Time=20, Description="Do słoików siup!"},
 
                 new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="NTR",
-                Date=new DateTime(2022, 1, 24, 18, 15, 1), SubactivityId=subs[0].SubactivityId, Time=50, Description="Klepanie projektu"},
+                    Date=new DateTime(2022, 1, 24, 18, 15, 1), SubactivityId=subs[0].SubactivityId, Time=50, Description="Klepanie projektu"},
                 new UserActivity{Month=umonths[1].Month, UserName=umonths[1].UserName, Pid=pid, ProjectId="NTR",
-                Date=new DateTime(2022, 1, 25, 23, 23, 1), SubactivityId=subs[0].SubactivityId, Time=36, Description="Klepanie projektu"},
+                    Date=new DateTime(2022, 1, 25, 23, 23, 1), SubactivityId=subs[0].SubactivityId, Time=36, Description="Klepanie projektu"},
             };
             Add<UserActivity>(db, db.UserActivities, uas);
 

@@ -22,14 +22,14 @@ namespace lab4.Entities
             }
         }
 
-        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string description)
+        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string? description)
         {
             UserActivity userActivity;
             using (var db = new StorageContext())
             {
                 userActivity = new UserActivity{
                     Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
-                    Date=date, Time=1, Description=description};
+                    Date=date, Time=1, Description=""};
                 userActivity.Time = time;
                 userActivity.Description = description;
                 db.Update(userActivity);
@@ -87,8 +87,9 @@ namespace lab4.Entities
             {
                 UserActivity userActivity = db.UserActivities
                     .Include(ua => ua.Subactivity).AsEnumerable()
-                    .Where(ua => (ua.ProjectId == projectid && ua.Subactivity.IsEqualSubactivity(subcode) &&
-                        ua.Date.EqualsYM(date)))
+                    .Where(ua => (ua.ProjectId == projectid &&
+                        ((ua.Subactivity == null && subcode == "") || ua.Subactivity.IsEqualSubactivity(subcode)) &&
+                        ua.Date.EqualsYMDHM(date)))
                     .First();
                 db.UserActivities.Remove(userActivity);
                 db.SaveChanges();
