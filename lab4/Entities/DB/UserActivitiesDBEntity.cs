@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-using NTR.Helpers;
+using lab4.Helpers;
 
-namespace NTR.Entities
+namespace lab4.Entities
 {
     public class UserActivitiesDBEntity
     {
+        #nullable disable
         public static UserMonth Select(string name, DateTime date)
         {
             using (var db = new StorageContext())
@@ -19,37 +17,30 @@ namespace NTR.Entities
                     .Where(um => (um.UserName == name && DateTime.Equals(Helper.GetYM(um.Month), Helper.GetYM(date))))
                     .ToHashSet();
                 if (usermonths.Count > 0)
-                {
                     return usermonths.First();
-                }
-                return new UserMonth(true);
+                else
+                    return new UserMonth{Month=date, UserName=name};
             }
         }
+        #nullable enable
 
-        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string description, Byte[] timestamp)
+        public static bool Update(DateTime date, int pid, string userName, string projectId, string subactivityId, int time, string? description)
         {
             UserActivity userActivity;
             using (var db = new StorageContext())
             {
-                try
-                {
-                    userActivity = new UserActivity{
-                        Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
-                        Date=date, Time=1, Description=description, Timestamp=timestamp};
-                    userActivity.Time = time;
-                    userActivity.Description = description;
-                    db.Update(userActivity);
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return false;
-                }
+                userActivity = new UserActivity{
+                    Pid=pid, UserName=userName, Month=Helper.GetYM(date), ProjectId=projectId, SubactivityId=subactivityId,
+                    Date=date, Time=1, Description=""};
+                userActivity.Time = time;
+                userActivity.Description = description;
+                db.Update(userActivity);
+                db.SaveChanges();
             }
             return true;
         }
 
-        public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string description)
+        public static string Insert(DateTime date, string userName, string projectId, string subactivityId, int time, string? description)
         {
             subactivityId = subactivityId != null ? subactivityId : "";
             using (var db = new StorageContext())
@@ -92,18 +83,21 @@ namespace NTR.Entities
             }
         }
 
+        #nullable disable
         public static void Delete(string user, string projectid, DateTime date, string subcode)
         {
             using (var db = new StorageContext())
             {
                 UserActivity userActivity = db.UserActivities
                     .Include(ua => ua.Subactivity).AsEnumerable()
-                    .Where(ua => (ua.ProjectId == projectid && ua.Subactivity.IsEqualSubactivity(subcode) &&
-                        ua.Date.EqualsYM(date)))
+                    .Where(ua => (ua.ProjectId == projectid &&
+                        ((ua.Subactivity == null && subcode == "") || ua.Subactivity.IsEqualSubactivity(subcode)) &&
+                        ua.Date.EqualsYMDHM(date)))
                     .First();
                 db.UserActivities.Remove(userActivity);
                 db.SaveChanges();
             }
         }
+        #nullable enable
     }
 }
